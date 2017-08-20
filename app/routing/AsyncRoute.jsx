@@ -12,7 +12,7 @@ AsyncRoute.propTypes = {
 
 AsyncRoute.defaultProps = {
   Component: null,
-  onBeforeRender: next => next(),
+  onBeforeRender: () => Promise.resolve(),
 };
 
 function AsyncRoute({
@@ -27,12 +27,12 @@ function AsyncRoute({
   return (
     <Route
       {...otherProps}
-      render={(matchProps) => {
+      render={(match) => {
         if (!RouteComponent) {
           renderComponent(requireComponent, onBeforeRender);
         }
 
-        return RouteComponent ? <RouteComponent {...matchProps} /> : <div />;
+        return RouteComponent ? <RouteComponent {...match} /> : <div />;
       }}
     />
   );
@@ -44,9 +44,8 @@ export default compose(
     renderComponent: ({ setComponent }) => (requireComponent, onBeforeRender) => {
       requireComponent()
       .then((Component) => {
-        onBeforeRender(() => {
-          setComponent(Component);
-        });
+        onBeforeRender()
+        .then(() => setComponent(Component));
       });
     },
   }),

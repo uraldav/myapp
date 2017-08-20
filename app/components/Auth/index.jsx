@@ -1,6 +1,6 @@
 import React from 'react';
 import { string, shape, object, func, bool } from 'prop-types';
-import { withHandlers, compose } from 'recompose';
+import { withHandlers, compose, pure } from 'recompose';
 import injectStyles from 'react-jss';
 import { Button, Row, Form, Input } from 'antd';
 
@@ -36,7 +36,7 @@ function Auth ({
     <div className={classes.page}>
       <div className={classes.form}>
         <div className={classes.logo}>
-          <img alt={'logo'} src="" />
+          {/* <img alt={'Логотип аэрофлот'} src="" /> */}
           <span>Аэрофлот</span>
         </div>
         <form>
@@ -47,7 +47,7 @@ function Auth ({
                   required: true,
                 },
               ],
-            })(<Input size="large" placeholder="Логин" />)}
+            })(<Input size="large" placeholder="Имя пользователя" />)}
           </FormItem>
           <FormItem hasFeedback>
             {getFieldDecorator('password', {
@@ -139,4 +139,5 @@ export default compose(
       });
     },
   }),
+  pure,
 )(Auth);

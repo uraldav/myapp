@@ -1,0 +1,31 @@
+.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-item .fa,
+.ant-menu-inline-collapsed > .ant-menu-item .fa,
+.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .fa,
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .fa {
+  font-size: 16px;
+  line-height: 42px;
+  margin: 0;
+}
+.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-item .fa + span,
+.ant-menu-inline-collapsed > .ant-menu-item .fa + span,
+.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .fa + span,
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .fa + span {
+  max-width: 0;
+  display: inline-block;
+  opacity: 0;
+}
+.ant-menu-vertical.ant-menu-inline-collapsed-tooltip .fa,
+.ant-menu-inline-collapsed-tooltip .fa {
+  display: none;
+}
+.ant-menu-item .fa,
+.ant-menu-submenu-title .fa {
+  min-width: 14px;
+  margin-right: 8px;
+  transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.ant-menu-item .fa + span,
+.ant-menu-submenu-title .fa + span {
+  transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  opacity: 1;
+}

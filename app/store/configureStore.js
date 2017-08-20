@@ -3,9 +3,14 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './createReducers';
+import * as api from '../services/api';
 
 export default function configureStore(initialState = {}, history) {
-  const sagaMiddleware = createSagaMiddleware();
+  const sagaMiddleware = createSagaMiddleware({
+    context: {
+      api,
+    },
+  });
 
   const middlewares = [
     sagaMiddleware,

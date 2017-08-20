@@ -1,19 +1,18 @@
 import React from 'react';
-import { shape, func } from 'prop-types';
+import { func, object } from 'prop-types';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { compose, withHandlers } from 'recompose';
 import { AppContainer } from 'react-hot-loader';
+import { LocaleProvider } from 'antd';
+import ruRU from 'antd/lib/locale-provider/ru_RU';
 import AsyncRoute from './routing/AsyncRoute';
 import injectReducer from './utils/injectReducer';
 import injectSaga from './utils/injectSaga';
 
 Root.propTypes = {
-  store: shape({
-    dispatch: func,
-    getState: func,
-  }).isRequired,
-  history: shape({}).isRequired,
+  store: object.isRequired,
+  history: object.isRequired,
   setReducer: func.isRequired,
   // setSaga: func.isRequired,
 };
@@ -28,40 +27,33 @@ function Root ({
     <AppContainer>
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <div>
-            <AsyncRoute
-              exact
-              path="/"
-              requireComponent={() => {
-                return new Promise((resolve) => {
-                  require.ensure([], (require) => {
-                    resolve(require('./containers/App'));
-                  });
-                });
-              }}
-            />
-            <AsyncRoute
-              path="/auth"
-              requireComponent={() => {
-                return new Promise((resolve) => {
-                  require.ensure([], (require) => {
-                    resolve(require('./containers/Auth'));
-                  });
-                });
-              }}
-              onBeforeRender={(next) => {
-                Promise.all([
-                  System.import('./containers/Auth/ducks'),
-                  // System.import('./containers/Auth/saga'),
-                ])
+          <LocaleProvider locale={ruRU}>
+            <div>
+              <AsyncRoute
+                exact
+                path="/"
+                requireComponent={() => {
+                  return import('./containers/App');
+                }}
+              />
+              <AsyncRoute
+                path="/auth"
+                requireComponent={() => {
+                  return import('./containers/Auth');
+                }}
+                onBeforeRender={() => {
+                  return Promise.all([
+                    import('./containers/Auth/ducks'),
+                    // import('./containers/Auth/saga'),
+                  ])
                   .then(([reducer]) => { // [, saga]
                     setReducer('auth', reducer);
                     // setSaga(saga);
-                    next();
                   });
-              }}
-            />
-          </div>
+                }}
+              />
+            </div>
+          </LocaleProvider>
         </ConnectedRouter>
       </Provider>
     </AppContainer>

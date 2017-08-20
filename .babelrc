@@ -1,13 +1,22 @@
 {
   "presets": [
-    "es2015",
+    ["es2015", { "modules": false }],
     "stage-2",
     "react",
     "react-boilerplate"
   ],
 
   "plugins": [
-    ["import", { "libraryName": "antd", "style": "css" }],
-    "react-hot-loader/babel"
-  ]
+    "dynamic-import-webpack",
+    "transform-export-extensions",
+    ["import", { "libraryName": "antd", "style": "css" }]
+  ],
+
+  "env": {
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    }
+  }
 }

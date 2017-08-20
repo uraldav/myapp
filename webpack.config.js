@@ -15,8 +15,13 @@ const config = {
       'jsnext:main',
       'main',
     ],
+    alias: { moment: 'moment/moment.js' },
   },
-  entry: './index.js',
+  entry: [
+    'react-hot-loader/patch',
+    'babel-polyfill',
+    './index.jsx',
+  ],
   output: {
     filename: 'bundle.js',
     path: resolve(__dirname, 'build'),
@@ -29,18 +34,24 @@ const config = {
     publicPath: '/',
     contentBase: resolve(__dirname, 'build'),
     historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9000',
+      },
+    },
   },
   module: {
     rules: [
-      {
+      /* включить чуть позже {
         enforce: 'pre',
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
-      },
+      }, */
       {
         test: /\.jsx?$/,
         loaders: [
+          'react-hot-loader/webpack',
           'babel-loader',
         ],
         exclude: /node_modules/,
@@ -72,6 +83,18 @@ const config = {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+      },
+    }),
+    new webpack.ContextReplacementPlugin(/^\.\/locale$/, (context) => {
+      if (!/\/moment\//.test(context.context)) { return; }
+      Object.assign(context, {
+        regExp: /^\.\/(ja|ko|zh|ru)/,
+        request: '../../locale',
+      });
+    }),
   ],
 };
 
