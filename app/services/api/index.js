@@ -1,1 +1,1 @@
-export * as feed from './feed';
+export * as mentions from './mentions';

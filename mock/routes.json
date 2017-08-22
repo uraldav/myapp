@@ -1,4 +1,3 @@
 {
-  "/api/feed": "/mentions",
   "/api/*": "/$1"
 }

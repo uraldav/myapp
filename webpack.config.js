@@ -20,6 +20,7 @@ const config = {
   entry: [
     'react-hot-loader/patch',
     'babel-polyfill',
+    'isomorphic-fetch',
     './index.jsx',
   ],
   output: {
@@ -61,6 +62,20 @@ const config = {
         use: [
           'style-loader',
           'css-loader',
+        ],
+      },
+      {
+        test: /\.less/,
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            options: { sourceMap: true },
+          },
+          {
+            loader: 'less-loader',
+            options: { sourceMap: true },
+          },
         ],
       },
       { test: /\.(png|jpg)$/, use: 'url-loader?limit=15000' },

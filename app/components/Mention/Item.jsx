@@ -66,16 +66,36 @@ function MentionItem({
   );
 }
 
-const styles = {
+const styles = theme => ({
   mentionItem: {
+    position: 'relative',
+    paddingLeft: 20,
+    '&.ant-card-bordered': {
+      border: 0,
+    },
+    '&:before': {
+      display: 'block',
+      content: '""',
+      width: 20,
+      height: '100%',
+      position: 'absolute',
+      left: 0,
+      top: 0,
+    },
     '&.positive': {
-      border: '1px solid green',
+      '&:before': {
+        background: theme.greenColor,
+      },
     },
     '&.negative': {
-      border: '1px solid red',
+      '&:before': {
+        background: theme.redColor,
+      },
     },
     '&.neutral': {
-      border: '1px solid gray',
+      '&:before': {
+        background: theme.grayColor,
+      },
     },
   },
 
@@ -97,7 +117,7 @@ const styles = {
       marginLeft: 10,
     },
   },
-};
+});
 
 export default compose(
   injectStyles(styles),

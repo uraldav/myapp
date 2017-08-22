@@ -2,6 +2,7 @@ import React from 'react';
 import { shape, string, arrayOf } from 'prop-types';
 import { compose, pure } from 'recompose';
 import injectStyles from 'react-jss';
+import QueueAnim from 'rc-queue-anim';
 import MentionItem, { mentionDataTypes } from './Item';
 
 MentionList.propTypes = {
@@ -22,15 +23,22 @@ function MentionList({
   return (
     <div className={classes.mentionList}>
       {
-        data.map(item => (
-          <MentionItem
-            author={item.author}
-            content={item.content}
-            likes={item.likes}
-            comments={item.comments}
-            date={item.date}
-          />
-        ))
+        data.length
+        ? <QueueAnim appear={false}>
+          {
+            data.map((item, idx) => (
+              <MentionItem
+                key={[`mention-item-${idx}`]}
+                author={item.author}
+                content={item.content}
+                likes={item.likes}
+                comments={item.comments}
+                date={item.date}
+              />
+            ))
+          }
+        </QueueAnim>
+        : <div />
       }
     </div>
   );
@@ -40,7 +48,7 @@ const styles = {
   mentionList: {
     padding: 24,
 
-    '& > *:not(:last-child)': {
+    '& > div > *:not(:last-child)': {
       marginBottom: 10,
     },
   },

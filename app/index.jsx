@@ -2,6 +2,7 @@ import 'antd/dist/antd.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createHistory from 'history/createBrowserHistory';
+import './style/index.less';
 import configureStore from './store/configureStore';
 import Root from './Root';
 

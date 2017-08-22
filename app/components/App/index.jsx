@@ -1,15 +1,17 @@
 import React from 'react';
-import { func, bool, shape, string, any } from 'prop-types';
+import { func, bool, shape, string, node, object } from 'prop-types';
 import { compose, pure, withHandlers, withState } from 'recompose';
 import injectStyles from 'react-jss';
 import { Layout, Menu, Icon, Badge, Tooltip } from 'antd';
 import FaIcon from 'react-fontawesome';
+import ScrollArea from 'react-scrollbar';
 
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
 App.propTypes = {
-  children: any.isRequired,
+  location: object.isRequired,
+  children: node.isRequired,
   classes: shape({
     page: string.isRequired,
     header: string.isRequired,
@@ -21,6 +23,7 @@ App.propTypes = {
 };
 
 function App({
+  location,
   children,
   classes,
   toggleSidebarCollapsed,
@@ -47,62 +50,79 @@ function App({
           className={classes.sider}
           width={250}
         >
-          <Menu mode="inline" className={classes.menu}>
-            <SubMenu
-              title={
-                <span>
-                  <FaIcon name="twitter" />
-                  <span>
-                    Twitter <Badge count={5} />
-                  </span>
-                </span>
-              }
+          <ScrollArea horizontal={false} smoothScrolling>
+            <Menu
+              mode="inline"
+              className={classes.menu}
+              selectedKeys={[location.pathname]}
             >
-              <Menu.Item>
-                <span>аэрофлот</span>
-              </Menu.Item>
-            </SubMenu>
-            <SubMenu title={<span><FaIcon name="facebook-square" /><span>Facebook</span></span>}>
-              <Menu.Item>
-                <span>аэрофлот</span>
-              </Menu.Item>
-            </SubMenu>
-            <SubMenu title={<span><FaIcon name="instagram" /><span>Instagram</span></span>}>
-              <Menu.Item>
-                <span>аэрофлот</span>
-              </Menu.Item>
-            </SubMenu>
-            <SubMenu title={<span><FaIcon name="square-o" /><span>Неявные упоминания</span></span>}>
-              <Menu.Item>
-                <span>аэрофлот</span>
-              </Menu.Item>
-            </SubMenu>
-            <SubMenu title={<span><Icon type="setting" /><span>Справочники и настройки</span></span>}>
-              <Menu.Item>
-                <Icon type="team" />
-                <span>Пользователи</span>
-              </Menu.Item>
-            </SubMenu>
-          </Menu>
+              <SubMenu
+                title={
+                  <span>
+                    <FaIcon name="twitter" />
+                    <span>
+                      Twitter <Badge count={5} />
+                    </span>
+                  </span>
+                }
+              >
+                <Menu.Item>
+                  <span>аэрофлот</span>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu title={<span><FaIcon name="facebook-square" /><span>Facebook</span></span>}>
+                <Menu.Item>
+                  <span>аэрофлот</span>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu title={<span><FaIcon name="instagram" /><span>Instagram</span></span>}>
+                <Menu.Item>
+                  <span>аэрофлот</span>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu title={<span><FaIcon name="square-o" /><span>Неявные упоминания</span></span>}>
+                <Menu.Item>
+                  <span>аэрофлот</span>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu title={<span><Icon type="setting" /><span>Справочники и настройки</span></span>}>
+                <Menu.Item>
+                  <Icon type="team" />
+                  <span>Пользователи</span>
+                </Menu.Item>
+              </SubMenu>
+            </Menu>
+          </ScrollArea>
         </Sider>
         <Content className={classes.content}>
-          {children}
+          <ScrollArea smoothScrolling>
+            {children}
+          </ScrollArea>
         </Content>
       </Layout>
     </Layout>
   );
 }
 
-const styles = {
+const styles = theme => ({
   page: {
     height: '100%',
   },
 
   sider: {
-    background: '#fff',
+    background: theme.sidebarBackgroundColor,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+
+    '& .ant-layout-sider-children': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'stretch',
+    },
 
     '& .ant-layout-sider-trigger': {
-      background: '#fff',
+      background: theme.sidebarBackgroundColor,
       color: '#404040',
       fontSize: 14,
       textAlign: 'right',
@@ -116,8 +136,7 @@ const styles = {
 
   header: {
     padding: 0,
-    background: '#fff',
-    // boxShadow: '0px 10px 40px 0 rgba(0, 0, 0, 0.05)',
+    background: theme.headerBackgroundColor,
   },
 
   trigger: {
@@ -138,8 +157,12 @@ const styles = {
   },
 
   content: {
+    boxShadow: `inset 0px 0px 96px -20px ${theme.boxShadowColor}`,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
   },
-};
+});
 
 export default compose(
   withState('sidebarCollapsed', 'setSidebarCollapsed', false),

@@ -1,14 +1,16 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { fromJS } from 'immutable';
+import { Map } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './createReducers';
 import * as api from '../services/api';
+import cookie from '../services/cookie';
 
-export default function configureStore(initialState = {}, history) {
+export default function configureStore(initialState = Map(), history) {
   const sagaMiddleware = createSagaMiddleware({
     context: {
       api,
+      cookie,
     },
   });
 
@@ -31,7 +33,7 @@ export default function configureStore(initialState = {}, history) {
 
   const store = createStore(
     createReducer(),
-    fromJS(initialState),
+    initialState,
     composeEnhancers(...enhancers),
   );
 

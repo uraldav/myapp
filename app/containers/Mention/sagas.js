@@ -20,7 +20,7 @@ export function* requestSaga() {
   const api = yield getContext('api');
 
   try {
-    const response = yield call(api.feed.fetchMentions);
+    const response = yield call(api.mentions.fetchMentions);
     yield put(success(fromJS(response)));
   } catch (error) {
     yield put(failure(error));
