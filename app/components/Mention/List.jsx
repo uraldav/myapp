@@ -1,6 +1,7 @@
 import React from 'react';
 import { shape, string, arrayOf } from 'prop-types';
-import { compose, pure } from 'recompose';
+import { compose, pure, shouldUpdate } from 'recompose';
+import { equals } from 'ramda';
 import injectStyles from 'react-jss';
 import QueueAnim from 'rc-queue-anim';
 import MentionItem, { mentionDataTypes } from './Item';
@@ -56,5 +57,6 @@ const styles = {
 
 export default compose(
   injectStyles(styles),
+  shouldUpdate((props, nextProps) => !equals(props, nextProps)),
   pure,
 )(MentionList);
