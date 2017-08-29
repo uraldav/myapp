@@ -24,10 +24,11 @@ export default ducks.createReducer({
     state.setIn(['loading'], true)
          .setIn(['login'], payload.login)
          .setIn(['password'], payload.password),
-  [SUCCESS]: (state, { payload }) =>
-    state.setIn(['userData'], payload.userData)
+  [SUCCESS]: (state, { payload }) => {
+    return state.setIn(['userData'], payload.userData)
          .setIn(['token'], payload.token)
-         .setIn(['loading'], false),
+         .setIn(['loading'], false);
+  },
   [FAILURE]: (state, { payload }) =>
     state.setIn(['error'], payload.error)
          .setIn(['loading'], false),

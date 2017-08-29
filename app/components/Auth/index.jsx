@@ -135,7 +135,7 @@ export default compose(
         if (errors) {
           return;
         }
-        onSubmit({ values });
+        onSubmit({ ...values });
       });
     },
   }),

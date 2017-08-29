@@ -12,6 +12,16 @@ export const loadingSelector = createSelector(
   auth => auth.getIn(['loading']),
 );
 
+export const loginSelector = createSelector(
+  authSelector,
+  auth => auth.getIn(['login']),
+);
+
+export const passwordSelector = createSelector(
+  authSelector,
+  auth => auth.getIn(['password']),
+);
+
 export const userDataSelector = createSelector(
   authSelector,
   auth => auth.getIn(['userData']),
