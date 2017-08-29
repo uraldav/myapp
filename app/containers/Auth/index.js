@@ -10,7 +10,7 @@ const mapStateToProp = createStructuredSelector({
   loading: loadingSelector,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = ({
   onSubmit: request,
 });
 

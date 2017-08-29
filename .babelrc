@@ -5,13 +5,11 @@
     "react",
     "react-boilerplate"
   ],
-
   "plugins": [
     "dynamic-import-webpack",
     "transform-export-extensions",
     ["import", { "libraryName": "antd", "style": "css" }]
   ],
-
   "env": {
     "development": {
       "plugins": [

@@ -20,10 +20,11 @@ const initialState = fromJS({
 });
 
 export default ducks.createReducer({
-  [REQUEST]: (state, { payload }) =>
-    state.setIn(['loading'], true)
-         .setIn(['login'], payload.login)
-         .setIn(['password'], payload.password),
+  [REQUEST]: (state, { payload }) => {
+    return state.setIn(['loading'], true)
+    .setIn(['login'], payload.login)
+    .setIn(['password'], payload.password);
+  },
   [SUCCESS]: (state, { payload }) =>
     state.setIn(['userData'], payload.userData)
          .setIn(['token'], payload.token)

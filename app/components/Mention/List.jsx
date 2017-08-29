@@ -1,15 +1,12 @@
 import React from 'react';
-import { shape, string, arrayOf } from 'prop-types';
+import { shape, arrayOf } from 'prop-types';
 import { compose, pure, shouldUpdate } from 'recompose';
 import { equals } from 'ramda';
-import injectStyles from 'react-jss';
 import QueueAnim from 'rc-queue-anim';
 import MentionItem, { mentionDataTypes } from './Item';
+import './List.less';
 
 MentionList.propTypes = {
-  classes: shape({
-    mentionList: string.isRequired,
-  }).isRequired,
   data: arrayOf(shape(mentionDataTypes)),
 };
 
@@ -18,11 +15,11 @@ MentionList.defaultProps = {
 };
 
 function MentionList({
-  classes,
   data,
 }) {
+  // чтобы получить в QueueAnim анимированность, надо глянуть в сторону привязки id к строке.
   return (
-    <div className={classes.mentionList}>
+    <div styleName="mention-list">
       {
         data.length
         ? <QueueAnim appear={false}>
@@ -35,6 +32,7 @@ function MentionList({
                 likes={item.likes}
                 comments={item.comments}
                 date={item.date}
+                tonality={item.tonality}
               />
             ))
           }
@@ -45,18 +43,7 @@ function MentionList({
   );
 }
 
-const styles = {
-  mentionList: {
-    padding: 24,
-
-    '& > div > *:not(:last-child)': {
-      marginBottom: 10,
-    },
-  },
-};
-
 export default compose(
-  injectStyles(styles),
   shouldUpdate((props, nextProps) => !equals(props, nextProps)),
   pure,
 )(MentionList);
