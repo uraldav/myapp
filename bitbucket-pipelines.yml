@@ -1,0 +1,8 @@
+image: node:8.4.0
+
+pipelines:
+  default:
+    - step:
+        script:
+          - npm i --save-dev yarn
+          - npm test
