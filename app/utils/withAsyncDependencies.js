@@ -2,20 +2,13 @@ import {
   withState,
   compose,
   createEagerFactory,
+  lifecycle,
 } from 'recompose';
 
 const withAsyncDependencies = input => (BaseComponent) => {
   const factory = createEagerFactory(BaseComponent);
 
   function WithAsyncDependencies(props) {
-    if (props.loadingDependencies === null) {
-      input(props)
-      .then(() => {
-        props.setLoadingDependencies(false);
-      });
-      props.setLoadingDependencies(true);
-    }
-
     if (props.loadingDependencies === false) {
       return factory(props);
     }
@@ -25,6 +18,15 @@ const withAsyncDependencies = input => (BaseComponent) => {
 
   return compose(
     withState('loadingDependencies', 'setLoadingDependencies', null),
+    lifecycle({
+      componentWillMount() {
+        input(this.props)
+        .then(() => {
+          this.props.setLoadingDependencies(false);
+        });
+        this.props.setLoadingDependencies(true);
+      },
+    }),
   )(WithAsyncDependencies);
 };
 

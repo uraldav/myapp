@@ -21,6 +21,7 @@ const config = {
       'jsnext:main',
       'main',
     ],
+    alias: { moment: 'moment/moment.js' },
   },
   entry: [
     'react-hot-loader/patch',
@@ -154,7 +155,7 @@ const config = {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
-    new webpack.ContextReplacementPlugin(/\.\/locale$/, null, false, /js$/),
+    new webpack.IgnorePlugin(/^moment\/locale\/zh-cn$/),
   ],
 };
 

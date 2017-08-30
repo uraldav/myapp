@@ -2,9 +2,9 @@
   "name": "cip-front",
   "version": "0.0.1",
   "scripts": {
-    "start": "npm i && webpack-dev-server",
-    "start:mock": "npm i && concurrently --kill-others \"npm run mock:api\" \"npm run start\"",
-    "lint": "npm i && npm run lint:js && npm run lint:css",
+    "start": "yarn && webpack-dev-server",
+    "start:mock": "yarn && concurrently --kill-others \"yarn mock:api\" \"yarn start\"",
+    "lint": "yarn && yarn lint:js && yarn lint:css",
     "lint:js": "eslint --max-warnings 0 --ext .jsx --ext .js *",
     "lint:css": "stylelint ./app/**/*.less --syntax less",
     "mock:api": "json-server ./mock/db.js --watch --port 9000 --routes ./mock/routes.json"
@@ -85,6 +85,7 @@
     "stylelint-webpack-plugin": "^0.9.0",
     "url-loader": "0.5.8",
     "webpack": "3.5.1",
-    "webpack-dev-server": "2.7.1"
+    "webpack-dev-server": "2.7.1",
+    "yarn": "^0.27.5"
   }
 }
