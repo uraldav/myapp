@@ -1,34 +1,30 @@
-@import 'antd/lib/style/themes/default';
+@import "antd/lib/style/themes/default";
 
 .page {
   height: 100%;
 }
 
 .sider {
-  background: #fff;
   display: flex;
-  flex-direction: column;
   align-items: stretch;
+  flex-direction: column;
+  background: #fff;
 
   :global {
     & .ant-layout-sider-children {
       display: flex;
-      flex-direction: column;
       align-items: stretch;
+      flex-direction: column;
     }
 
     & .ant-layout-sider-trigger {
+      padding-right: 25px;
       background: #fff;
       color: #404040;
-      font-size: 14px;
       text-align: right;
-      padding-right: 25px;
+      font-size: 14px;
     }
   }
-}
-
-.menu {
-  border: 0;
 }
 
 .header {
@@ -42,8 +38,8 @@
 }
 
 .content {
-  box-shadow: inset 0 0 96px -20px @shadow-color;
   display: flex;
-  flex-direction: column;
   align-items: stretch;
+  flex-direction: column;
+  box-shadow: inset 0 0 96px -20px @shadow-color;
 }
