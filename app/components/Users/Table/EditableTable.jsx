@@ -1,195 +1,157 @@
 import React from 'react';
+import { number, arrayOf, shape, object, func } from 'prop-types';
 import { Table, Button, Modal, Popconfirm } from 'antd';
-import { string, arrayOf, shape } from 'prop-types';
+import { pure, withState, withHandlers, compose } from 'recompose';
 import EditableCell from './EditableCell';
 import './EditableTable.less';
 
-// EditableTable.propTypes = {
-//   data: arrayOf(
-//     shape({
-//       key: string,
-//       name: string,
-//       login: string,
-//       position: string,
-//       mail: string,
-//       role: string,
-//     }),
-//   ).isRequired,
-// };
+EditableTable.propTypes = {
+  data: arrayOf(
+    shape({
+      id: number,
+      key: number,
+      name: object,
+      login: object,
+      position: object,
+      mail: object,
+      role: object,
+    }),
+  ),
+  onSave: func.isRequired, /* eslint react/no-unused-prop-types: 0 */
+  editableRow: object.isRequired,
+  handleEdit: func.isRequired,
+  handleCellChange: func.isRequired,
+  handleSave: func.isRequired,
+  handleCancel: func.isRequired,
+};
 
-class EditableTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.columns = [
-      {
-        title: 'ФИО',
-        dataIndex: 'name',
-        sorter: (a, b) => a.name.localeCompare(b.name),
-        render: (text, record, index) =>
-          this.renderColumns(this.state.data, index, 'name', text),
-      },
-      {
-        title: 'Логин',
-        width: '12%',
-        dataIndex: 'login',
-        sorter: (a, b) => a.login.localeCompare(b.login),
-        render: (text, record, index) =>
-          this.renderColumns(this.state.data, index, 'login', text),
-      },
-      {
-        title: 'Должность',
-        width: '17%',
-        dataIndex: 'position',
-        sorter: (a, b) => a.position.localeCompare(b.position),
-        render: (text, record, index) =>
-          this.renderColumns(this.state.data, index, 'position', text),
-      },
-      {
-        title: 'E-mail',
-        width: '17%',
-        dataIndex: 'mail',
-        sorter: (a, b) => a.mail.localeCompare(b.mail),
-        render: (text, record, index) =>
-          this.renderColumns(this.state.data, index, 'mail', text),
-      },
-      {
-        title: 'Роль',
-        width: '12%',
-        dataIndex: 'role',
-        key: 'role',
-        sorter: (a, b) => a.role.localeCompare(b.role),
-        render: (text, record, index) =>
-          this.renderColumns(this.state.data, index, 'role', text),
-      },
-      {
-        title: '',
-        key: 'operation',
-        width: '116px',
-        fixed: 'right',
+EditableTable.defaultProps = {
+  data: [],
+};
 
-        render: (text, record, index) => {
-          const { editable } = this.state.data[index].name;
-          return (
-            <span styleName="action-button-wrapper">
-              {editable ? (
-                <span>
-                  <Button
-                    shape="circle"
-                    icon="save"
-                    onClick={() => this.editDone(index, 'save')}
-                  />
-                  <Popconfirm
-                    title="Отменить изменения?"
-                    onConfirm={() => this.editDone(index, 'cancel')}
-                  >
-                    <Button shape="circle" icon="close" />
-                  </Popconfirm>
-                </span>
-              ) : (
-                <span>
-                  <Button
-                    shape="circle"
-                    icon="edit"
-                    onClick={() => this.edit(index)}
-                  />
-                </span>
-              )}
-              <span className="ant-divider" />
-              <Button
-                shape="circle"
-                icon="delete"
-                onClick={() =>
-                  Modal.confirm({
-                    title: 'Удалить пользователя?',
-                    content: `Вы уверены, что хотите удалить пользователя  ${record.name}?`,
-                    iconType: 'exclamation-circle',
-                  })}
-              />
-            </span>
-          );
+function EditableTable({
+  data,
+  editableRow,
+  handleCellChange,
+  handleEdit,
+  handleSave,
+  handleCancel,
+}) {
+  return (
+    <Table
+      dataSource={data}
+      pagination={false}
+      styleName="table"
+      columns={[
+        {
+          title: 'ФИО',
+          sorter: (a, b) => a.name.localeCompare(b.name),
+          render: (text, record, index) =>
+            renderCell(index, 'name', record, editableRow, handleCellChange),
         },
-      },
-    ];
-    this.state = {
-      data: this.props.data,
-    };
-  }
+        {
+          title: 'Логин',
+          width: '12%',
+          sorter: (a, b) => a.login.localeCompare(b.login),
+          render: (text, record, index) =>
+            renderCell(index, 'login', record, editableRow, handleCellChange),
+        },
+        {
+          title: 'Должность',
+          width: '17%',
+          sorter: (a, b) => a.position.localeCompare(b.position),
+          render: (text, record, index) =>
+            renderCell(index, 'position', record, editableRow, handleCellChange),
+        },
+        {
+          title: 'E-mail',
+          width: '17%',
+          sorter: (a, b) => a.mail.localeCompare(b.mail),
+          render: (text, record, index) =>
+            renderCell(index, 'mail', record, editableRow, handleCellChange),
+        },
+        {
+          title: 'Роль',
+          width: '12%',
+          sorter: (a, b) => a.role.localeCompare(b.role),
+          render: (text, record, index) =>
+            renderCell(index, 'role', record, editableRow, handleCellChange),
+        },
+        {
+          title: '',
+          key: 'operation',
+          width: '120px',
+          fixed: 'right',
 
-  handleChange(key, index, value) {
-    const { data } = this.state;
-    data[index][key].value = value;
-    this.setState({ data });
-  }
-
-  edit(index) {
-    const { data } = this.state;
-    Object.keys(data[index]).forEach((item) => {
-      if (
-        data[index][item] &&
-        typeof data[index][item].editable !== 'undefined'
-      ) {
-        data[index][item].editable = true;
-      }
-    });
-    this.setState({ data });
-  }
-
-  editDone(index, type) {
-    const { data } = this.state;
-    Object.keys(data[index]).forEach((item) => {
-      if (
-        data[index][item] &&
-        typeof data[index][item].editable !== 'undefined'
-      ) {
-        data[index][item].editable = false;
-        data[index][item].status = type;
-      }
-    });
-    this.setState({ data }, () => {
-      Object.keys(data[index]).forEach((item) => {
-        if (
-          data[index][item] &&
-          typeof data[index][item].editable !== 'undefined'
-        ) {
-          delete data[index][item].status;
-        }
-      });
-    });
-  }
-
-  renderColumns(data, index, key, text) {
-    const { editable, status } = data[index][key];
-    if (typeof editable === 'undefined') {
-      return text;
-    }
-    return (
-      <EditableCell
-        editable={editable}
-        value={text}
-        onChange={value => this.handleChange(key, index, value)}
-        status={status}
-      />
-    );
-  }
-  render() {
-    const { data } = this.state;
-    const dataSource = data.map((item) => {
-      const obj = {};
-      Object.keys(item).forEach((key) => {
-        obj[key] = key === 'key' ? item[key] : item[key].value;
-      });
-      return obj;
-    });
-    const columns = this.columns;
-    return (
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={false}
-        styleName="table"
-      />
-    );
-  }
+          render: (text, record) => {
+            return (
+              <span styleName="action-button-wrapper">
+                {editableRow && editableRow.key === record.key ? (
+                  <span>
+                    <Button.Group>
+                      <Button
+                        icon="save"
+                        onClick={handleSave}
+                      />
+                      <Popconfirm
+                        title="Отменить изменения?"
+                        onConfirm={handleCancel}
+                      >
+                        <Button icon="close" />
+                      </Popconfirm>
+                    </Button.Group>
+                  </span>
+                ) : (
+                  <span>
+                    <Button
+                      icon="edit"
+                      disabled={editableRow !== null}
+                      onClick={() => handleEdit(record)}
+                    />
+                  </span>
+                )}
+                <span className="ant-divider" />
+                <Button
+                  icon="delete"
+                  onClick={() =>
+                    Modal.confirm({
+                      title: 'Удалить пользователя?',
+                      content: `Вы уверены, что хотите удалить пользователя  ${record.name}?`,
+                      iconType: 'exclamation-circle',
+                    })}
+                />
+              </span>
+            );
+          },
+        },
+      ]}
+    />
+  );
 }
 
-export default EditableTable;
+function renderCell(index, field, record, editableRow, handleCellChange) {
+  const isEditableCell = editableRow !== null && editableRow.key === record.key;
+
+  if (isEditableCell) {
+    return (
+      <EditableCell
+        editable
+        value={editableRow[field]}
+        onChange={value => handleCellChange(field, index, value)}
+      />
+    );
+  }
+  return record[field];
+}
+
+export default compose(
+  withState('editableRow', 'setEditableRow', null),
+  withHandlers({
+    handleCellChange: ({ setEditableRow, data }) => (field, index, value) =>
+      setEditableRow({ ...data[index], [field]: value }),
+    handleEdit: ({ setEditableRow }) => record => setEditableRow(record),
+    handleCancel: ({ setEditableRow }) => () => setEditableRow(null),
+    handleSave: ({ setEditableRow, editableRow, onSave }) => () => { onSave(editableRow); setEditableRow(null); },
+  }),
+  pure,
+)(EditableTable);
