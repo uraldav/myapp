@@ -8,7 +8,7 @@
     "lint:js": "eslint --max-warnings 0 --ext .jsx --ext .js *",
     "lint:css": "stylelint ./app/**/*.less --syntax less",
     "mock:api": "json-server ./mock/db.js --watch --port 9000 --routes ./mock/routes.json",
-    "test": "yarn lint",
+    "test": "yarn lint"
   },
   "author": "Innodata",
   "dependencies": {

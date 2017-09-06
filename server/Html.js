@@ -42,7 +42,7 @@ export default function Html({
         }
       </head>
       <body>
-        <div id="content" dangerouslySetInnerHTML={{ __html: ReactDOM.renderToString(component) }} />
+        <div id="react-container" dangerouslySetInnerHTML={{ __html: ReactDOM.renderToString(component) }} />
         <script
           dangerouslySetInnerHTML={{
             __html: `window.__REDUX_INITIAL_STATE__=${serialize(store.getState())};`,
