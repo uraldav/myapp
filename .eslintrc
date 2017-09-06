@@ -30,6 +30,7 @@
     "linebreak-style": "off",
     "no-return-assign": "off",
     "no-use-before-define": "off",
+    "no-unused-vars": "warn",
     "react/forbid-prop-types": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": "error",

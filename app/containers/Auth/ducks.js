@@ -17,6 +17,7 @@ export const initialState = fromJS({
   login: null,
   password: null,
   token: null,
+  error: null,
 });
 
 export default ducks.createReducer({

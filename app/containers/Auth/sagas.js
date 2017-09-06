@@ -32,15 +32,14 @@ export function* requestSaga() {
   }
 }
 
-
 export function* restoreUserData() {
   const api = yield getContext('api');
   const cookie = yield getContext('cookie');
-  const token = cookie.get('token');
   try {
-    const response = yield call(api.auth.fetchUserData, token);
-    yield put(success({ ...response, token }));
+    const response = yield call(api.auth.fetchUserData, cookie.get('token'));
+    yield put(success(response));
   } catch (error) {
     yield put(failure(error));
   }
 }
+
