@@ -8,6 +8,8 @@ import queryString from 'query-string';
 import MenuLink from './MenuLink';
 import './index.less';
 
+import Users from '../Users/Users';
+
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
@@ -101,8 +103,11 @@ function App({
           </ScrollArea>
         </Sider>
         <Content styleName="content">
-          <ScrollArea smoothScrolling>
+          {/* <ScrollArea smoothScrolling>
             {children}
+          </ScrollArea> */}
+          <ScrollArea smoothScrolling>
+            <Users />
           </ScrollArea>
         </Content>
       </Layout>
