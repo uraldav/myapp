@@ -1,12 +1,12 @@
 import React from 'react';
 import { compose, pure } from 'recompose';
-import { Input, Card } from 'antd';
+import { Input, Card, Button } from 'antd';
 import EditableTable from './Table/EditableTable';
 import './Users.less';
 
 const dataSource1 = [
   {
-    key: '1',
+    key: 1,
     name: 'Александров Александр Александрович',
     login: 'aaa',
     position: 'Специалист ДОС',
@@ -14,7 +14,7 @@ const dataSource1 = [
     role: 'Сотрудник',
   },
   {
-    key: '2',
+    key: 2,
     name: 'Борисов Борис Борисович',
     login: 'bbb',
     position: 'Профи ДОС',
@@ -26,7 +26,9 @@ const dataSource1 = [
 function Users() {
   return (
     <Card
-      title="Пользователи"
+      title={
+        <Button type="primary" icon="plus">Добавить</Button>
+      }
       extra={
         <Input.Search
           placeholder="Поиск"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { number, arrayOf, shape, object, func } from 'prop-types';
+import { number, arrayOf, shape, object, func, string } from 'prop-types';
 import { Table, Button, Modal, Popconfirm } from 'antd';
 import { pure, withState, withHandlers, compose } from 'recompose';
 import EditableCell from './EditableCell';
@@ -10,11 +10,11 @@ EditableTable.propTypes = {
     shape({
       id: number,
       key: number,
-      name: object,
-      login: object,
-      position: object,
-      mail: object,
-      role: object,
+      name: string,
+      login: string,
+      position: string,
+      mail: string,
+      role: string,
     }),
   ),
   onSave: func.isRequired, /* eslint react/no-unused-prop-types: 0 */
