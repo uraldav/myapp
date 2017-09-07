@@ -14,14 +14,14 @@ Root.propTypes = {
   store: object.isRequired,
   history: object.isRequired,
   setReducer: func.isRequired,
-  // setSaga: func.isRequired,
+  setSaga: func.isRequired,
 };
 
 function Root ({
   store,
   history,
   setReducer,
-  // setSaga,
+  setSaga,
 }) {
   return (
     <AppContainer>
@@ -43,11 +43,11 @@ function Root ({
                 onBeforeRender={() => {
                   return Promise.all([
                     import('./containers/Auth/ducks'),
-                    // import('./containers/Auth/saga'),
+                    import('./containers/Auth/saga'),
                   ])
-                  .then(([reducer]) => { // [, saga]
+                  .then(([reducer, saga]) => {
                     setReducer('auth', reducer);
-                    // setSaga(saga);
+                    setSaga(saga);
                   });
                 }}
               />
