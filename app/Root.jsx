@@ -31,7 +31,6 @@ function Root ({
             <div>
               <AsyncRoute
                 exact
-                path="/"
                 requireComponent={() => {
                   return import('./containers/App');
                 }}

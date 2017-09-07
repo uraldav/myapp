@@ -1,23 +1,22 @@
 import React from 'react';
-import { object } from 'prop-types';
 import { compose, pure, withProps } from 'recompose';
 import App from '../../components/App';
 import AsyncRoute from '../../routing/AsyncRoute';
 
-NestedRoutes.propTypes = {
-  match: object.isRequired,
-};
-
-function NestedRoutes({
-  match,
-}) {
+function NestedRoutes() {
   return (
     <div>
       <AsyncRoute
         exact
-        path={match.url}
+        path="/"
         requireComponent={() => {
           return import('../../containers/Mention/Main');
+        }}
+      />
+      <AsyncRoute
+        path="/users"
+        requireComponent={() => {
+          return import('../../containers/Users');
         }}
       />
     </div>
