@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-export const authSelector = state => state.getIn(['auth']);
+const authSelector = state => state.getIn(['auth']);
 
 export const errorSelector = createSelector(
   authSelector,
@@ -12,9 +12,19 @@ export const loadingSelector = createSelector(
   auth => auth.getIn(['loading']),
 );
 
+export const loginSelector = createSelector(
+  authSelector,
+  auth => auth.getIn(['login']),
+);
+
+export const passwordSelector = createSelector(
+  authSelector,
+  auth => auth.getIn(['password']),
+);
+
 export const userDataSelector = createSelector(
   authSelector,
-  auth => auth.getIn(['userData']),
+  auth => auth.getIn(['userData']).toJS(),
 );
 
 export const tokenSelector = createSelector(

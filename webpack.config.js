@@ -26,7 +26,6 @@ const config = {
   entry: [
     'react-hot-loader/patch',
     'babel-polyfill',
-    'isomorphic-fetch',
     './index.jsx',
   ],
   output: {
