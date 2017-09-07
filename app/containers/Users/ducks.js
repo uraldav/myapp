@@ -21,10 +21,10 @@ export default ducks.createReducer({
   [REQUEST]: state =>
     state.setIn(['loading'], true),
   [REQUEST_SUCCESS]: (state, { payload }) => {
-    return state.setIn(['data'], fromJS(payload))
+    return state.setIn(['data'], payload)
                 .setIn(['loading'], false);
   },
   [REQUEST_FAILURE]: (state, { payload }) =>
-    state.setIn(['error'], fromJS(payload))
+    state.setIn(['error'], payload)
          .setIn(['loading'], false),
 }, initialState);
