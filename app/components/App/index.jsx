@@ -1,10 +1,12 @@
 import React from 'react';
-import { func, bool, shape, string, node, object } from 'prop-types';
+import { func, bool, node, object } from 'prop-types';
 import { compose, pure, withHandlers, withState } from 'recompose';
-import injectStyles from 'react-jss';
-import { Layout, Menu, Icon, Badge, Tooltip } from 'antd';
+import { Layout, Menu, Icon, Tooltip } from 'antd';
 import FaIcon from 'react-fontawesome';
 import ScrollArea from 'react-scrollbar';
+import queryString from 'query-string';
+import MenuLink from './MenuLink';
+import './index.less';
 
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
@@ -12,12 +14,6 @@ const { SubMenu } = Menu;
 App.propTypes = {
   location: object.isRequired,
   children: node.isRequired,
-  classes: shape({
-    page: string.isRequired,
-    header: string.isRequired,
-    trigger: string.isRequired,
-    logo: string.isRequired,
-  }).isRequired,
   toggleSidebarCollapsed: func.isRequired,
   sidebarCollapsed: bool.isRequired,
 };
@@ -25,14 +21,15 @@ App.propTypes = {
 function App({
   location,
   children,
-  classes,
   toggleSidebarCollapsed,
   sidebarCollapsed,
 }) {
+  const queryParams = queryString.parse(location.search);
+
   return (
-    <Layout className={classes.page}>
-      <Header className={classes.header}>
-        <div className={classes.logo}>АЭРОФЛОТ</div>
+    <Layout styleName="page">
+      <Header styleName="header">
+        <div styleName="logo">АЭРОФЛОТ</div>
       </Header>
       <Layout>
         <Sider
@@ -47,45 +44,54 @@ function App({
           collapsible
           collapsed={sidebarCollapsed}
           onCollapse={toggleSidebarCollapsed}
-          className={classes.sider}
+          styleName="sider"
           width={250}
         >
           <ScrollArea horizontal={false} smoothScrolling>
             <Menu
+              multiple
               mode="inline"
-              className={classes.menu}
-              selectedKeys={[location.pathname]}
+              styleName="menu"
+              selectedKeys={[queryParams.socialId]}
+              openKeys={[queryParams.socialId]}
             >
               <SubMenu
+                key="twitter"
                 title={
-                  <span>
-                    <FaIcon name="twitter" />
-                    <span>
-                      Twitter <Badge count={5} />
-                    </span>
-                  </span>
+                  <MenuLink
+                    title="Twitter"
+                    icon={<FaIcon name="twitter" />}
+                    to={{
+                      pathname: '/',
+                      search: `?${queryString.stringify({ ...queryParams, socialId: 'twitter' })}`,
+                    }}
+                  />
                 }
               >
                 <Menu.Item>
                   <span>аэрофлот</span>
                 </Menu.Item>
               </SubMenu>
-              <SubMenu title={<span><FaIcon name="facebook-square" /><span>Facebook</span></span>}>
+              <SubMenu
+                key="facebook"
+                title={<span><FaIcon name="facebook-square" /><span>Facebook</span></span>}
+              >
                 <Menu.Item>
                   <span>аэрофлот</span>
                 </Menu.Item>
               </SubMenu>
-              <SubMenu title={<span><FaIcon name="instagram" /><span>Instagram</span></span>}>
+              <SubMenu
+                key="others"
+                title={<span><FaIcon name="square-o" /><span>Неявные упоминания</span></span>}
+              >
                 <Menu.Item>
                   <span>аэрофлот</span>
                 </Menu.Item>
               </SubMenu>
-              <SubMenu title={<span><FaIcon name="square-o" /><span>Неявные упоминания</span></span>}>
-                <Menu.Item>
-                  <span>аэрофлот</span>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu title={<span><Icon type="setting" /><span>Справочники и настройки</span></span>}>
+              <SubMenu
+                key="settings"
+                title={<span><Icon type="setting" /><span>Справочники и настройки</span></span>}
+              >
                 <Menu.Item>
                   <Icon type="team" />
                   <span>Пользователи</span>
@@ -94,7 +100,7 @@ function App({
             </Menu>
           </ScrollArea>
         </Sider>
-        <Content className={classes.content}>
+        <Content styleName="content">
           <ScrollArea smoothScrolling>
             {children}
           </ScrollArea>
@@ -104,66 +110,6 @@ function App({
   );
 }
 
-const styles = theme => ({
-  page: {
-    height: '100%',
-  },
-
-  sider: {
-    background: theme.sidebarBackgroundColor,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-
-    '& .ant-layout-sider-children': {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'stretch',
-    },
-
-    '& .ant-layout-sider-trigger': {
-      background: theme.sidebarBackgroundColor,
-      color: '#404040',
-      fontSize: 14,
-      textAlign: 'right',
-      paddingRight: 25,
-    },
-  },
-
-  menu: {
-    border: 0,
-  },
-
-  header: {
-    padding: 0,
-    background: theme.headerBackgroundColor,
-  },
-
-  trigger: {
-    fontSize: '18px',
-    lineHeight: '64px',
-    padding: '0 16px',
-    cursor: 'pointer',
-    transition: 'color .3s',
-
-    '&:hover': {
-      color: '#108ee9',
-    },
-  },
-
-  logo: {
-    float: 'left',
-    width: 250,
-  },
-
-  content: {
-    boxShadow: `inset 0px 0px 96px -20px ${theme.boxShadowColor}`,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
-});
-
 export default compose(
   withState('sidebarCollapsed', 'setSidebarCollapsed', false),
   withHandlers({
@@ -171,6 +117,5 @@ export default compose(
       setSidebarCollapsed(!sidebarCollapsed);
     },
   }),
-  injectStyles(styles),
   pure,
 )(App);

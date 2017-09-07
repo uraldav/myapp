@@ -1,39 +1,22 @@
 import React from 'react';
-import { object, func } from 'prop-types';
-import { compose, withProps, getContext } from 'recompose';
+import { compose, pure, withProps } from 'recompose';
 import App from '../../components/App';
 import AsyncRoute from '../../routing/AsyncRoute';
-import injectReducer from '../../utils/injectReducer';
-import injectSaga from '../../utils/injectSaga';
 
-NestedRoutes.propTypes = {
-  match: object.isRequired,
-  setReducer: func.isRequired,
-  setSaga: func.isRequired,
-};
-
-function NestedRoutes({
-  match,
-  setReducer,
-  setSaga,
-}) {
+function NestedRoutes() {
   return (
     <div>
       <AsyncRoute
         exact
-        path={match.url}
+        path="/"
         requireComponent={() => {
-          return import('../../containers/Mention/List');
+          return import('../../containers/Mention/Main');
         }}
-        onBeforeRender={() => {
-          return Promise.all([
-            import('../../containers/Mention/ducks'),
-            import('../../containers/Mention/sagas'),
-          ])
-          .then(([reducer, saga]) => {
-            setReducer('mentions', reducer);
-            setSaga(saga);
-          });
+      />
+      <AsyncRoute
+        path="/users"
+        requireComponent={() => {
+          return import('../../containers/Users');
         }}
       />
     </div>
@@ -41,14 +24,6 @@ function NestedRoutes({
 }
 
 export default compose(
-  getContext({
-    store: object,
-  }),
-  withProps(props => ({
-    children: NestedRoutes({
-      ...props,
-      setReducer: injectReducer(props.store),
-      setSaga: injectSaga(props.store),
-    }),
-  })),
+  withProps(props => ({ children: NestedRoutes(props) })),
+  pure,
 )(App);

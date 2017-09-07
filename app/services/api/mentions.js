@@ -1,18 +1,24 @@
 /* eslint no-unused-vars: 0 */
 import moment from 'moment';
+import { zipObj } from 'ramda';
+import queryString from 'query-string';
 
-const tonalityMap = (tonality) => {
-  return {
-    1: 'positive',
-    2: 'negative',
-    3: 'neutral',
-  }[tonality];
+const tonalityMap = (tonality, reverseKeys) => {
+  let keys = [[1, 2, 3], ['positive', 'negative', 'neutral']];
+  if (reverseKeys) keys = keys.reverse();
+  return zipObj(...keys)[tonality];
 };
 
-export const fetchMentions = () =>
-  fetch('/api/mentions', { method: 'GET' })
+export const fetchMentions = (socialId, priority, status, themes, tonality, followers, users, datePeriod) =>
+  fetch(`/api/mentions?${
+    queryString.stringify({ socialId, priority, status, themes, tonality, followers, users, datePeriod })
+  }`,
+  { method: 'GET' })
   .then(response => response.json())
-  .then(data => data.map(
+  .then(mapMentions);
+
+function mapMentions(data) {
+  return data.map(
     ([
       nick,
       date,
@@ -35,4 +41,5 @@ export const fetchMentions = () =>
       weight,
       tonality: tonalityMap(tone),
     }),
-  ));
+  );
+}

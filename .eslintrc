@@ -28,6 +28,7 @@
     "global-require": "off",
     "import/prefer-default-export": "off",
     "linebreak-style": "off",
+    "max-len": "off",
     "no-return-assign": "off",
     "no-use-before-define": "off",
     "no-unused-vars": "warn",

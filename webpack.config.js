@@ -1,10 +1,16 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
+const StylelintPlugin = require('stylelint-webpack-plugin');
+
+const context = resolve(__dirname, 'app');
+
+const cssScopedNamePattern = '[path][name]-[local]___[hash:base64:8]';
 
 const config = {
   target: 'web',
   devtool: 'cheap-module-eval-source-map',
-  context: resolve(__dirname, 'app'),
+  context,
   resolve: {
     extensions: [
       '.js',
@@ -31,6 +37,8 @@ const config = {
     hot: true,
     hotOnly: true,
     open: true,
+    quiet: false,
+    noInfo: false,
     publicPath: '/',
     contentBase: resolve(__dirname, 'build'),
     historyApiFallback: true,
@@ -42,22 +50,48 @@ const config = {
   },
   module: {
     rules: [
-      /* включить чуть позже {
+      {
         enforce: 'pre',
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader',
-      }, */
-      {
-        test: /\.jsx?$/,
-        loaders: [
-          'react-hot-loader/webpack',
-          'babel-loader',
+        use: [
+          {
+            loader: 'eslint-loader',
+            options: {
+              emitWarning: true,
+            },
+          },
         ],
-        exclude: /node_modules/,
       },
       {
-        test: /\.css/,
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        include: resolve(__dirname, 'app'),
+        use: [
+          'react-hot-loader/webpack',
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: [
+                [
+                  'react-css-modules',
+                  {
+                    context,
+                    generateScopedName: cssScopedNamePattern,
+                    filetypes: {
+                      '.less': {
+                        syntax: 'postcss-less',
+                      },
+                    },
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
         use: [
           'style-loader',
           'css-loader',
@@ -66,14 +100,29 @@ const config = {
       {
         test: /\.less/,
         use: [
-          { loader: 'style-loader' },
+          { loader: 'style-loader', options: { sourceMap: true } },
           {
             loader: 'css-loader',
-            options: { sourceMap: true },
+            options: {
+              sourceMap: true,
+              modules: true,
+              importLoaders: 1,
+              localIdentName: cssScopedNamePattern,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              plugins: [autoprefixer],
+            },
           },
           {
             loader: 'less-loader',
-            options: { sourceMap: true },
+            options: {
+              sourceMap: true,
+              paths: [resolve(__dirname, 'node_modules')],
+            },
           },
         ],
       },
@@ -85,6 +134,9 @@ const config = {
     ],
   },
   plugins: [
+    new StylelintPlugin({
+      files: ['**/*.less'],
+    }),
     new webpack.LoaderOptionsPlugin({
       test: /\.jsx?$/,
       options: {
@@ -102,13 +154,7 @@ const config = {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
-    new webpack.ContextReplacementPlugin(/^\.\/locale$/, (context) => {
-      if (!/\/moment\//.test(context.context)) { return; }
-      Object.assign(context, {
-        regExp: /^\.\/(ja|ko|zh|ru)/,
-        request: '../../locale',
-      });
-    }),
+    new webpack.IgnorePlugin(/^moment\/locale\/zh-cn$/),
   ],
 };
 

@@ -1,0 +1,49 @@
+@import 'antd/lib/style/themes/default';
+
+.page {
+  height: 100%;
+}
+
+.sider {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  :global {
+    & .ant-layout-sider-children {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    & .ant-layout-sider-trigger {
+      background: #fff;
+      color: #404040;
+      font-size: 14px;
+      text-align: right;
+      padding-right: 25px;
+    }
+  }
+}
+
+.menu {
+  border: 0;
+}
+
+.header {
+  padding: 0;
+  background: #fff;
+}
+
+.logo {
+  float: left;
+  width: 250;
+}
+
+.content {
+  box-shadow: inset 0 0 96px -20px @shadow-color;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}

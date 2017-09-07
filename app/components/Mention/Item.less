@@ -1,0 +1,62 @@
+@import '../../style/colors/index.less';
+
+.mention-item {
+  position: relative;
+  padding-left: 20px;
+
+  &.ant-card-bordered {
+    border: 0;
+  }
+
+  &:before {
+    display: block;
+    content: "";
+    width: 20px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  &:global {
+    &.positive {
+      &:before {
+        background: @tonality-positiove;
+      }
+    }
+
+    &.negative {
+      &:before {
+        background: @tonality-negative;
+      }
+    }
+
+    &.neutral {
+      &:before {
+        background: @tonality-neutral;
+      }
+    }
+  }
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content {
+  display: block;
+}
+
+.footer {
+  display: flex;
+}
+
+.social-info {
+  flex: 1;
+  text-align: right;
+
+  & > *:not(:first-child) {
+    margin-left: 10px;
+  }
+}

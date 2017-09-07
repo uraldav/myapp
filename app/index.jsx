@@ -2,28 +2,29 @@ import 'antd/dist/antd.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createHistory from 'history/createBrowserHistory';
-import './style/index.less';
+import './style/icons/fa-adapter.less';
 import configureStore from './store/configureStore';
 import Root from './Root';
+import getReactContainer from './utils/getReactContainer';
 
-const rootEl = document.getElementById('react-root');
+const rootEl = getReactContainer('react-root');
 const history = createHistory();
 const store = configureStore();
 
-const render = () => {
+const renderApp = () => {
   ReactDOM.render(
     <Root store={store} history={history} />,
     rootEl,
   );
 };
 
-render();
+renderApp();
 
 if (module.hot) {
   module.hot.accept('./Root', () => {
     setImmediate(() => {
       ReactDOM.unmountComponentAtNode(rootEl);
-      render();
+      renderApp();
     });
   });
 }
