@@ -7,10 +7,8 @@ module.exports = () => {
       "lastname": "Towne",
       "position": "International Usability Administrator",
       "email": "Russ_Hegmann78@yahoo.com",
-      "user_role": {
-        "id": 61386969,
-        "role_name": "Principal Quality Orchestrator"
-      }
+      "login": "qwerty",
+      "user_role": "Principal Quality Orchestrator",
     },
     {
       "id": 19509304,
@@ -18,10 +16,8 @@ module.exports = () => {
       "lastname": "Howe",
       "position": "Internal Intranet Director",
       "email": "Haskell.Waelchi30@hotmail.com",
-      "user_role": {
-        "id": 43851108,
-        "role_name": "Dynamic Integration Facilitator"
-      }
+      "login": "qwerty",
+      "user_role": "Dynamic Integration Facilitator",
     },
     {
       "id": 22794982,
@@ -29,10 +25,8 @@ module.exports = () => {
       "lastname": "Hartmann",
       "position": "National Configuration Orchestrator",
       "email": "Isom_McLaughlin74@gmail.com",
-      "user_role": {
-        "id": 59002897,
-        "role_name": "Dynamic Implementation Associate"
-      }
+      "login": "qwerty",
+      "user_role": "Dynamic Implementation Associate",
     },
     {
       "id": 81862327,
@@ -40,10 +34,8 @@ module.exports = () => {
       "lastname": "Walter",
       "position": "Forward Tactics Architect",
       "email": "Avis22@hotmail.com",
-      "user_role": {
-        "id": 66262540,
-        "role_name": "Dynamic Brand Engineer"
-      }
+      "login": "qwerty",
+      "user_role": "Dynamic Brand Engineer",
     },
     {
       "id": 26857534,
@@ -51,10 +43,8 @@ module.exports = () => {
       "lastname": "Olson",
       "position": "Lead Accounts Consultant",
       "email": "Sadie.Konopelski6@gmail.com",
-      "user_role": {
-        "id": 50103037,
-        "role_name": "Investor Assurance Specialist"
-      }
+      "login": "qwerty",
+      "user_role": "Investor Assurance Specialist",
     },
     {
       "id": 73906425,
@@ -62,10 +52,8 @@ module.exports = () => {
       "lastname": "Tillman",
       "position": "Corporate Directives Agent",
       "email": "Arvilla_Renner@gmail.com",
-      "user_role": {
-        "id": 57697943,
-        "role_name": "Investor Optimization Producer"
-      }
+      "login": "qwerty",
+      "user_role": "Investor Optimization Producer",
     },
     {
       "id": 52131123,
@@ -73,10 +61,8 @@ module.exports = () => {
       "lastname": "Doyle",
       "position": "Customer Security Orchestrator",
       "email": "Stella.Batz73@hotmail.com",
-      "user_role": {
-        "id": 60411613,
-        "role_name": "Legacy Branding Assistant"
-      }
+      "login": "qwerty",
+      "user_role": "Legacy Branding Assistant",
     },
     {
       "id": 89334056,
@@ -84,10 +70,8 @@ module.exports = () => {
       "lastname": "Leannon",
       "position": "Product Identity Developer",
       "email": "Cody21@gmail.com",
-      "user_role": {
-        "id": 86079596,
-        "role_name": "Forward Identity Designer"
-      }
+      "login": "qwerty",
+      "user_role": "Forward Identity Designer",
     },
     {
       "id": 93265045,
@@ -95,10 +79,8 @@ module.exports = () => {
       "lastname": "Hintz",
       "position": "Corporate Creative Administrator",
       "email": "Princess.Streich@hotmail.com",
-      "user_role": {
-        "id": 34018244,
-        "role_name": "Dynamic Applications Director"
-      }
+      "login": "qwerty",
+      "user_role": "Dynamic Applications Director",
     },
     {
       "id": 78296355,
@@ -106,10 +88,8 @@ module.exports = () => {
       "lastname": "Ondricka",
       "position": "National Response Officer",
       "email": "Luna.Lebsack31@hotmail.com",
-      "user_role": {
-        "id": 36715532,
-        "role_name": "Dynamic Paradigm Liason"
-      }
+      "login": "qwerty",
+      "user_role": "Dynamic Paradigm Liason",
     },
     {
       "id": 38347599,
@@ -117,10 +97,8 @@ module.exports = () => {
       "lastname": "Doyle",
       "position": "Direct Directives Strategist",
       "email": "Gustave40@hotmail.com",
-      "user_role": {
-        "id": 64761849,
-        "role_name": "Chief Program Designer"
-      }
+      "login": "qwerty",
+      "user_role": "Chief Program Designer",
     },
     {
       "id": 81808661,
@@ -128,10 +106,8 @@ module.exports = () => {
       "lastname": "Dare",
       "position": "Internal Marketing Analyst",
       "email": "Eric_Turcotte72@hotmail.com",
-      "user_role": {
-        "id": 42116819,
-        "role_name": "Investor Implementation Facilitator"
-      }
+      "login": "qwerty",
+      "user_role": "Investor Implementation Facilitator",
     },
     {
       "id": 77430316,
@@ -139,10 +115,8 @@ module.exports = () => {
       "lastname": "Gutkowski",
       "position": "National Data Orchestrator",
       "email": "Barton_Greenholt@yahoo.com",
-      "user_role": {
-        "id": 14606550,
-        "role_name": "Chief Group Manager"
-      }
+      "login": "qwerty",
+      "user_role": "Chief Group Manager",
     },
     {
       "id": 10307326,
@@ -150,10 +124,8 @@ module.exports = () => {
       "lastname": "Kozey",
       "position": "Direct Brand Officer",
       "email": "Otto50@yahoo.com",
-      "user_role": {
-        "id": 49982063,
-        "role_name": "Investor Implementation Liason"
-      }
+      "login": "qwerty",
+      "user_role": "Investor Implementation Liason",
     },
     {
       "id": 20780822,
@@ -161,10 +133,8 @@ module.exports = () => {
       "lastname": "Huels",
       "position": "Lead Accounts Orchestrator",
       "email": "Marcella.Gulgowski@gmail.com",
-      "user_role": {
-        "id": 71009290,
-        "role_name": "Dynamic Directives Representative"
-      }
+      "login": "qwerty",
+      "user_role": "Dynamic Directives Representative",
     },
     {
       "id": 18886395,
@@ -172,10 +142,8 @@ module.exports = () => {
       "lastname": "Huel",
       "position": "Lead Markets Producer",
       "email": "Lyric68@hotmail.com",
-      "user_role": {
-        "id": 56090584,
-        "role_name": "Direct Branding Strategist"
-      }
+      "login": "qwerty",
+      "user_role": "Direct Branding Strategist",
     },
     {
       "id": 36777867,
@@ -183,10 +151,8 @@ module.exports = () => {
       "lastname": "Koss",
       "position": "Human Accountability Associate",
       "email": "Herminio.Murphy@hotmail.com",
-      "user_role": {
-        "id": 66678459,
-        "role_name": "Investor Mobility Supervisor"
-      }
+      "login": "qwerty",
+      "user_role": "Investor Mobility Supervisor",
     },
     {
       "id": 22790456,
@@ -194,10 +160,8 @@ module.exports = () => {
       "lastname": "Hegmann",
       "position": "Forward Accountability Orchestrator",
       "email": "Ramona_Schultz94@gmail.com",
-      "user_role": {
-        "id": 1188075,
-        "role_name": "Regional Communications Planner"
-      }
+      "login": "qwerty",
+      "user_role": "Regional Communications Planner",
     },
     {
       "id": 59964993,
@@ -205,10 +169,8 @@ module.exports = () => {
       "lastname": "Batz",
       "position": "Chief Usability Representative",
       "email": "Dovie.Spencer50@hotmail.com",
-      "user_role": {
-        "id": 63754503,
-        "role_name": "Central Group Officer"
-      }
+      "login": "qwerty",
+      "user_role": "Central Group Officer",
     }
   ];
 };

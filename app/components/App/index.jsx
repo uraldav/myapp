@@ -103,11 +103,8 @@ function App({
           </ScrollArea>
         </Sider>
         <Content styleName="content">
-          {/* <ScrollArea smoothScrolling>
-            {children}
-          </ScrollArea> */}
           <ScrollArea smoothScrolling>
-            <Users />
+            {children}
           </ScrollArea>
         </Content>
       </Layout>
