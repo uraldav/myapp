@@ -122,8 +122,18 @@ function SideMenu({ location }) {
         }
       >
         <Menu.Item>
-          <Icon type="team" />
-          <span>Пользователи</span>
+          <MenuLink
+            icon={<Icon type="team" />}
+            title="Пользователи"
+            to="/users"
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <MenuLink
+            icon={<Icon type="book" />}
+            title="Тематики и словари"
+            to="/thematics"
+          />
         </Menu.Item>
       </SubMenu>
     </Menu>
