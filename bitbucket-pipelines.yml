@@ -4,5 +4,6 @@ pipelines:
   default:
     - step:
         script:
-          - npm i
-          - npm test
+          - npm i -g yarn
+          - yarn
+          - yarn test

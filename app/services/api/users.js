@@ -1,7 +1,2 @@
 export const fetchUsers = () =>
-  fetch('/api/users',
-    { method: 'GET' })
-    .then(response => response.json())
-    .then(json => {
-      debugger;
-    });
+  fetch('/api/users', { method: 'GET' }).then(response => response.json());

@@ -12,15 +12,9 @@ ModelThematics.defaultProps = {
 };
 
 function ModelThematics({
-  data,
+  data /* eslint no-unused-vars: 0 */, // снести строку
 }) {
-  return (
-    <Card>
-      fake content
-    </Card>
-  );
+  return <Card>fake content</Card>;
 }
 
-export default compose(
-  pure,
-)(ModelThematics);
+export default compose(pure)(ModelThematics);

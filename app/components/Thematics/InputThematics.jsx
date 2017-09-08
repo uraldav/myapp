@@ -11,16 +11,9 @@ InputThematics.defaultProps = {
   data: [],
 };
 
-function InputThematics({
-  data,
-}) {
-  return (
-    <Card>
-      fake content
-    </Card>
-  );
+function InputThematics({ data }) {
+  /* eslint no-unused-vars: 0 */ // снести строку
+  return <Card>fake content</Card>;
 }
 
-export default compose(
-  pure,
-)(InputThematics);
+export default compose(pure)(InputThematics);

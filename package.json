@@ -2,16 +2,18 @@
   "name": "cip-front",
   "version": "0.0.1",
   "author": "Innodata",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "yarn && webpack-dev-server",
+    "test": "yarn && yarn lint && yarn test:jest",
     "start:mock":
       "yarn && concurrently --kill-others \"yarn mock:api\" \"yarn start\"",
     "lint": "yarn lint:js && yarn lint:css",
-    "lint:js": "eslint --max-warnings 0 --ext .jsx --ext .js *",
+    "lint:js": "eslint --ext .jsx --ext .js --max-warnings 0 */**",
     "lint:css": "stylelint ./app/**/*.less --syntax less",
     "mock:api":
       "json-server ./mock/db.js --watch --port 9000 --routes ./mock/routes.json",
-    "test": "yarn lint && jest --config jest.config.json --no-cache"
+    "test:jest": "jest --config jest.config.json --no-cache"
   },
   "jest": {
     "verbose": true,
