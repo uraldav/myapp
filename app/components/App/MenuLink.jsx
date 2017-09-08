@@ -3,7 +3,7 @@ import { string, number, node, any } from 'prop-types';
 import { compose, pure } from 'recompose';
 import { Badge } from 'antd';
 import { NavLink } from 'react-router-dom';
-import styles from './MenuLink.less';
+import './MenuLink.less';
 
 MenuLink.propTypes = {
   title: string.isRequired,
@@ -17,22 +17,21 @@ MenuLink.defaultProps = {
   icon: null,
 };
 
-function MenuLink ({
-  title,
-  to,
-  badge,
-  icon,
-}) {
+function MenuLink({ title, to, badge, icon }) {
   return (
-    <span>
-      <NavLink to={to} activeClassName={styles.selected}>
+    <span styleName="navlink">
+      <NavLink
+        to={to}
+        styleName="title"
+      >
         {icon}
-        <span>{title} {badge > 0 && <Badge count={badge} />}</span>
+        <span>{title}</span>
+        <span styleName="badge">
+          {badge > 0 && <Badge count={badge} />}
+        </span>
       </NavLink>
     </span>
   );
 }
 
-export default compose(
-  pure,
-)(MenuLink);
+export default compose(pure)(MenuLink);

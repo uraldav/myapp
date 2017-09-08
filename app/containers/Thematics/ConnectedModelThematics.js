@@ -8,7 +8,4 @@ const mapStateToProps = createStructuredSelector({
   data: modelThematicsSelector,
 });
 
-export default compose(
-  connect(mapStateToProps),
-  pure,
-)(ModelThematics);
+export default compose(connect(mapStateToProps), pure)(ModelThematics);
