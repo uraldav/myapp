@@ -1,7 +1,7 @@
-index.js
 .vscode
 build
 node_modules
+**/*.json
 **/*.less
 **/*.css
 .babelrc

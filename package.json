@@ -9,7 +9,7 @@
     "start:mock":
       "yarn && concurrently --kill-others \"yarn mock:api\" \"yarn start\"",
     "lint": "yarn lint:js && yarn lint:css",
-    "lint:js": "eslint --ext .jsx --ext .js --max-warnings 0 */**",
+    "lint:js": "eslint --ext .jsx --ext .js */**",
     "lint:css": "stylelint ./app/**/*.less --syntax less",
     "mock:api":
       "json-server ./mock/db.js --watch --port 9000 --routes ./mock/routes.json",
