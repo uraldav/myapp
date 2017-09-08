@@ -6,6 +6,8 @@ import ScrollArea from 'react-scrollbar';
 import SideMenu from './SideMenu';
 import './index.less';
 
+import Users from '../Users/Users';
+
 const { Header, Sider, Content } = Layout;
 
 App.propTypes = {
