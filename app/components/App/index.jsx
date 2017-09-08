@@ -1,17 +1,14 @@
 import React from 'react';
 import { func, bool, node, object } from 'prop-types';
 import { compose, pure, withHandlers, withState } from 'recompose';
-import { Layout, Menu, Icon, Tooltip } from 'antd';
-import FaIcon from 'react-fontawesome';
+import { Layout, Icon, Tooltip } from 'antd';
 import ScrollArea from 'react-scrollbar';
-import queryString from 'query-string';
-import MenuLink from './MenuLink';
+import SideMenu from './SideMenu';
 import './index.less';
 
 import Users from '../Users/Users';
 
 const { Header, Sider, Content } = Layout;
-const { SubMenu } = Menu;
 
 App.propTypes = {
   location: object.isRequired,
@@ -20,14 +17,7 @@ App.propTypes = {
   sidebarCollapsed: bool.isRequired,
 };
 
-function App({
-  location,
-  children,
-  toggleSidebarCollapsed,
-  sidebarCollapsed,
-}) {
-  const queryParams = queryString.parse(location.search);
-
+function App({ location, children, toggleSidebarCollapsed, sidebarCollapsed }) {
   return (
     <Layout styleName="page">
       <Header styleName="header">
@@ -50,62 +40,11 @@ function App({
           width={250}
         >
           <ScrollArea horizontal={false} smoothScrolling>
-            <Menu
-              multiple
-              mode="inline"
-              styleName="menu"
-              selectedKeys={[queryParams.socialId]}
-              openKeys={[queryParams.socialId]}
-            >
-              <SubMenu
-                key="twitter"
-                title={
-                  <MenuLink
-                    title="Twitter"
-                    icon={<FaIcon name="twitter" />}
-                    to={{
-                      pathname: '/',
-                      search: `?${queryString.stringify({ ...queryParams, socialId: 'twitter' })}`,
-                    }}
-                  />
-                }
-              >
-                <Menu.Item>
-                  <span>аэрофлот</span>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="facebook"
-                title={<span><FaIcon name="facebook-square" /><span>Facebook</span></span>}
-              >
-                <Menu.Item>
-                  <span>аэрофлот</span>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="others"
-                title={<span><FaIcon name="square-o" /><span>Неявные упоминания</span></span>}
-              >
-                <Menu.Item>
-                  <span>аэрофлот</span>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="settings"
-                title={<span><Icon type="setting" /><span>Справочники и настройки</span></span>}
-              >
-                <Menu.Item>
-                  <Icon type="team" />
-                  <span>Пользователи</span>
-                </Menu.Item>
-              </SubMenu>
-            </Menu>
+            <SideMenu location={location} />
           </ScrollArea>
         </Sider>
         <Content styleName="content">
-          <ScrollArea smoothScrolling>
-            {children}
-          </ScrollArea>
+          <ScrollArea smoothScrolling>{children}</ScrollArea>
         </Content>
       </Layout>
     </Layout>
@@ -115,7 +54,10 @@ function App({
 export default compose(
   withState('sidebarCollapsed', 'setSidebarCollapsed', false),
   withHandlers({
-    toggleSidebarCollapsed: ({ sidebarCollapsed, setSidebarCollapsed }) => () => {
+    toggleSidebarCollapsed: ({
+      sidebarCollapsed,
+      setSidebarCollapsed,
+    }) => () => {
       setSidebarCollapsed(!sidebarCollapsed);
     },
   }),

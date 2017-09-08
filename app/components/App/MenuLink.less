@@ -1,3 +1,21 @@
-.selected {
-  text-decoration: underline;
+@import "app/style/colors/gray";
+
+.title {
+  display: block;
+  color: @gray-9;
+  text-decoration: none;
+}
+
+.navlink {
+  :global {
+    & .active {
+      text-decoration: none;
+    }
+  }
+}
+
+.badge {
+  float: right;
+  padding-right: 1.5rem;
+  margin-right: 0;
 }

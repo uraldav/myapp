@@ -19,6 +19,12 @@ function NestedRoutes() {
           return import('../../containers/Users');
         }}
       />
+      <AsyncRoute
+        path="/thematics"
+        requireComponent={() => {
+          return import('../../containers/Thematics');
+        }}
+      />
     </div>
   );
 }
