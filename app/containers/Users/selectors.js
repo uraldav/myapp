@@ -17,3 +17,12 @@ export const userDataSelector = createSelector(
   users => users.getIn(['data']),
 );
 
+export const dataSelector = createSelector(
+  usersSelector,
+  users => users.get('data').toJS(),
+);
+
+export const editableUserRecordSelector = createSelector(
+  usersSelector,
+  mentions => mentions.getIn(['editableUserRecord']),
+);

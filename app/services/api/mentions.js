@@ -2,6 +2,7 @@
 import moment from 'moment';
 import { zipObj } from 'ramda';
 import queryString from 'query-string';
+import axios from 'axios';
 
 const tonalityMap = (tonality, reverseKeys) => {
   let keys = [[1, 2, 3], ['positive', 'negative', 'neutral']];
@@ -9,30 +10,49 @@ const tonalityMap = (tonality, reverseKeys) => {
   return zipObj(...keys)[tonality];
 };
 
-export const fetchMentions = (socialId, priority, status, themes, tonality, followers, users, datePeriod) =>
-  fetch(`/api/mentions?${
-    queryString.stringify({ socialId, priority, status, themes, tonality, followers, users, datePeriod })
-  }`,
-  { method: 'GET' })
-  .then(response => response.json())
-  .then(mapMentions);
+export const fetchMentions = ({
+  socialId,
+  priority,
+  status,
+  themes,
+  tonality,
+  followers,
+  users,
+  datePeriod,
+}) =>
+  axios
+    .get('/api/mentions', {
+      params: {
+        socialId,
+        priority,
+        status,
+        themes,
+        tonality: tonalityMap(tonality, true),
+        followers,
+        users,
+        datePeriod,
+      },
+    })
+    .then(mapMentions);
 
-function mapMentions(data) {
+function mapMentions({ data }) {
   return data.map(
-    ([
-      nick,
-      date,
-      tone,
-      rootId,
-      socialId,
-      authorId,
-      body,
-      url,
-      likes,
-      reposts,
-      comments,
-      weight,
-    ]) => ({
+    (
+      [
+        nick,
+        date,
+        tone,
+        rootId,
+        socialId,
+        authorId,
+        body,
+        url,
+        likes,
+        reposts,
+        comments,
+        weight,
+      ],
+    ) => ({
       author: nick,
       date: moment.unix(date).toDate(),
       content: body,

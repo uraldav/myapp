@@ -17,12 +17,7 @@ Root.propTypes = {
   setSaga: func.isRequired,
 };
 
-function Root ({
-  store,
-  history,
-  setReducer,
-  setSaga,
-}) {
+function Root({ store, history, setReducer, setSaga }) {
   return (
     <AppContainer>
       <Provider store={store}>
@@ -43,9 +38,8 @@ function Root ({
                 onBeforeRender={() => {
                   return Promise.all([
                     import('./containers/Auth/ducks'),
-                    import('./containers/Auth/saga'),
-                  ])
-                  .then(([reducer, saga]) => {
+                    import('./containers/Auth/sagas'),
+                  ]).then(([reducer, saga]) => {
                     setReducer('auth', reducer);
                     setSaga(saga);
                   });
