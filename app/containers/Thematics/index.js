@@ -33,8 +33,7 @@ export default compose(
     Promise.all([
       import('./ducks'),
       import('./sagas'),
-    ])
-    .then(([reducer, saga]) => {
+    ]).then(([reducer, saga]) => {
       injectReducer(store, 'thematics', reducer);
       injectSaga(store, saga);
     }),

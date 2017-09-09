@@ -1,26 +1,35 @@
-import { call, cancel, fork, getContext, put, take, takeLatest } from 'redux-saga/effects';
-import { LOCATION_CHANGE } from 'react-router-redux';
-import { fromJS } from 'immutable';
 import {
-  REQUEST,
-  success,
-  failure,
-} from './ducks';
+  call,
+  fork,
+  getContext,
+  put,
+  take,
+  takeLatest,
+  select,
+  cancel,
+} from 'redux-saga/effects';
+import { fromJS } from 'immutable';
+import queryString from 'query-string';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import { REQUEST, success, failure } from './ducks';
+import { locationSelector } from '../../store/globalSelectors';
 
 export default function* () {
-  const watchRequest = yield takeLatest(REQUEST, requestSaga);
+  const requestWatcher = yield takeLatest(REQUEST, requestSaga);
 
   yield fork(requestSaga);
 
   yield take(LOCATION_CHANGE);
-  yield cancel(watchRequest);
+  yield cancel(requestWatcher);
 }
 
 export function* requestSaga() {
   const api = yield getContext('api');
+  const location = yield select(locationSelector);
+  const queryParams = queryString.parse(location.search);
 
   try {
-    const response = yield call(api.mentions.fetchMentions);
+    const response = yield call(api.mentions.fetchMentions, queryParams);
     yield put(success(fromJS(response)));
   } catch (error) {
     yield put(failure(error));

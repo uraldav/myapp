@@ -14,21 +14,17 @@ export default function configureStore(initialState = Map(), history) {
     },
   });
 
-  const middlewares = [
-    sagaMiddleware,
-    routerMiddleware(history),
-  ];
+  const middlewares = [sagaMiddleware, routerMiddleware(history)];
 
-  const enhancers = [
-    applyMiddleware(...middlewares),
-  ];
+  const enhancers = [applyMiddleware(...middlewares)];
 
   /* eslint-disable */
   const composeEnhancers =
     process.env.NODE_ENV !== 'production' &&
     typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      : compose;
   /* eslint-enable */
 
   const store = createStore(
@@ -39,6 +35,7 @@ export default function configureStore(initialState = Map(), history) {
 
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {};
+  store.injectedSagas = {};
 
   if (module.hot) {
     module.hot.accept('./createReducers', () => {

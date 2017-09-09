@@ -10,7 +10,7 @@ function NestedRoutes() {
         exact
         path="/"
         requireComponent={() => {
-          return import('../../containers/Mention/Main');
+          return import('../../containers/Mention');
         }}
       />
       <AsyncRoute
