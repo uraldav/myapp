@@ -1,23 +1,19 @@
 import React from 'react';
-import { func, object } from 'prop-types';
+import { object } from 'prop-types';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import { compose, withHandlers } from 'recompose';
+import { compose, pure } from 'recompose';
 import { AppContainer } from 'react-hot-loader';
 import { LocaleProvider } from 'antd';
 import ruRU from 'antd/lib/locale-provider/ru_RU';
 import AsyncRoute from './routing/AsyncRoute';
-import injectReducer from './utils/injectReducer';
-import injectSaga from './utils/injectSaga';
 
 Root.propTypes = {
   store: object.isRequired,
   history: object.isRequired,
-  setReducer: func.isRequired,
-  setSaga: func.isRequired,
 };
 
-function Root({ store, history, setReducer, setSaga }) {
+function Root({ store, history }) {
   return (
     <AppContainer>
       <Provider store={store}>
@@ -35,15 +31,6 @@ function Root({ store, history, setReducer, setSaga }) {
                 requireComponent={() => {
                   return import('./containers/Auth');
                 }}
-                onBeforeRender={() => {
-                  return Promise.all([
-                    import('./containers/Auth/ducks'),
-                    import('./containers/Auth/sagas'),
-                  ]).then(([reducer, saga]) => {
-                    setReducer('auth', reducer);
-                    setSaga(saga);
-                  });
-                }}
               />
             </div>
           </LocaleProvider>
@@ -53,9 +40,4 @@ function Root({ store, history, setReducer, setSaga }) {
   );
 }
 
-export default compose(
-  withHandlers({
-    setReducer: ({ store }) => injectReducer(store),
-    setSaga: ({ store }) => injectSaga(store),
-  }),
-)(Root);
+export default compose(pure)(Root);

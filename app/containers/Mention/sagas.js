@@ -3,18 +3,24 @@ import {
   fork,
   getContext,
   put,
+  take,
   takeLatest,
   select,
+  cancel,
 } from 'redux-saga/effects';
 import { fromJS } from 'immutable';
 import queryString from 'query-string';
+import { LOCATION_CHANGE } from 'react-router-redux';
 import { REQUEST, success, failure } from './ducks';
 import { locationSelector } from '../../store/globalSelectors';
 
 export default function* () {
-  yield takeLatest(REQUEST, requestSaga);
+  const requestWatcher = yield takeLatest(REQUEST, requestSaga);
 
   yield fork(requestSaga);
+
+  yield take(LOCATION_CHANGE);
+  yield cancel(requestWatcher);
 }
 
 export function* requestSaga() {

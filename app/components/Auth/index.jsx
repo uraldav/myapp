@@ -18,14 +18,7 @@ Auth.defaultProps = {
   loading: false,
 };
 
-function Auth ({
-  error,
-  loading,
-  submit,
-  form: {
-    getFieldDecorator,
-  },
-}) {
+function Auth({ error, loading, submit, form: { getFieldDecorator } }) {
   return (
     <div styleName="page">
       <div styleName="form">
@@ -53,17 +46,16 @@ function Auth ({
             })(<Input size="large" type="password" placeholder="Пароль" />)}
           </FormItem>
           <Row>
-            <Button type="primary" size="large" onClick={submit} loading={loading}>
+            <Button
+              type="primary"
+              size="large"
+              onClick={submit}
+              loading={loading}
+            >
               Войти
             </Button>
-            <p>
-              {
-                error &&
-                <div>{error}</div>
-              }
-            </p>
+            <p>{error && <div>{error}</div>}</p>
           </Row>
-
         </form>
       </div>
     </div>
