@@ -30,6 +30,12 @@ export const SAVE_TAG_INPUT_REQUEST = ducks.defineType(
 export const DELETE_TAG_INPUT_REQUEST = ducks.defineType(
   'DELETE_TAG_INPUT_REQUEST',
 );
+export const ADD_THEMATIC_INPUT = ducks.defineType('ADD_THEMATIC_INPUT');
+export const SAVE_THEMATIC_INPUT_REQUEST = ducks.defineType('SAVE_THEMATIC_INPUT_REQUEST');
+export const DELETE_THEMATIC_INPUT_REQUEST = ducks.defineType(
+  'DELETE_THEMATIC_INPUT_REQUET',
+);
+export const CHANGE_EDITABLE_INPUT_THEMATIC = ducks.defineType('CHANGE_EDITABLE_INPUT_THEMATIC');
 
 export const inputThematicsRequest = ducks.createAction(
   INPUT_THEMATICS_REQUEST,
@@ -54,6 +60,12 @@ export const saveTagInputRequest = ducks.createAction(SAVE_TAG_INPUT_REQUEST);
 export const deleteTagInputRequest = ducks.createAction(
   DELETE_TAG_INPUT_REQUEST,
 );
+export const addThematicInput = ducks.createAction(ADD_THEMATIC_INPUT);
+export const saveThematicInputRequest = ducks.createAction(SAVE_THEMATIC_INPUT_REQUEST);
+export const changeEditableInputThematic = ducks.createAction(CHANGE_EDITABLE_INPUT_THEMATIC);
+export const deleteThematicInputRequest = ducks.createAction(
+  DELETE_THEMATIC_INPUT_REQUEST,
+);
 
 const initialState = fromJS({
   loadingInputThematics: false,
@@ -61,11 +73,19 @@ const initialState = fromJS({
   editableCell: null,
   inputThematics: [],
   modelThematics: [],
+  editableInputThematic: null,
 });
 
 const emptyTag = {
   id: 0,
   word: '',
+};
+
+const emptyInputThematic = {
+  id: 0,
+  name: '',
+  words1: [],
+  words2: [],
 };
 
 export default ducks.createReducer(
@@ -125,6 +145,41 @@ export default ducks.createReducer(
             ),
         ),
       ),
+
+    [ADD_THEMATIC_INPUT]: state =>
+      state
+        .set('editableInputThematic', emptyInputThematic)
+        .updateIn(['inputThematics'], users =>
+          users.unshift(fromJS(emptyInputThematic)),
+        ),
+    [SAVE_THEMATIC_INPUT_REQUEST]: (state) => {
+      const editableInputThematic = state.get('editableInputThematic');
+      state = state.updateIn(['inputThematics'], users =>
+        users.update(
+          users.findIndex(user => user.get('id') === editableInputThematic.id),
+          user => user.merge(editableInputThematic),
+        ),
+      );
+      return state.set('editableInputThematic', null);
+    },
+    [CHANGE_EDITABLE_INPUT_THEMATIC]: (state, { payload }) => {
+      const record = state.get('editableInputThematic');
+      if (record && record.id === 0 && !payload) {
+        state = state.updateIn(['inputThematics'], thematics => thematics.shift());
+      }
+      return state.set('editableInputThematic', payload);
+    },
+    [DELETE_THEMATIC_INPUT_REQUEST]: (state, { payload }) => {
+      const editableUserRecord = state.get('editableInputThematic');
+      if (editableUserRecord && editableUserRecord.id === payload.id) {
+        state = state.set('editableInputThematic', null);
+      }
+      return state.updateIn(['inputThematics'], thematics =>
+        thematics.filterNot((thematic) => {
+          return thematic.get('id') === payload.id;
+        }),
+      );
+    },
   },
   initialState,
 );

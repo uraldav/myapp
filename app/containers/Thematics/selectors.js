@@ -7,6 +7,10 @@ export const editableCellSelector = createSelector(
   thematics => thematics.get('editableCell'),
 );
 
+export const editableInputThematicSelector = createSelector(
+  thematicsSelector,
+  thematics => thematics.get('editableInputThematic'),
+);
 
 export const inputThematicsSelector = createSelector(
   thematicsSelector,
