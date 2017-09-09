@@ -44,10 +44,10 @@ export function* deleteUserSaga() {
   }
 }
 
-export function* createUserSaga() {
+export function* createUserSaga(userRecord) {
   const api = yield getContext('api');
   try {
-    const response = yield call(api.users.createUser);
+    const response = yield call(api.users.createUser, userRecord);
     yield put(createSuccess(response));
   } catch (error) {
     yield put(createFailure);

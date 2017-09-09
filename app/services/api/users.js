@@ -9,7 +9,7 @@ export const deleteUser = () =>
   { method: 'DELETE' })
   .then(response => response.json());
 
-export const createUser = () =>
+export const createUser = (userRecord) =>
   fetch('/api/users',
   { method: 'POST' })
   .then(response => response.json());
