@@ -105,6 +105,7 @@ function InputThematics({
               onAddWord,
               onSaveWord,
               onDeleteWord,
+              editableThematic,
             ),
         },
         {
@@ -120,6 +121,7 @@ function InputThematics({
               onAddWord,
               onSaveWord,
               onDeleteWord,
+              editableThematic,
             ),
         },
         {
@@ -180,6 +182,7 @@ function renderCellWithTags(
   onAddWord,
   onSaveWord,
   onDeleteWord,
+  editableThematic,
 ) {
   return (
     <span styleName="tags-cell">
@@ -190,7 +193,10 @@ function renderCellWithTags(
             key={tag.id}
             onConfirm={() => onDeleteWord({ field, recordId, word: tag.word })}
           >
-            <Tag closable onClose={e => e.preventDefault()}>
+            <Tag
+              closable={!(editableThematic && editableThematic.id === recordId)}
+              onClose={e => e.preventDefault()}
+            >
               {tag.word}
             </Tag>
           </Popconfirm>
@@ -212,7 +218,9 @@ function renderCellWithTags(
         <Button
           size="small"
           type="dashed"
+          styleName="add-button"
           onClick={() => onAddWord({ field, recordId })}
+          disabled={editableThematic && editableThematic.id === recordId}
         >
           + Добавить
         </Button>
