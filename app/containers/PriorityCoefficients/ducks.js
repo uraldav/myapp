@@ -3,35 +3,29 @@
 import { createDuck } from 'redux-duck';
 import { fromJS } from 'immutable';
 
-const ducks = createDuck('Users');
+const ducks = createDuck('PriorityCoefficients');
 
 export const REQUEST = ducks.defineType('REQUEST');
 export const REQUEST_SUCCESS = ducks.defineType('REQUEST_SUCCESS');
 export const REQUEST_FAILURE = ducks.defineType('REQUEST_FAILURE');
-export const ADD_USER = ducks.defineType('ADD_USER');
 export const CHANGE_EDITABLE_USER_RECORD = ducks.defineType(
   'CHANGE_EDITABLE_USER_RECORD',
 );
-export const DELETE_REQUEST = ducks.defineType('DELETE_REQUEST');
 export const SAVE_REQUEST = ducks.defineType('SAVE_REQUEST');
 
 export const request = ducks.createAction(REQUEST);
 export const requestSuccess = ducks.createAction(REQUEST_SUCCESS);
 export const requestFailure = ducks.createAction(REQUEST_FAILURE);
-export const addUser = ducks.createAction(ADD_USER);
 export const changeEditableUserRecord = ducks.createAction(
   CHANGE_EDITABLE_USER_RECORD,
 );
-export const deleteUserRequest = ducks.createAction(DELETE_REQUEST);
 export const saveUserRequest = ducks.createAction(SAVE_REQUEST);
 
 const emptyUserRecord = {
   id: 0,
-  name: '',
-  login: '',
-  position: '',
-  email: '',
-  userRole: '',
+  metrics: '',
+  formulas: 0,
+  attention: 0,
 };
 
 const initialState = fromJS({
@@ -49,28 +43,8 @@ export default ducks.createReducer(
     },
     [REQUEST_FAILURE]: (state, { payload }) =>
       state.setIn(['error'], payload).setIn(['loading'], false),
-    [ADD_USER]: state =>
-      state
-        .set('editableUserRecord', emptyUserRecord)
-        .updateIn(['data'], users => users.unshift(fromJS(emptyUserRecord))),
-    [CHANGE_EDITABLE_USER_RECORD]: (state, { payload }) => {
-      const record = state.get('editableUserRecord');
-      if (record && record.id === 0 && !payload) {
-        state = state.updateIn(['data'], users => users.shift());
-      }
-      return state.set('editableUserRecord', payload);
-    },
-    [DELETE_REQUEST]: (state, { payload }) => {
-      const editableUserRecord = state.get('editableUserRecord');
-      if (editableUserRecord && editableUserRecord.id === payload.id) {
-        state = state.set('editableUserRecord', null);
-      }
-      return state.updateIn(['data'], users =>
-        users.filterNot((user) => {
-          return user.get('id') === payload.id;
-        }),
-      );
-    },
+    [CHANGE_EDITABLE_USER_RECORD]: (state, { payload }) =>
+      state.set('editableUserRecord', payload),
     [SAVE_REQUEST]: (state) => {
       const editableUserRecord = state.get('editableUserRecord');
       state = state.updateIn(['data'], users =>
