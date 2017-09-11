@@ -130,7 +130,6 @@ export default ducks.createReducer(
           ),
         );
       }
-      if ()
       return state.set('editableCell', null);
     },
 
