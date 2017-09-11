@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
 import injectReducer from '../../utils/injectReducer';
 import injectSaga from '../../utils/injectSaga';
-import UsersComponent from '../../components/Users/Users';
+import PriorityCoefficients from '../../components/PriorityCoefficients';
 import { editableUserRecordSelector, dataSelector } from './selectors';
 import {
   addUser,
@@ -41,4 +41,4 @@ export default compose(
   ),
   connect(mapStateToProps, mapDispatchToProps),
   pure,
-)(UsersComponent);
+)(PriorityCoefficients);
