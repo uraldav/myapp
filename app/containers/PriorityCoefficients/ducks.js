@@ -47,10 +47,10 @@ export default ducks.createReducer(
       state.set('editableUserRecord', payload),
     [SAVE_REQUEST]: (state) => {
       const editableUserRecord = state.get('editableUserRecord');
-      state = state.updateIn(['data'], users =>
-        users.update(
-          users.findIndex(user => user.get('id') === editableUserRecord.id),
-          user => user.merge(editableUserRecord),
+      state = state.updateIn(['data'], priorityCoefficients =>
+      priorityCoefficients.update(
+        priorityCoefficients.findIndex(x => x.get('id') === editableUserRecord.id),
+          x => x.merge(editableUserRecord),
         ),
       );
       return state.set('editableUserRecord', null);

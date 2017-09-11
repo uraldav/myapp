@@ -16,7 +16,8 @@ const recordShape = shape({
 PriorityCoefficients.propTypes = {
   editableUserRecord: recordShape,
   data: arrayOf(recordShape),
-  onChangeEditableRecord: func.isRequired, /* eslint react/no-unused-prop-types: 0 */
+  onChangeEditableRecord:
+    func.isRequired /* eslint react/no-unused-prop-types: 0 */,
   onSave: func.isRequired,
   onAdd: func.isRequired,
   onDelete: func.isRequired,
@@ -42,16 +43,7 @@ function PriorityCoefficients({
 }) {
   return (
     <Card
-      title={
-        <Button
-          type="primary"
-          icon="plus"
-          disabled={editableUserRecord !== null}
-          onClick={onAdd}
-        >
-          Добавить
-        </Button>
-      }
+      title=" "
       extra={
         <Input.Search
           placeholder="Поиск"
@@ -68,18 +60,30 @@ function PriorityCoefficients({
             title: 'Метрика',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
-              renderCell(index, 'metrics', record, editableUserRecord, handleCellChange),
+              renderCell(
+                index,
+                'metrics',
+                record,
+                editableUserRecord,
+                handleCellChange,
+              ),
           },
           {
             title: 'Для формулы приоритезации',
-            width: '12%',
+            width: '20%',
             sorter: (a, b) => a.login.localeCompare(b.login),
             render: (text, record, index) =>
-              renderCell(index, 'formulas', record, editableUserRecord, handleCellChange),
+              renderCell(
+                index,
+                'formulas',
+                record,
+                editableUserRecord,
+                handleCellChange,
+              ),
           },
           {
             title: 'Для ленты "Требуют внимания"',
-            width: '17%',
+            width: '20%',
             sorter: (a, b) => a.position.localeCompare(b.position),
             render: (text, record, index) =>
               renderCell(
@@ -120,17 +124,6 @@ function PriorityCoefficients({
                       />
                     </span>
                   )}
-                  <span className="ant-divider" />
-                  <Button
-                    icon="delete"
-                    onClick={() =>
-                      Modal.confirm({
-                        title: 'Удалить пользователя?',
-                        content: `Вы уверены, что хотите удалить пользователя  ${record.name}?`,
-                        iconType: 'exclamation-circle',
-                        onOk: () => Promise.resolve(onDelete(record)),
-                      })}
-                  />
                 </span>
               );
             },
@@ -141,8 +134,15 @@ function PriorityCoefficients({
   );
 }
 
-function renderCell(index, field, record, editableUserRecord, handleCellChange) {
-  const isEditableCell = editableUserRecord !== null && editableUserRecord.id === record.id;
+function renderCell(
+  index,
+  field,
+  record,
+  editableUserRecord,
+  handleCellChange,
+) {
+  const isEditableCell =
+    editableUserRecord !== null && editableUserRecord.id === record.id;
 
   if (isEditableCell) {
     return (
@@ -158,10 +158,15 @@ function renderCell(index, field, record, editableUserRecord, handleCellChange) 
 
 export default compose(
   withHandlers({
-    handleCellChange: ({ onChangeEditableRecord, editableUserRecord }) => (field, index, value) =>
-      onChangeEditableRecord({ ...editableUserRecord, [field]: value }),
-    handleEdit: ({ onChangeEditableRecord }) => record => onChangeEditableRecord(record),
-    handleCancel: ({ onChangeEditableRecord }) => () => onChangeEditableRecord(null),
+    handleCellChange: ({ onChangeEditableRecord, editableUserRecord }) => (
+      field,
+      index,
+      value,
+    ) => onChangeEditableRecord({ ...editableUserRecord, [field]: value }),
+    handleEdit: ({ onChangeEditableRecord }) => record =>
+      onChangeEditableRecord(record),
+    handleCancel: ({ onChangeEditableRecord }) => () =>
+      onChangeEditableRecord(null),
   }),
   pure,
 )(PriorityCoefficients);
