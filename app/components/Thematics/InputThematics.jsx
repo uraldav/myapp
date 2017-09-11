@@ -188,20 +188,22 @@ function renderCellWithTags(
   return (
     <span styleName="tags-cell">
       {tags &&
-        tags.map(tag => (
-          <Popconfirm
-            title={`Удалить тег ${tag.word}?`}
-            key={tag.id}
-            onConfirm={() => onDeleteWord({ field, recordId, word: tag.word })}
-          >
-            <Tag
-              closable={!(editableThematic && editableThematic.id === recordId)}
-              onClose={e => e.preventDefault()}
+        tags.map((tag) => {
+          return editableThematic && editableThematic.id === recordId ? (
+            <Tag key={tag.id}>{tag.word}</Tag>
+          ) : (
+            <Popconfirm
+              title={`Удалить тег ${tag.word}?`}
+              key={tag.id}
+              onConfirm={() =>
+                onDeleteWord({ field, recordId, word: tag.word })}
             >
-              {tag.word}
-            </Tag>
-          </Popconfirm>
-        ))}
+              <Tag closable onClose={e => e.preventDefault()}>
+                {tag.word}
+              </Tag>
+            </Popconfirm>
+          );
+        })}
       {editableCell !== null &&
       editableCell.field === field &&
       editableCell.recordId === recordId ? (

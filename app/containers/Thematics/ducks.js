@@ -31,11 +31,15 @@ export const DELETE_TAG_INPUT_REQUEST = ducks.defineType(
   'DELETE_TAG_INPUT_REQUEST',
 );
 export const ADD_THEMATIC_INPUT = ducks.defineType('ADD_THEMATIC_INPUT');
-export const SAVE_THEMATIC_INPUT_REQUEST = ducks.defineType('SAVE_THEMATIC_INPUT_REQUEST');
+export const SAVE_THEMATIC_INPUT_REQUEST = ducks.defineType(
+  'SAVE_THEMATIC_INPUT_REQUEST',
+);
 export const DELETE_THEMATIC_INPUT_REQUEST = ducks.defineType(
   'DELETE_THEMATIC_INPUT_REQUET',
 );
-export const CHANGE_EDITABLE_INPUT_THEMATIC = ducks.defineType('CHANGE_EDITABLE_INPUT_THEMATIC');
+export const CHANGE_EDITABLE_INPUT_THEMATIC = ducks.defineType(
+  'CHANGE_EDITABLE_INPUT_THEMATIC',
+);
 
 export const inputThematicsRequest = ducks.createAction(
   INPUT_THEMATICS_REQUEST,
@@ -61,8 +65,12 @@ export const deleteTagInputRequest = ducks.createAction(
   DELETE_TAG_INPUT_REQUEST,
 );
 export const addThematicInput = ducks.createAction(ADD_THEMATIC_INPUT);
-export const saveThematicInputRequest = ducks.createAction(SAVE_THEMATIC_INPUT_REQUEST);
-export const changeEditableInputThematic = ducks.createAction(CHANGE_EDITABLE_INPUT_THEMATIC);
+export const saveThematicInputRequest = ducks.createAction(
+  SAVE_THEMATIC_INPUT_REQUEST,
+);
+export const changeEditableInputThematic = ducks.createAction(
+  CHANGE_EDITABLE_INPUT_THEMATIC,
+);
 export const deleteThematicInputRequest = ducks.createAction(
   DELETE_THEMATIC_INPUT_REQUEST,
 );
@@ -165,13 +173,18 @@ export default ducks.createReducer(
     [CHANGE_EDITABLE_INPUT_THEMATIC]: (state, { payload }) => {
       const record = state.get('editableInputThematic');
       if (record && record.id === 0 && !payload) {
-        state = state.updateIn(['inputThematics'], thematics => thematics.shift());
+        state = state.updateIn(['inputThematics'], thematics =>
+          thematics.shift(),
+        );
       }
       return state.set('editableInputThematic', payload);
     },
     [DELETE_THEMATIC_INPUT_REQUEST]: (state, { payload }) => {
       const editableInputThematicRecord = state.get('editableInputThematic');
-      if (editableInputThematicRecord && editableInputThematicRecord.id === payload.id) {
+      if (
+        editableInputThematicRecord &&
+        editableInputThematicRecord.id === payload.id
+      ) {
         state = state.set('editableInputThematic', null);
       }
       return state.updateIn(['inputThematics'], thematics =>
