@@ -25,6 +25,12 @@ function NestedRoutes() {
           return import('../../containers/Thematics');
         }}
       />
+      <AsyncRoute
+        path="/priority_coefficients"
+        requireComponent={() => {
+          return import('../../containers/PriorityCoefficients');
+        }}
+      />
     </div>
   );
 }
