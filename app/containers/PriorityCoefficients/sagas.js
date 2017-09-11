@@ -19,7 +19,7 @@ export function* requestSaga() {
   const api = yield getContext('api');
 
   try {
-    const response = yield call(api.users.fetchUsers);
+    const response = yield call(api.priorityCoefficients.fetchPriorityCoefficients);
     yield put(requestSuccess(response));
   } catch (error) {
     yield put(requestFailure(error));

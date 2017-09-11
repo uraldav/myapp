@@ -35,7 +35,7 @@ export default compose(
       import('./ducks'),
       import('./sagas'),
     ]).then(([reducer, saga]) => {
-      injectReducer(store, 'users', reducer);
+      injectReducer(store, 'priorityCoefficients', reducer);
       injectSaga(store, saga);
     }),
   ),

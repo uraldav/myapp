@@ -4,18 +4,16 @@ import { compose, pure, withHandlers } from 'recompose';
 import { Input, Card, Button, Modal, Popconfirm, Table } from 'antd';
 import { path } from 'ramda';
 import EditableCell from '../ui/Table/EditableCell';
-import './Users.less';
+import './index.less';
 
 const recordShape = shape({
   id: number,
-  name: string,
-  login: string,
-  position: string,
-  email: string,
-  userRole: object,
+  metrics: string,
+  formulas: number,
+  attention: number,
 });
 
-Users.propTypes = {
+PriorityCoefficients.propTypes = {
   editableUserRecord: recordShape,
   data: arrayOf(recordShape),
   onChangeEditableRecord: func.isRequired, /* eslint react/no-unused-prop-types: 0 */
@@ -27,12 +25,12 @@ Users.propTypes = {
   handleCancel: func.isRequired,
 };
 
-Users.defaultProps = {
+PriorityCoefficients.defaultProps = {
   data: [],
   editableUserRecord: null,
 };
 
-function Users({
+function PriorityCoefficients({
   data,
   editableUserRecord,
   onSave,
@@ -67,44 +65,30 @@ function Users({
         styleName="table"
         columns={[
           {
-            title: 'ФИО',
+            title: 'Метрика',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
-              renderCell(index, 'name', record, editableUserRecord, handleCellChange),
+              renderCell(index, 'metrics', record, editableUserRecord, handleCellChange),
           },
           {
-            title: 'Логин',
+            title: 'Для формулы приоритезации',
             width: '12%',
             sorter: (a, b) => a.login.localeCompare(b.login),
             render: (text, record, index) =>
-              renderCell(index, 'login', record, editableUserRecord, handleCellChange),
+              renderCell(index, 'formulas', record, editableUserRecord, handleCellChange),
           },
           {
-            title: 'Должность',
+            title: 'Для ленты "Требуют внимания"',
             width: '17%',
             sorter: (a, b) => a.position.localeCompare(b.position),
             render: (text, record, index) =>
               renderCell(
                 index,
-                'position',
+                'attention',
                 record,
                 editableUserRecord,
                 handleCellChange,
               ),
-          },
-          {
-            title: 'E-mail',
-            width: '17%',
-            sorter: (a, b) => a.mail.localeCompare(b.mail),
-            render: (text, record, index) =>
-              renderCell(index, 'email', record, editableUserRecord, handleCellChange),
-          },
-          {
-            title: 'Роль',
-            width: '12%',
-            sorter: (a, b) => a.role.localeCompare(b.role),
-            render: (text, record, index) =>
-              renderCell(index, 'userRole', record, editableUserRecord, handleCellChange),
           },
           {
             title: '',
@@ -180,4 +164,4 @@ export default compose(
     handleCancel: ({ onChangeEditableRecord }) => () => onChangeEditableRecord(null),
   }),
   pure,
-)(Users);
+)(PriorityCoefficients);

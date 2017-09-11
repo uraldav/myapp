@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
 
-export const usersSelector = state => state.getIn(['users']);
+export const priorityCoefficientsSelector = state => state.getIn(['priorityCoefficients']);
 
 export const dataSelector = createSelector(
-  usersSelector,
-  users => users.get('data').toJS(),
+  priorityCoefficientsSelector,
+  priorityCoefficients => priorityCoefficients.get('data').toJS(),
 );
 
 export const editableUserRecordSelector = createSelector(
-  usersSelector,
-  mentions => mentions.getIn(['editableUserRecord']),
+  priorityCoefficientsSelector,
+  priorityCoefficients => priorityCoefficients.getIn(['editableUserRecord']),
 );
