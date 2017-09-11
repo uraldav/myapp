@@ -130,6 +130,7 @@ export default ducks.createReducer(
           ),
         );
       }
+      if ()
       return state.set('editableCell', null);
     },
 
@@ -170,8 +171,8 @@ export default ducks.createReducer(
       return state.set('editableInputThematic', payload);
     },
     [DELETE_THEMATIC_INPUT_REQUEST]: (state, { payload }) => {
-      const editableUserRecord = state.get('editableInputThematic');
-      if (editableUserRecord && editableUserRecord.id === payload.id) {
+      const editableInputThematicRecord = state.get('editableInputThematic');
+      if (editableInputThematicRecord && editableInputThematicRecord.id === payload.id) {
         state = state.set('editableInputThematic', null);
       }
       return state.updateIn(['inputThematics'], thematics =>

@@ -83,6 +83,7 @@ function InputThematics({
             if (isEditableCell) {
               return (
                 <EditableCell
+                  autoFocus
                   editable
                   value={path('name'.split('.'), editableThematic)}
                   onChange={value => handleCellChange('name', index, value)}
