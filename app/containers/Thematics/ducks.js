@@ -41,6 +41,24 @@ export const CHANGE_EDITABLE_INPUT_THEMATIC = ducks.defineType(
   'CHANGE_EDITABLE_INPUT_THEMATIC',
 );
 
+export const ADD_TAG_MODEL_REQUEST = ducks.defineType('ADD_TAG_MODEL_REQUEST');
+export const SAVE_TAG_MODEL_REQUEST = ducks.defineType(
+  'SAVE_TAG_MODEL_REQUEST',
+);
+export const DELETE_TAG_MODEL_REQUEST = ducks.defineType(
+  'DELETE_TAG_MODEL_REQUEST',
+);
+export const ADD_THEMATIC_MODEL = ducks.defineType('ADD_THEMATIC_MODEL');
+export const SAVE_THEMATIC_MODEL_REQUEST = ducks.defineType(
+  'SAVE_THEMATIC_MODEL_REQUEST',
+);
+export const DELETE_THEMATIC_MODEL_REQUEST = ducks.defineType(
+  'DELETE_THEMATIC_MODEL_REQUET',
+);
+export const CHANGE_EDITABLE_MODEL_THEMATIC = ducks.defineType(
+  'CHANGE_EDITABLE_MODEL_THEMATIC',
+);
+
 export const inputThematicsRequest = ducks.createAction(
   INPUT_THEMATICS_REQUEST,
 );
@@ -75,13 +93,31 @@ export const deleteThematicInputRequest = ducks.createAction(
   DELETE_THEMATIC_INPUT_REQUEST,
 );
 
+export const addTagModelRequest = ducks.createAction(ADD_TAG_MODEL_REQUEST);
+export const saveTagModelRequest = ducks.createAction(SAVE_TAG_MODEL_REQUEST);
+export const deleteTagModelRequest = ducks.createAction(
+  DELETE_TAG_MODEL_REQUEST,
+);
+export const addThematicModel = ducks.createAction(ADD_THEMATIC_MODEL);
+export const saveThematicModelRequest = ducks.createAction(
+  SAVE_THEMATIC_MODEL_REQUEST,
+);
+export const changeEditableModelThematic = ducks.createAction(
+  CHANGE_EDITABLE_MODEL_THEMATIC,
+);
+export const deleteThematicModelRequest = ducks.createAction(
+  DELETE_THEMATIC_MODEL_REQUEST,
+);
+
 const initialState = fromJS({
   loadingInputThematics: false,
   loadingModelThematics: false,
-  editableCell: null,
+  editableInputCell: null,
+  editableModelCell: null,
   inputThematics: [],
   modelThematics: [],
   editableInputThematic: null,
+  editableModelThematic: null,
 });
 
 const emptyTag = {
@@ -90,6 +126,13 @@ const emptyTag = {
 };
 
 const emptyInputThematic = {
+  id: 0,
+  name: '',
+  words1: [],
+  words2: [],
+};
+
+const emptyModelThematic = {
   id: 0,
   name: '',
   words1: [],
@@ -119,7 +162,7 @@ export default ducks.createReducer(
       state.setIn(['error'], payload).setIn(['loadingModelThematics'], false),
 
     [ADD_TAG_INPUT_REQUEST]: (state, { payload }) =>
-      (state = state.set('editableCell', {
+      (state = state.set('editableInputCell', {
         field: payload.field,
         recordId: payload.recordId,
       })),
@@ -138,7 +181,7 @@ export default ducks.createReducer(
           ),
         );
       }
-      return state.set('editableCell', null);
+      return state.set('editableInputCell', null);
     },
 
     [DELETE_TAG_INPUT_REQUEST]: (state, { payload }) =>
@@ -188,6 +231,82 @@ export default ducks.createReducer(
         state = state.set('editableInputThematic', null);
       }
       return state.updateIn(['inputThematics'], thematics =>
+        thematics.filterNot((thematic) => {
+          return thematic.get('id') === payload.id;
+        }),
+      );
+    },
+
+    [ADD_TAG_MODEL_REQUEST]: (state, { payload }) =>
+      (state = state.set('editableModelCell', {
+        field: payload.field,
+        recordId: payload.recordId,
+      })),
+
+    [SAVE_TAG_MODEL_REQUEST]: (state, { payload }) => {
+      if (payload.value) {
+        state = state.updateIn(['modelThematics'], thematics =>
+          thematics.update(
+            thematics.findIndex(
+              thematic => thematic.get('id') === payload.recordId,
+            ),
+            thematic =>
+              thematic.updateIn([payload.field], tags =>
+                tags.push(fromJS({ id: 0, word: payload.value })),
+              ),
+          ),
+        );
+      }
+      return state.set('editableModelCell', null);
+    },
+
+    [DELETE_TAG_MODEL_REQUEST]: (state, { payload }) =>
+      state.updateIn(['modelThematics'], thematics =>
+        thematics.update(
+          thematics.findIndex(
+            thematic => thematic.get('id') === payload.recordId,
+          ),
+          thematic =>
+            thematic.updateIn([payload.field], tags =>
+              tags.filterNot(tag => tag.get('word') === payload.word),
+            ),
+        ),
+      ),
+
+    [ADD_THEMATIC_MODEL]: state =>
+      state
+        .set('editableModelThematic', emptyModelThematic)
+        .updateIn(['modelThematics'], users =>
+          users.unshift(fromJS(emptyModelThematic)),
+        ),
+    [SAVE_THEMATIC_MODEL_REQUEST]: (state) => {
+      const editableModelThematic = state.get('editableModelThematic');
+      state = state.updateIn(['modelThematics'], users =>
+        users.update(
+          users.findIndex(user => user.get('id') === editableModelThematic.id),
+          user => user.merge(editableModelThematic),
+        ),
+      );
+      return state.set('editableModelThematic', null);
+    },
+    [CHANGE_EDITABLE_MODEL_THEMATIC]: (state, { payload }) => {
+      const record = state.get('editableModelThematic');
+      if (record && record.id === 0 && !payload) {
+        state = state.updateIn(['modelThematics'], thematics =>
+          thematics.shift(),
+        );
+      }
+      return state.set('editableModelThematic', payload);
+    },
+    [DELETE_THEMATIC_MODEL_REQUEST]: (state, { payload }) => {
+      const editableModelThematicRecord = state.get('editableModelThematic');
+      if (
+        editableModelThematicRecord &&
+        editableModelThematicRecord.id === payload.id
+      ) {
+        state = state.set('editableModelThematic', null);
+      }
+      return state.updateIn(['modelThematics'], thematics =>
         thematics.filterNot((thematic) => {
           return thematic.get('id') === payload.id;
         }),
