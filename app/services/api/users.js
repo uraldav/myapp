@@ -1,5 +1,8 @@
 const fetchUsers = axios => () =>
-  axios.get('/api/users').then(({ data }) => data.map(mapUserFromResponse));
+  axios
+    .get('/api/users')
+    .then(({ data }) => ({ response: data.map(mapUserFromResponse) }))
+    .catch(error => ({ error }));
 
 const deleteUser = axios => userRecord =>
   axios
