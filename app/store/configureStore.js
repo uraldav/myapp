@@ -3,13 +3,16 @@ import { Map } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './createReducers';
-import * as api from '../services/api';
+import api from '../services/api';
 import cookie from '../services/cookie';
+import createAxios from '../services/api/createAxios';
 
 export default function configureStore(initialState = Map(), history) {
+  const axios = createAxios(cookie);
+
   const sagaMiddleware = createSagaMiddleware({
     context: {
-      api,
+      api: api(axios),
       cookie,
     },
   });

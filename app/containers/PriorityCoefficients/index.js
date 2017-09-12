@@ -6,24 +6,17 @@ import withAsyncDependencies from '../../utils/withAsyncDependencies';
 import injectReducer from '../../utils/injectReducer';
 import injectSaga from '../../utils/injectSaga';
 import PriorityCoefficients from '../../components/PriorityCoefficients';
-import { editableUserRecordSelector, dataSelector } from './selectors';
-import {
-  addUser,
-  changeEditableUserRecord,
-  deleteUserRequest,
-  saveUserRequest,
-} from './ducks';
+import { editableRecordSelector, dataSelector } from './selectors';
+import { changeEditableRecord, saveRequest } from './ducks';
 
 const mapStateToProps = createStructuredSelector({
-  editableUserRecord: editableUserRecordSelector,
+  editableRecord: editableRecordSelector,
   data: dataSelector,
 });
 
 const mapDispatchToProps = {
-  onChangeEditableRecord: changeEditableUserRecord,
-  onAdd: addUser,
-  onDelete: deleteUserRequest,
-  onSave: saveUserRequest,
+  onChangeEditableRecord: changeEditableRecord,
+  onSave: saveRequest,
 };
 
 export default compose(

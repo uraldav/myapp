@@ -10,8 +10,8 @@ import { editableUserRecordSelector, dataSelector } from './selectors';
 import {
   addUser,
   changeEditableUserRecord,
-  deleteUserRequest,
-  saveUserRequest,
+  deleteRequest,
+  saveRequest,
 } from './ducks';
 
 const mapStateToProps = createStructuredSelector({
@@ -22,8 +22,8 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = {
   onChangeEditableRecord: changeEditableUserRecord,
   onAdd: addUser,
-  onDelete: deleteUserRequest,
-  onSave: saveUserRequest,
+  onDelete: deleteRequest,
+  onSave: saveRequest,
 };
 
 export default compose(

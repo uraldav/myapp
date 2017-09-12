@@ -1,9 +1,10 @@
-export const fetchInputThematics = () =>
-  fetch('/api/input_thematics',
-    { method: 'GET' })
-    .then(response => response.json());
+const fetchInputThematics = axios => () =>
+  axios('/api/input_thematics').then(({ data }) => data);
 
-export const fetchModelThematics = () =>
-  fetch('/api/model_thematics',
-    { method: 'GET' })
-    .then(response => response.json());
+const fetchModelThematics = axios => () =>
+  axios('/api/model_thematics').then(({ data }) => data);
+
+export default axios => ({
+  fetchInputThematics: fetchInputThematics(axios),
+  fetchModelThematics: fetchModelThematics(axios),
+});
