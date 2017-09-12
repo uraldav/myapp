@@ -6,5 +6,7 @@ module.exports = () => {
     users: require('./users')(),
     input_thematics: require('./input_thematics')(),
     model_thematics: require('./model_thematics')(),
+    user_roles: require('./user_roles')(),
+    permissions: require('./permissions')(),
   };
 };
