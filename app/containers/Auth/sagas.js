@@ -1,17 +1,22 @@
-import { call, cancel, fork, getContext, put, take, takeLatest, select } from 'redux-saga/effects';
+import {
+  call,
+  cancel,
+  fork,
+  getContext,
+  put,
+  take,
+  takeLatest,
+  select,
+} from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { loginSelector, passwordSelector } from './selectors';
-import {
-  REQUEST,
-  success,
-  failure,
-} from './ducks';
+import { REQUEST, success, failure } from './ducks';
 
 export default function* () {
   const cookie = yield getContext('cookie');
   const watchRequest = yield takeLatest(REQUEST, requestSaga);
 
-  if (cookie.get('token')) {
+  if (cookie.get('Authorization')) {
     yield fork(restoreUserData);
   }
   yield take(LOCATION_CHANGE);
@@ -25,7 +30,7 @@ export function* requestSaga() {
   const password = yield select(passwordSelector);
   try {
     const response = yield call(api.auth.authorize, login, password);
-    cookie.set('token', response.token);
+    cookie.set('Authorization', response.token);
     yield put(success(response));
   } catch (error) {
     yield put(failure(error));
@@ -36,10 +41,12 @@ export function* restoreUserData() {
   const api = yield getContext('api');
   const cookie = yield getContext('cookie');
   try {
-    const response = yield call(api.auth.fetchUserData, cookie.get('token'));
+    const response = yield call(
+      api.auth.fetchUserData,
+      cookie.get('Authorization'),
+    );
     yield put(success(response));
   } catch (error) {
     yield put(failure(error));
   }
 }
-
