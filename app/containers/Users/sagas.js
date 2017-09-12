@@ -1,21 +1,32 @@
-import { call, cancel, fork, getContext, put, take, takeLatest } from 'redux-saga/effects';
+import {
+  call,
+  cancel,
+  fork,
+  getContext,
+  put,
+  take,
+  takeLatest,
+  select,
+} from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   REQUEST,
   DELETE_REQUEST,
-  CREATE_REQUEST,
+  SAVE_REQUEST,
+  request,
   requestSuccess,
   requestFailure,
   deleteSuccess,
   deleteFailure,
-  createSuccess,
-  createFailure,
+  saveSuccess,
+  saveFailure,
 } from './ducks';
+import { editableUserRecordSelector } from './selectors';
 
 export default function* () {
   const watchRequest = yield takeLatest(REQUEST, requestSaga);
   const watchDeleteRequest = yield takeLatest(DELETE_REQUEST, deleteUserSaga);
-  const watchCreateRequest = yield takeLatest(CREATE_REQUEST, deleteUserSaga);
+  const watchCreateRequest = yield takeLatest(SAVE_REQUEST, saveUserSaga);
   yield fork(requestSaga);
 
   yield take(LOCATION_CHANGE);
@@ -33,23 +44,28 @@ export function* requestSaga() {
   }
 }
 
-
-export function* deleteUserSaga() {
+export function* deleteUserSaga({ payload }) {
   const api = yield getContext('api');
-  try {
-    const response = yield call(api.users.deleteUsers);
+  const { response, error } = yield call(api.users.deleteUser, payload);
+
+  if (response) {
     yield put(deleteSuccess(response));
-  } catch (error) {
+    yield put(request());
+  } else {
     yield put(deleteFailure(error));
   }
 }
 
-export function* createUserSaga(userRecord) {
+export function* saveUserSaga() {
   const api = yield getContext('api');
-  try {
-    const response = yield call(api.users.createUser, userRecord);
-    yield put(createSuccess(response));
-  } catch (error) {
-    yield put(createFailure);
+  const userRecord = yield select(editableUserRecordSelector);
+
+  const { response, error } = yield call(api.users.saveUser, userRecord);
+
+  if (response) {
+    yield put(saveSuccess(response));
+    yield put(request());
+  } else {
+    yield put(saveFailure(error));
   }
 }
