@@ -14,13 +14,11 @@ const recordShape = shape({
 });
 
 PriorityCoefficients.propTypes = {
-  editableUserRecord: recordShape,
+  editableRecord: recordShape,
   data: arrayOf(recordShape),
   onChangeEditableRecord:
     func.isRequired /* eslint react/no-unused-prop-types: 0 */,
   onSave: func.isRequired,
-  onAdd: func.isRequired,
-  onDelete: func.isRequired,
   handleEdit: func.isRequired,
   handleCellChange: func.isRequired,
   handleCancel: func.isRequired,
@@ -28,15 +26,13 @@ PriorityCoefficients.propTypes = {
 
 PriorityCoefficients.defaultProps = {
   data: [],
-  editableUserRecord: null,
+  editableRecord: null,
 };
 
 function PriorityCoefficients({
   data,
-  editableUserRecord,
+  editableRecord,
   onSave,
-  onAdd,
-  onDelete,
   handleCancel,
   handleCellChange,
   handleEdit,
@@ -64,7 +60,7 @@ function PriorityCoefficients({
                 index,
                 'metrics',
                 record,
-                editableUserRecord,
+                editableRecord,
                 handleCellChange,
               ),
           },
@@ -77,7 +73,7 @@ function PriorityCoefficients({
                 index,
                 'formulas',
                 record,
-                editableUserRecord,
+                editableRecord,
                 handleCellChange,
               ),
           },
@@ -90,7 +86,7 @@ function PriorityCoefficients({
                 index,
                 'attention',
                 record,
-                editableUserRecord,
+                editableRecord,
                 handleCellChange,
               ),
           },
@@ -99,11 +95,10 @@ function PriorityCoefficients({
             key: 'operation',
             width: '120px',
             fixed: 'right',
-
             render: (text, record) => {
               return (
                 <span styleName="action-button-wrapper">
-                  {editableUserRecord && editableUserRecord.id === record.id ? (
+                  {editableRecord && editableRecord.id === record.id ? (
                     <span>
                       <Button.Group>
                         <Button icon="save" onClick={onSave} />
@@ -119,7 +114,7 @@ function PriorityCoefficients({
                     <span>
                       <Button
                         icon="edit"
-                        disabled={editableUserRecord !== null}
+                        disabled={editableRecord !== null}
                         onClick={() => handleEdit(record)}
                       />
                     </span>
@@ -138,17 +133,17 @@ function renderCell(
   index,
   field,
   record,
-  editableUserRecord,
+  editableRecord,
   handleCellChange,
 ) {
   const isEditableCell =
-    editableUserRecord !== null && editableUserRecord.id === record.id;
+    editableRecord !== null && editableRecord.id === record.id;
 
   if (isEditableCell) {
     return (
       <EditableCell
         editable
-        value={path(field.split('.'), editableUserRecord)}
+        value={path(field.split('.'), editableRecord)}
         onChange={value => handleCellChange(field, index, value)}
       />
     );
@@ -158,11 +153,11 @@ function renderCell(
 
 export default compose(
   withHandlers({
-    handleCellChange: ({ onChangeEditableRecord, editableUserRecord }) => (
+    handleCellChange: ({ onChangeEditableRecord, editableRecord }) => (
       field,
       index,
       value,
-    ) => onChangeEditableRecord({ ...editableUserRecord, [field]: value }),
+    ) => onChangeEditableRecord({ ...editableRecord, [field]: value }),
     handleEdit: ({ onChangeEditableRecord }) => record =>
       onChangeEditableRecord(record),
     handleCancel: ({ onChangeEditableRecord }) => () =>
