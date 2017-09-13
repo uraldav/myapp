@@ -1,8 +1,14 @@
 const fetchInputThematics = axios => () =>
-  axios.get('/api/input_thematics').then(({ data }) => ({ response: data }));
+  axios
+    .get('/api/input_thematics')
+    .then(({ data }) => ({ response: data }))
+    .catch(error => ({ error }));
 
 const fetchModelThematics = axios => () =>
-  axios.get('/api/model_thematics').then(({ data }) => ({ response: data }));
+  axios
+    .get('/api/model_thematics')
+    .then(({ data }) => ({ response: data }))
+    .catch(error => ({ error }));
 
 const saveInputThematic = axios => inputThematic =>
   axios[inputThematic.id === 0 ? 'post' : 'patch'](

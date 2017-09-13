@@ -2,8 +2,20 @@ import { compose, pure } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import InputThematics from '../../components/Thematics/InputThematics';
-import { inputThematicsSelector, editableInputCellSelector, editableInputThematicSelector } from './selectors';
-import { addTagInputRequest, saveTagInputRequest, deleteTagInputRequest, addThematicInput, deleteThematicInputRequest, changeEditableInputThematic, saveThematicInputRequest } from './ducks';
+import {
+  inputThematicsSelector,
+  editableInputCellSelector,
+  editableInputThematicSelector,
+} from './selectors';
+import {
+  addTagInputRequest,
+  saveTagInputRequest,
+  deleteTagInputRequest,
+  addThematicInput,
+  deleteThematicInputRequest,
+  changeEditableInputThematic,
+  saveThematicInputRequest,
+} from './ducks';
 
 const mapStateToProps = createStructuredSelector({
   data: inputThematicsSelector,
@@ -11,7 +23,7 @@ const mapStateToProps = createStructuredSelector({
   editableThematic: editableInputThematicSelector,
 });
 
-const mapDispatchToProps = ({
+const mapDispatchToProps = {
   onAddWord: addTagInputRequest,
   onSaveWord: saveTagInputRequest,
   onDeleteWord: deleteTagInputRequest,
@@ -19,10 +31,8 @@ const mapDispatchToProps = ({
   onDeleteThematic: deleteThematicInputRequest,
   onChangeEditableThematic: changeEditableInputThematic,
   onSaveThematic: saveThematicInputRequest,
-});
+};
 
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  pure,
-)(InputThematics);
+export default compose(connect(mapStateToProps, mapDispatchToProps), pure)(
+  InputThematics,
+);
