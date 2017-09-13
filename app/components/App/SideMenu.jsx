@@ -142,6 +142,13 @@ function SideMenu({ location }) {
             to="/importantAuthor"
           />
         </Menu.Item>
+        <Menu.Item>
+          <MenuLink
+            icon={<Icon type="filter" />}
+            title="Коэффициенты для приоритезации"
+            to="/priority_coefficients"
+          />
+        </Menu.Item>
       </SubMenu>
     </Menu>
   );
