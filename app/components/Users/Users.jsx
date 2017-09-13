@@ -172,7 +172,6 @@ function renderCell(index, field, record, editableUserRecord, handleCellChange, 
   }
   return path(field.split('.'), record);
 }
-
 export default compose(
   withHandlers({
     handleCellChange: ({ onChangeEditableRecord, editableUserRecord }) => (field, index, value) =>

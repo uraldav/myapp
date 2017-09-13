@@ -1,35 +1,38 @@
-import axios from 'axios';
-
-export const authorize = (userName, password) =>
-  axios.get('/api/auth',
-    {
-      params: {
+const authorize = axios => (userName, password) =>
+  axios
+    .get('/api/auth', {
+      data: {
         userName,
         password,
       },
     })
-  .then(({ data }) => {
-    return {
-      token: data.token,
-      userData: data.userdata,
-    };
-  })
-  .catch((error) => {
-    throw Error(error);
-  });
+    .then(({ data }) => {
+      return {
+        token: data.token,
+        userData: data.userdata,
+      };
+    })
+    .catch((error) => {
+      throw Error(error);
+    });
 
-export const fetchUserData = token =>
-axios.get('/api/userdata',
-  {
-    params: {
-      token,
-    },
-  })
-  .then(({ data }) => {
-    return {
-      userData: data,
-    };
-  })
-  .catch((error) => {
-    throw Error(error);
-  });
+const fetchUserData = axios => token =>
+  axios
+    .get('/api/userdata', {
+      data: {
+        token,
+      },
+    })
+    .then(({ data }) => {
+      return {
+        userData: data,
+      };
+    })
+    .catch((error) => {
+      throw Error(error);
+    });
+
+export default axios => ({
+  authorize: authorize(axios),
+  fetchUserData: fetchUserData(axios),
+});

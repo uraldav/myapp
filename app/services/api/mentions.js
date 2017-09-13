@@ -2,15 +2,8 @@
 import moment from 'moment';
 import { zipObj } from 'ramda';
 import queryString from 'query-string';
-import axios from 'axios';
 
-const tonalityMap = (tonality, reverseKeys) => {
-  let keys = [[1, 2, 3], ['positive', 'negative', 'neutral']];
-  if (reverseKeys) keys = keys.reverse();
-  return zipObj(...keys)[tonality];
-};
-
-export const fetchMentions = ({
+const fetchMentions = axios => ({
   socialId,
   priority,
   status,
@@ -34,6 +27,10 @@ export const fetchMentions = ({
       },
     })
     .then(mapMentions);
+
+export default axios => ({
+  fetchMentions: fetchMentions(axios),
+});
 
 function mapMentions({ data }) {
   return data.map(
@@ -62,4 +59,10 @@ function mapMentions({ data }) {
       tonality: tonalityMap(tone),
     }),
   );
+}
+
+function tonalityMap(tonality, reverseKeys) {
+  let keys = [[1, 2, 3], ['positive', 'negative', 'neutral']];
+  if (reverseKeys) keys = keys.reverse();
+  return zipObj(...keys)[tonality];
 }
