@@ -21,6 +21,12 @@ export const CHANGE_EDITABLE_RECORD = ducks.defineType(
 export const SELECT_EDITABLE_RECORD = ducks.defineType(
   'SELECT_EDITABLE_RECORD',
 );
+export const UPDATE_EDITABLE_RECORD_PERMISSION = ducks.defineType(
+  'UPDATE_EDITABLE_RECORD_PERMISSION',
+);
+export const DELETE_USER_ROLE_REQUEST = ducks.defineType(
+  'DELETE_USER_ROLE_REQUEST',
+);
 
 export const request = ducks.createAction(REQUEST);
 export const requestSuccess = ducks.createAction(REQUEST_SUCCESS);
@@ -34,6 +40,12 @@ export const requestPermissionsFailure = ducks.createAction(
 );
 export const changeEditableRecord = ducks.createAction(CHANGE_EDITABLE_RECORD);
 export const selectEditableRecord = ducks.createAction(SELECT_EDITABLE_RECORD);
+export const updateEditableRecordPermission = ducks.createAction(
+  UPDATE_EDITABLE_RECORD_PERMISSION,
+);
+export const deleteUserRoleRequest = ducks.createAction(
+  DELETE_USER_ROLE_REQUEST,
+);
 
 const initialState = fromJS({
   loading: false,
@@ -68,8 +80,33 @@ export default ducks.createReducer(
     [SELECT_EDITABLE_RECORD]: (state, { payload }) =>
       state.set(
         'editableRecord',
-        state.get('data').find(role => role.get('id') === payload.id).toJS(),
+        state
+          .get('data')
+          .find(role => role.get('id') === payload.id)
+          .toJS(),
       ),
+
+    [UPDATE_EDITABLE_RECORD_PERMISSION]: (state, { payload }) =>
+      state.set('editableRecord', {
+        ...state.get('editableRecord'),
+        permissions: state
+          .get('editableRecord')
+          .permissions.map(
+            item =>
+              (item.functional === payload.functional
+                ? { ...item, value: payload.value }
+                : item),
+          ),
+      }),
+
+    [DELETE_USER_ROLE_REQUEST]: (state) => {
+      state = state.updateIn(['data'], roles =>
+        roles.filterNot(
+          role => role.get('id') === state.get('editableRecord').id,
+        ),
+      );
+      return state.set('editableRecord', state.get('data').first().toJS());
+    },
   },
   initialState,
 );

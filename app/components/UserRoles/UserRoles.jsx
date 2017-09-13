@@ -1,7 +1,7 @@
 import React from 'react';
 import { number, arrayOf, shape, object, func, string } from 'prop-types';
 import { compose, pure } from 'recompose';
-import { Card, Table, Select, Row, Col } from 'antd';
+import { Card, Table, Select, Row, Col, Button, Modal } from 'antd';
 import './UserRoles.less';
 
 const Column = Table.Column;
@@ -11,6 +11,8 @@ UserRoles.propTypes = {
   roles: arrayOf(object),
   editableRecord: object,
   onUserRoleClick: func.isRequired,
+  onPermissionChange: func.isRequired,
+  onUserRoleDelete: func.isRequired,
 };
 
 UserRoles.defaultProps = {
@@ -24,11 +26,31 @@ function UserRoles({
   roles,
   editableRecord,
   onUserRoleClick,
+  onPermissionChange,
+  onUserRoleDelete,
 }) {
   return (
     <Card>
       <Row>
         <Col span={8}>
+          <div>
+            <Button type="primary" icon="plus">
+              Добавить
+            </Button>
+            <Button
+              type="danger"
+              icon="minus"
+              onClick={() =>
+                Modal.confirm({
+                  title: 'Удалить роль пользователя?',
+                  content: `Вы уверены, что хотите удалить роль пользователя  ${editableRecord.role_name}?`,
+                  iconType: 'exclamation-circle',
+                  onOk: () => Promise.resolve(onUserRoleDelete()),
+                })}
+            >
+              Удалить
+            </Button>
+          </div>
           <Table
             size="medium"
             showHeader={false}
@@ -55,7 +77,8 @@ function UserRoles({
               {
                 title: 'Уровень доступа',
                 dataIndex: 'value',
-                render: (text, record, index) => renderSelect(text.toString()),
+                render: (text, record) =>
+                  renderSelect(text.toString(), record, onPermissionChange),
               },
             ]}
           />
@@ -81,9 +104,14 @@ function renderUserRole(text, record, index, editableRecord) {
   );
 }
 
-function renderSelect(text) {
+function renderSelect(text, record, onPermissionChange) {
   return (
-    <Select value={text} styleName="select">
+    <Select
+      value={text}
+      styleName="select"
+      onChange={value =>
+        onPermissionChange({ value, functional: record.functional })}
+    >
       <Select.Option value="0" key="0">
         Недоступно
       </Select.Option>

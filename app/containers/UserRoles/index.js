@@ -11,7 +11,7 @@ import {
   editableRecordSelector,
   formattedPermissionsSelector,
 } from './selectors';
-import { selectEditableRecord } from './ducks';
+import { selectEditableRecord, updateEditableRecordPermission, deleteUserRoleRequest } from './ducks';
 
 const mapStateToProps = createStructuredSelector({
   roles: rolesSelector,
@@ -21,6 +21,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
   onUserRoleClick: selectEditableRecord,
+  onUserRoleDelete: deleteUserRoleRequest,
+  onPermissionChange: updateEditableRecordPermission,
 };
 
 export default compose(
