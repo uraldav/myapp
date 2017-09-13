@@ -193,8 +193,8 @@ export default ducks.createReducer(
       state.setIn(['loadingInputThematics'], true),
     [INPUT_THEMATICS_SUCCESS]: (state, { payload }) =>
       state
-        .set(['inputThematics'], fromJS(payload))
-        .set(['loadingInputThematics'], false),
+        .setIn(['inputThematics'], fromJS(payload))
+        .setIn(['loadingInputThematics'], false),
     [INPUT_THEMATICS_FAILURE]: (state, { payload }) =>
       state.setIn(['error'], payload).setIn(['loadingInputThematics'], false),
 
