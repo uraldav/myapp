@@ -23,18 +23,18 @@ const recordShape = shape({
 
 InputThematics.propTypes = {
   data: arrayOf(recordShape),
+  editableCell: object,
+  editableThematic: object,
   onAddWord: func.isRequired,
   onSaveWord: func.isRequired,
   onDeleteWord: func.isRequired,
-  editableCell: object,
   onAddThematic: func.isRequired,
   onDeleteThematic: func.isRequired,
-  editableThematic: object,
   onChangeEditableThematic:
     func.isRequired /* eslint react/no-unused-prop-types: 0 */,
+  onSaveThematic: func.isRequired,
   handleCellChange: func.isRequired,
   handleCancel: func.isRequired,
-  onSaveThematic: func.isRequired,
   handleEdit: func.isRequired,
 };
 

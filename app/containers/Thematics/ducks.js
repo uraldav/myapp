@@ -34,8 +34,20 @@ export const ADD_THEMATIC_INPUT = ducks.defineType('ADD_THEMATIC_INPUT');
 export const SAVE_THEMATIC_INPUT_REQUEST = ducks.defineType(
   'SAVE_THEMATIC_INPUT_REQUEST',
 );
+export const SAVE_THEMATIC_INPUT_SUCCESS = ducks.defineType(
+  'SAVE_THEMATIC_INPUT_SUCCESS',
+);
+export const SAVE_THEMATIC_INPUT_FAILURE = ducks.defineType(
+  'SAVE_THEMATIC_INPUT_FAILURE',
+);
 export const DELETE_THEMATIC_INPUT_REQUEST = ducks.defineType(
-  'DELETE_THEMATIC_INPUT_REQUET',
+  'DELETE_THEMATIC_INPUT_REQUEST',
+);
+export const DELETE_THEMATIC_INPUT_SUCCESS = ducks.defineType(
+  'DELETE_THEMATIC_INPUT_SUCCESS',
+);
+export const DELETE_THEMATIC_INPUT_FAILURE = ducks.defineType(
+  'DELETE_THEMATIC_INPUT_FAILURE',
 );
 export const CHANGE_EDITABLE_INPUT_THEMATIC = ducks.defineType(
   'CHANGE_EDITABLE_INPUT_THEMATIC',
@@ -52,8 +64,20 @@ export const ADD_THEMATIC_MODEL = ducks.defineType('ADD_THEMATIC_MODEL');
 export const SAVE_THEMATIC_MODEL_REQUEST = ducks.defineType(
   'SAVE_THEMATIC_MODEL_REQUEST',
 );
+export const SAVE_THEMATIC_MODEL_SUCCESS = ducks.defineType(
+  'SAVE_THEMATIC_MODEL_SUCCESS',
+);
+export const SAVE_THEMATIC_MODEL_FAILURE = ducks.defineType(
+  'SAVE_THEMATIC_MODEL_FAILURE',
+);
 export const DELETE_THEMATIC_MODEL_REQUEST = ducks.defineType(
   'DELETE_THEMATIC_MODEL_REQUET',
+);
+export const DELETE_THEMATIC_MODEL_SUCCESS = ducks.defineType(
+  'DELETE_THEMATIC_MODEL_SUCCESS',
+);
+export const DELETE_THEMATIC_MODEL_FAILURE = ducks.defineType(
+  'DELETE_THEMATIC_MODEL_FAILURE',
 );
 export const CHANGE_EDITABLE_MODEL_THEMATIC = ducks.defineType(
   'CHANGE_EDITABLE_MODEL_THEMATIC',
@@ -86,11 +110,23 @@ export const addThematicInput = ducks.createAction(ADD_THEMATIC_INPUT);
 export const saveThematicInputRequest = ducks.createAction(
   SAVE_THEMATIC_INPUT_REQUEST,
 );
+export const saveThematicInputSuccess = ducks.createAction(
+  SAVE_THEMATIC_INPUT_SUCCESS,
+);
+export const saveThematicInputFailure = ducks.createAction(
+  SAVE_THEMATIC_INPUT_FAILURE,
+);
 export const changeEditableInputThematic = ducks.createAction(
   CHANGE_EDITABLE_INPUT_THEMATIC,
 );
 export const deleteThematicInputRequest = ducks.createAction(
   DELETE_THEMATIC_INPUT_REQUEST,
+);
+export const deleteThematicInputSuccess = ducks.createAction(
+  DELETE_THEMATIC_INPUT_SUCCESS,
+);
+export const deleteThematicInputFailure = ducks.createAction(
+  DELETE_THEMATIC_INPUT_FAILURE,
 );
 
 export const addTagModelRequest = ducks.createAction(ADD_TAG_MODEL_REQUEST);
@@ -102,11 +138,23 @@ export const addThematicModel = ducks.createAction(ADD_THEMATIC_MODEL);
 export const saveThematicModelRequest = ducks.createAction(
   SAVE_THEMATIC_MODEL_REQUEST,
 );
+export const saveThematicModelSuccess = ducks.createAction(
+  SAVE_THEMATIC_MODEL_SUCCESS,
+);
+export const saveThematicModelFailure = ducks.createAction(
+  SAVE_THEMATIC_MODEL_FAILURE,
+);
 export const changeEditableModelThematic = ducks.createAction(
   CHANGE_EDITABLE_MODEL_THEMATIC,
 );
 export const deleteThematicModelRequest = ducks.createAction(
   DELETE_THEMATIC_MODEL_REQUEST,
+);
+export const deleteThematicModelSuccess = ducks.createAction(
+  DELETE_THEMATIC_MODEL_SUCCESS,
+);
+export const deleteThematicModelFailure = ducks.createAction(
+  DELETE_THEMATIC_MODEL_FAILURE,
 );
 
 const initialState = fromJS({
@@ -143,11 +191,10 @@ export default ducks.createReducer(
   {
     [INPUT_THEMATICS_REQUEST]: state =>
       state.setIn(['loadingInputThematics'], true),
-    [INPUT_THEMATICS_SUCCESS]: (state, { payload }) => {
-      return state
-        .setIn(['inputThematics'], fromJS(payload))
-        .setIn(['loadingInputThematics'], false);
-    },
+    [INPUT_THEMATICS_SUCCESS]: (state, { payload }) =>
+      state
+        .set(['inputThematics'], fromJS(payload))
+        .set(['loadingInputThematics'], false),
     [INPUT_THEMATICS_FAILURE]: (state, { payload }) =>
       state.setIn(['error'], payload).setIn(['loadingInputThematics'], false),
 
@@ -159,13 +206,13 @@ export default ducks.createReducer(
         .setIn(['loadingModelThematics'], false);
     },
     [MODEL_THEMATICS_FAILURE]: (state, { payload }) =>
-      state.setIn(['error'], payload).setIn(['loadingModelThematics'], false),
+      state.set('error', payload).set('loadingModelThematics', false),
 
     [ADD_TAG_INPUT_REQUEST]: (state, { payload }) =>
-      (state = state.set('editableInputCell', {
+      state.set('editableInputCell', {
         field: payload.field,
         recordId: payload.recordId,
-      })),
+      }),
 
     [SAVE_TAG_INPUT_REQUEST]: (state, { payload }) => {
       if (payload.value) {
@@ -297,20 +344,6 @@ export default ducks.createReducer(
         );
       }
       return state.set('editableModelThematic', payload);
-    },
-    [DELETE_THEMATIC_MODEL_REQUEST]: (state, { payload }) => {
-      const editableModelThematicRecord = state.get('editableModelThematic');
-      if (
-        editableModelThematicRecord &&
-        editableModelThematicRecord.id === payload.id
-      ) {
-        state = state.set('editableModelThematic', null);
-      }
-      return state.updateIn(['modelThematics'], thematics =>
-        thematics.filterNot((thematic) => {
-          return thematic.get('id') === payload.id;
-        }),
-      );
     },
   },
   initialState,
