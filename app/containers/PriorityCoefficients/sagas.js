@@ -7,13 +7,19 @@ import {
   take,
   takeLatest,
   select,
-  saveSuccess,
-  saveFailure,
   request,
 } from 'redux-saga/effects';
+
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { editableRecordSelector } from './selectors';
-import { REQUEST, requestSuccess, requestFailure, SAVE_REQUEST } from './ducks';
+import {
+  REQUEST,
+  requestSuccess,
+  requestFailure,
+  SAVE_REQUEST,
+  saveSuccess,
+  saveFailure,
+} from './ducks';
 
 export default function* () {
   const watchRequest = yield takeLatest(REQUEST, requestSaga);
