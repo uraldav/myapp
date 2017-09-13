@@ -40,8 +40,10 @@ export function* requestSaga() {
 export function* saveSaga() {
   const api = yield getContext('api');
   const userRecord = yield select(editableRecordSelector);
-
-  const { response, error } = yield call(api.priorityCoefficients.save, userRecord);
+  const { response, error } = yield call(
+    api.priorityCoefficients.save,
+    userRecord,
+  );
 
   if (response) {
     yield put(saveSuccess(response));
