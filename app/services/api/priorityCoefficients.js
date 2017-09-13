@@ -5,9 +5,10 @@ const fetchPriorityCoefficients = axios => () =>
     .catch(error => ({ error }));
 
 const save = axios => record =>
-  axios[record.id === 0 ? 'create' : 'patch'](
-    '/api/priority_coefficients',
-  ).catch(error => ({ error }));
+  axios.patch(
+    '/api/priority_coefficients', record,
+  ).then(({ data }) => ({ response: data }))
+  .catch(error => ({ error }));
 
 export default axios => ({
   fetchPriorityCoefficients: fetchPriorityCoefficients(axios),
