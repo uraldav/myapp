@@ -1,5 +1,8 @@
 const fetchUsers = axios => () =>
-  axios.get('/api/users').then(({ data }) => data.map(mapUserFromResponse));
+  axios
+    .get('/api/users')
+    .then(({ data }) => ({ response: data.map(mapUserFromResponse) }))
+    .catch(error => ({ error }));
 
 const deleteUser = axios => userRecord =>
   axios
@@ -8,7 +11,7 @@ const deleteUser = axios => userRecord =>
     .catch(error => ({ error }));
 
 const saveUser = axios => userRecord =>
-  axios[userRecord.id === 0 ? 'create' : 'patch'](
+  axios[userRecord.id === 0 ? 'post' : 'patch'](
     '/api/users',
     mapUserToRequest(userRecord),
   )

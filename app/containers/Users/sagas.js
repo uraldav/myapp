@@ -35,11 +35,11 @@ export default function* () {
 
 export function* requestSaga() {
   const api = yield getContext('api');
+  const { response, error } = yield call(api.users.fetchUsers);
 
-  try {
-    const response = yield call(api.users.fetchUsers);
+  if (response) {
     yield put(requestSuccess(response));
-  } catch (error) {
+  } else {
     yield put(requestFailure(error));
   }
 }
