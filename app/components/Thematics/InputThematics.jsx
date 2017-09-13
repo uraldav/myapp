@@ -7,6 +7,7 @@ import {
   number,
   shape,
   arrayOf,
+  bool,
 } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
 import { Table, Tag, Button, Input, Popconfirm, Modal } from 'antd';
@@ -23,6 +24,7 @@ const recordShape = shape({
 
 InputThematics.propTypes = {
   data: arrayOf(recordShape),
+  loading: bool,
   editableCell: object,
   editableThematic: object,
   onAddWord: func.isRequired,
@@ -40,12 +42,14 @@ InputThematics.propTypes = {
 
 InputThematics.defaultProps = {
   data: [],
+  loading: false,
   editableCell: null,
   editableThematic: null,
 };
 
 function InputThematics({
   data,
+  loading,
   editableCell,
   onAddWord,
   onSaveWord,
@@ -60,12 +64,13 @@ function InputThematics({
 }) {
   return (
     <Table
+      loading={loading}
       title={() => (
         <Button
           type="primary"
           icon="plus"
           disabled={editableThematic !== null}
-          onClick={onAddThematic}
+          onClick={() => onAddThematic()}
         >
           Добавить
         </Button>
@@ -137,7 +142,7 @@ function InputThematics({
                 {editableThematic && editableThematic.id === record.id ? (
                   <span>
                     <Button.Group>
-                      <Button icon="save" onClick={onSaveThematic} />
+                      <Button icon="save" onClick={() => onSaveThematic()} />
                       <Popconfirm
                         title="Отменить изменения?"
                         onConfirm={handleCancel}

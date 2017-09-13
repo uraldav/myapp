@@ -7,6 +7,7 @@ import injectReducer from '../../utils/injectReducer';
 import injectSaga from '../../utils/injectSaga';
 import ConnectedInputThematics from './ConnectedInputThematics';
 import ConnectedModelThematics from './ConnectedModelThematics';
+import { inputThematicsRequest, modelThematicsRequest } from './ducks';
 
 const TabPane = Tabs.TabPane;
 
@@ -36,6 +37,8 @@ export default compose(
     ]).then(([reducer, saga]) => {
       injectReducer(store, 'thematics', reducer);
       injectSaga(store, saga);
+      store.dispatch(inputThematicsRequest());
+      store.dispatch(modelThematicsRequest());
     }),
   ),
   pure,

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ModelThematics from '../../components/Thematics/ModelThematics';
 import {
   modelThematicsSelector,
+  modelThematicLoadingSelector,
   editableModelCellSelector,
   editableModelThematicSelector,
 } from './selectors';
@@ -19,6 +20,7 @@ import {
 
 const mapStateToProps = createStructuredSelector({
   data: modelThematicsSelector,
+  loading: modelThematicLoadingSelector,
   editableCell: editableModelCellSelector,
   editableThematic: editableModelThematicSelector,
 });

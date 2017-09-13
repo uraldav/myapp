@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import InputThematics from '../../components/Thematics/InputThematics';
 import {
   inputThematicsSelector,
+  inputThematicLoadingSelector,
   editableInputCellSelector,
   editableInputThematicSelector,
 } from './selectors';
@@ -19,6 +20,7 @@ import {
 
 const mapStateToProps = createStructuredSelector({
   data: inputThematicsSelector,
+  loading: inputThematicLoadingSelector,
   editableCell: editableInputCellSelector,
   editableThematic: editableInputThematicSelector,
 });

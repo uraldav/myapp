@@ -1,7 +1,6 @@
 import {
   call,
   cancel,
-  fork,
   getContext,
   put,
   take,
@@ -16,7 +15,9 @@ import {
   SAVE_THEMATIC_MODEL_REQUEST,
   DELETE_THEMATIC_INPUT_REQUEST,
   DELETE_THEMATIC_MODEL_REQUEST,
+  inputThematicsRequest,
   inputThematicsSuccess,
+  modelThematicsRequest,
   modelThematicsSuccess,
   inputThematicsFailure,
   modelThematicsFailure,
@@ -59,9 +60,6 @@ export default function* () {
     DELETE_THEMATIC_MODEL_REQUEST,
     deleteModelThematicSaga,
   );
-
-  yield fork(requestInputThematicsSaga);
-  yield fork(requestModelThematicsSaga);
 
   yield take(LOCATION_CHANGE);
   yield cancel(
@@ -106,6 +104,7 @@ export function* saveInputThematicSaga() {
   );
   if (response) {
     yield put(saveThematicInputSuccess(response));
+    yield put(inputThematicsRequest());
   } else {
     yield put(saveThematicInputFailure(error));
   }
@@ -121,6 +120,7 @@ export function* saveModelThematicSaga() {
   );
   if (response) {
     yield put(saveThematicModelSuccess(response));
+    yield put(modelThematicsRequest());
   } else {
     yield put(saveThematicModelFailure(error));
   }

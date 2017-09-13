@@ -27,7 +27,17 @@ export const inputThematicsSelector = createSelector(
   thematics => thematics.get('inputThematics').toJS(),
 );
 
+export const inputThematicLoadingSelector = createSelector(
+  thematicsSelector,
+  thematics => thematics.get('loadingInputThematics'),
+);
+
 export const modelThematicsSelector = createSelector(
   thematicsSelector,
   thematics => thematics.get('modelThematics').toJS(),
+);
+
+export const modelThematicLoadingSelector = createSelector(
+  thematicsSelector,
+  thematics => thematics.get('loadingModelThematics'),
 );

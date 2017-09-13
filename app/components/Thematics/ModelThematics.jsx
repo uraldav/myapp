@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   object,
+  bool,
   func,
   string,
   array,
@@ -23,6 +24,7 @@ const recordShape = shape({
 
 ModelThematics.propTypes = {
   data: arrayOf(recordShape),
+  loading: bool,
   onAddWord: func.isRequired,
   onSaveWord: func.isRequired,
   onDeleteWord: func.isRequired,
@@ -40,12 +42,14 @@ ModelThematics.propTypes = {
 
 ModelThematics.defaultProps = {
   data: [],
+  loading: false,
   editableCell: null,
   editableThematic: null,
 };
 
 function ModelThematics({
   data,
+  loading,
   editableCell,
   onAddWord,
   onSaveWord,
@@ -60,6 +64,7 @@ function ModelThematics({
 }) {
   return (
     <Table
+      loading={loading}
       title={() => (
         <Button
           type="primary"

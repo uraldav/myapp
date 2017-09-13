@@ -168,11 +168,6 @@ const initialState = fromJS({
   editableModelThematic: null,
 });
 
-const emptyTag = {
-  id: 0,
-  word: '',
-};
-
 const emptyInputThematic = {
   id: 0,
   name: '',
@@ -247,19 +242,12 @@ export default ducks.createReducer(
     [ADD_THEMATIC_INPUT]: state =>
       state
         .set('editableInputThematic', emptyInputThematic)
-        .updateIn(['inputThematics'], users =>
-          users.unshift(fromJS(emptyInputThematic)),
+        .updateIn(['inputThematics'], inputThematics =>
+          inputThematics.unshift(fromJS(emptyInputThematic)),
         ),
-    [SAVE_THEMATIC_INPUT_REQUEST]: (state) => {
-      const editableInputThematic = state.get('editableInputThematic');
-      state = state.updateIn(['inputThematics'], users =>
-        users.update(
-          users.findIndex(user => user.get('id') === editableInputThematic.id),
-          user => user.merge(editableInputThematic),
-        ),
-      );
-      return state.set('editableInputThematic', null);
-    },
+    [SAVE_THEMATIC_INPUT_SUCCESS]: state =>
+      state.set('editableInputThematic', null),
+
     [CHANGE_EDITABLE_INPUT_THEMATIC]: (state, { payload }) => {
       const record = state.get('editableInputThematic');
       if (record && record.id === 0 && !payload) {
@@ -323,19 +311,12 @@ export default ducks.createReducer(
     [ADD_THEMATIC_MODEL]: state =>
       state
         .set('editableModelThematic', emptyModelThematic)
-        .updateIn(['modelThematics'], users =>
-          users.unshift(fromJS(emptyModelThematic)),
+        .updateIn(['modelThematics'], modelThematics =>
+          modelThematics.unshift(fromJS(emptyModelThematic)),
         ),
-    [SAVE_THEMATIC_MODEL_REQUEST]: (state) => {
-      const editableModelThematic = state.get('editableModelThematic');
-      state = state.updateIn(['modelThematics'], users =>
-        users.update(
-          users.findIndex(user => user.get('id') === editableModelThematic.id),
-          user => user.merge(editableModelThematic),
-        ),
-      );
-      return state.set('editableModelThematic', null);
-    },
+    [SAVE_THEMATIC_MODEL_SUCCESS]: state =>
+      state.set('editableModelThematic', null),
+
     [CHANGE_EDITABLE_MODEL_THEMATIC]: (state, { payload }) => {
       const record = state.get('editableModelThematic');
       if (record && record.id === 0 && !payload) {
