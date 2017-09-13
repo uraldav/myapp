@@ -135,6 +135,13 @@ function SideMenu({ location }) {
             to="/thematics"
           />
         </Menu.Item>
+        <Menu.Item>
+          <MenuLink
+            icon={<Icon type="person" />}
+            tittle="Важные авторы"
+            to="/importantAuthor"
+          />
+        </Menu.Item>
       </SubMenu>
     </Menu>
   );
