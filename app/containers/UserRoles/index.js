@@ -6,13 +6,17 @@ import withAsyncDependencies from '../../utils/withAsyncDependencies';
 import injectReducer from '../../utils/injectReducer';
 import injectSaga from '../../utils/injectSaga';
 import UserRolesComponent from '../../components/UserRoles/UserRoles';
-import { permissionsSelector, rolesSelector, editableRecordSelector } from './selectors';
+import {
+  rolesSelector,
+  editableRecordSelector,
+  formattedPermissionsSelector,
+} from './selectors';
 import { selectEditableRecord } from './ducks';
 
 const mapStateToProps = createStructuredSelector({
   roles: rolesSelector,
   editableRecord: editableRecordSelector,
-  permissions: permissionsSelector,
+  permissions: formattedPermissionsSelector,
 });
 
 const mapDispatchToProps = {

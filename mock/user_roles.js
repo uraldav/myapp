@@ -7,7 +7,7 @@ module.exports = () => {
       permissions: [
         {
           functional: 1,
-          value: 1,
+          value: 0,
         },
         {
           functional: 2,
@@ -19,19 +19,19 @@ module.exports = () => {
         },
         {
           functional: 4,
-          value: 2,
+          value: 0,
         },
         {
           functional: 5,
-          value: 1,
+          value: 0,
         },
         {
           functional: 6,
-          value: 1,
+          value: 0,
         },
         {
           functional: 7,
-          value: 2,
+          value: 0,
         },
       ],
     },
@@ -45,15 +45,15 @@ module.exports = () => {
         },
         {
           functional: 2,
-          value: 0,
+          value: 1,
         },
         {
           functional: 3,
-          value: 0,
+          value: 1,
         },
         {
           functional: 4,
-          value: 2,
+          value: 1,
         },
         {
           functional: 5,
@@ -65,7 +65,7 @@ module.exports = () => {
         },
         {
           functional: 7,
-          value: 2,
+          value: 1,
         },
       ],
     },

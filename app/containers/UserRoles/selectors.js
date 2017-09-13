@@ -18,18 +18,22 @@ export const editableRecordSelector = createSelector(
   userRole => userRole.get('editableRecord'),
 );
 
-export const permissionsSelector = createSelector(userRolesSelector, data =>
-  data
-    .get('editableRecord')
-    .get('permissions')
-    .map(perm => ({
-      functional: perm.functional,
-      value: perm.value,
-      name: data
-        .get('permissions')
-        .find(p => p.functional === perm.functional)
-        .get('name'),
-    })).toJS(),
+export const permissionsSelector = createSelector(
+  userRolesSelector,
+  userRole => userRole.get('permissions').toJS(),
 );
 
-// record['permissions'].map(perm => ({functional: perm.functional, value: perm.value, name: perms.find(p => p.functional === perm.functional).name}))
+export const formattedPermissionsSelector = createSelector(editableRecordSelector, permissionsSelector, (editableRecord, permissions) => {
+  if (editableRecord !== null && permissions !== null) {
+    return editableRecord
+      .permissions
+      .map(perm => ({
+        functional: perm.functional,
+        value: perm.value,
+        name: permissions
+          .find(p => p.functional === perm.functional)
+          .name,
+      }));
+  }
+  return [];
+});

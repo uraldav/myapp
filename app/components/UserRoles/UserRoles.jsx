@@ -19,37 +19,6 @@ UserRoles.defaultProps = {
   editableRecord: null,
 };
 
-const data1 = [
-  {
-    level: 1,
-    name: 'Упоминания',
-  },
-  {
-    level: 2,
-    name: 'Пользователи',
-  },
-  {
-    level: 1,
-    name: 'Коэффициенты для приоритезации',
-  },
-  {
-    level: 0,
-    name: 'Тематики',
-  },
-  {
-    level: 0,
-    name: 'Важные авторы',
-  },
-  {
-    level: 0,
-    name: 'Личный профиль',
-  },
-  {
-    level: 0,
-    name: 'Журнал изменений',
-  },
-];
-
 function UserRoles({
   permissions,
   roles,
@@ -80,12 +49,12 @@ function UserRoles({
           <Table
             bordered
             pagination={false}
-            permissions={data1.map((item, idx) => ({ ...item, key: idx }))}
+            dataSource={permissions.map((item, idx) => ({ ...item, key: idx }))}
             columns={[
               { title: 'Функция', dataIndex: 'name' },
               {
                 title: 'Уровень доступа',
-                dataIndex: 'level',
+                dataIndex: 'value',
                 render: (text, record, index) => renderSelect(text.toString()),
               },
             ]}
@@ -114,7 +83,7 @@ function renderUserRole(text, record, index, editableRecord) {
 
 function renderSelect(text) {
   return (
-    <Select defaultValue={text} styleName="select">
+    <Select value={text} styleName="select">
       <Select.Option value="0" key="0">
         Недоступно
       </Select.Option>
