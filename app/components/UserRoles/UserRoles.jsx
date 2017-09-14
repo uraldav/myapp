@@ -1,7 +1,8 @@
 import React from 'react';
-import { number, arrayOf, shape, object, func, string } from 'prop-types';
+import { number, arrayOf, shape, object, func, string, bool } from 'prop-types';
 import { compose, pure } from 'recompose';
-import { Card, Table, Select, Row, Col, Button, Modal } from 'antd';
+import { Card, Table, Select, Row, Col, Button, Modal, Icon } from 'antd';
+import EditableCell from '../ui/Table/EditableCell';
 import './UserRoles.less';
 
 const Column = Table.Column;
@@ -13,12 +14,17 @@ UserRoles.propTypes = {
   onUserRoleClick: func.isRequired,
   onPermissionChange: func.isRequired,
   onUserRoleDelete: func.isRequired,
+  onUserRoleAdd: func.isRequired,
+  onUserRoleSave: func.isRequired,
+  onUserRoleRename: func.isRequired,
+  isEditing: bool,
 };
 
 UserRoles.defaultProps = {
   permissions: [],
   roles: [],
   editableRecord: null,
+  isEditing: false,
 };
 
 function UserRoles({
@@ -28,13 +34,17 @@ function UserRoles({
   onUserRoleClick,
   onPermissionChange,
   onUserRoleDelete,
+  onUserRoleAdd,
+  isEditing,
+  onUserRoleSave,
+  onUserRoleRename,
 }) {
   return (
     <Card>
       <Row>
         <Col span={8}>
-          <div>
-            <Button type="primary" icon="plus">
+          <div styleName="top-buttons">
+            <Button type="primary" icon="plus" onClick={() => onUserRoleAdd()}>
               Добавить
             </Button>
             <Button
@@ -63,7 +73,15 @@ function UserRoles({
               styleName="cell"
               dataIndex="role_name"
               render={(text, record, index) =>
-                renderUserRole(text, record, index, editableRecord)}
+                renderUserRole(
+                  text,
+                  record,
+                  index,
+                  editableRecord,
+                  isEditing,
+                  onUserRoleSave,
+                  onUserRoleRename,
+                )}
             />
           </Table>
         </Col>
@@ -88,7 +106,15 @@ function UserRoles({
   );
 }
 
-function renderUserRole(text, record, index, editableRecord) {
+function renderUserRole(
+  text,
+  record,
+  index,
+  editableRecord,
+  isEditing,
+  onUserRoleSave,
+  onUserRoleRename,
+) {
   return (
     <span
       styleName={
@@ -99,7 +125,14 @@ function renderUserRole(text, record, index, editableRecord) {
         )
       }
     >
-      {text}
+      <EditableCell
+        value={text}
+        autoFocus
+        editable={isEditing && record.id === editableRecord.id}
+        onChange={value => onUserRoleRename({ role_name: value })}
+      >
+        <Icon type="save" onClick={() => onUserRoleSave()} />
+      </EditableCell>
     </span>
   );
 }

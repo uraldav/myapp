@@ -10,18 +10,30 @@ import {
   rolesSelector,
   editableRecordSelector,
   formattedPermissionsSelector,
+  isEditableSelector,
 } from './selectors';
-import { selectEditableRecord, updateEditableRecordPermission, deleteUserRoleRequest } from './ducks';
+import {
+  selectEditableRecord,
+  updateEditableRecordPermission,
+  deleteUserRoleRequest,
+  addUserRole,
+  saveUserRole,
+  changeEditableRecordName,
+} from './ducks';
 
 const mapStateToProps = createStructuredSelector({
   roles: rolesSelector,
   editableRecord: editableRecordSelector,
   permissions: formattedPermissionsSelector,
+  isEditing: isEditableSelector,
 });
 
 const mapDispatchToProps = {
   onUserRoleClick: selectEditableRecord,
   onUserRoleDelete: deleteUserRoleRequest,
+  onUserRoleAdd: addUserRole,
+  onUserRoleSave: saveUserRole,
+  onUserRoleRename: changeEditableRecordName,
   onPermissionChange: updateEditableRecordPermission,
 };
 

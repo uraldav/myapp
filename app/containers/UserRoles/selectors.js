@@ -37,3 +37,8 @@ export const formattedPermissionsSelector = createSelector(editableRecordSelecto
   }
   return [];
 });
+
+export const isEditableSelector = createSelector(
+  userRolesSelector,
+  userRole => userRole.get('isEditing'),
+);
