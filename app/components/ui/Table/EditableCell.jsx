@@ -7,41 +7,40 @@ EditableCell.propTypes = {
   editable: bool,
   value: string,
   handleChange: func.isRequired,
-  onChange: func.isRequired, /* eslint react/no-unused-prop-types: 0 */
+  onChange: func.isRequired /* eslint react/no-unused-prop-types: 0 */,
+  autoFocus: bool,
 };
 
 EditableCell.defaultProps = {
   editable: false,
   value: '',
+  autoFocus: false,
 };
 
-function EditableCell({
-  handleChange,
-  editable,
-  value,
-}) {
+function EditableCell({ handleChange, editable, value, autoFocus }) {
   return (
     <div>
-      {
-        editable ?
-          <div>
-            <Input
-              value={value}
-              onChange={({ target }) => handleChange(target.value)}
-            />
-          </div>
-          :
-          <div>
-            {value.toString() || ' '}
-          </div>
-      }
+      {editable ? (
+        <div>
+          <Input
+            defaultValue={value}
+            autoFocus={autoFocus}
+            onBlur={({ target }) => handleChange(target.value)}
+            onPressEnter={({ target }) => handleChange(target.value)}
+          />
+        </div>
+      ) : (
+        <div>{value.toString() || ' '}</div>
+      )}
     </div>
   );
 }
 
 export default compose(
   withHandlers({
-    handleChange: ({ onChange }) => (value) => { onChange(value); },
+    handleChange: ({ onChange }) => (value) => {
+      onChange(value);
+    },
   }),
   pure,
 )(EditableCell);

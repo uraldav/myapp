@@ -7,13 +7,13 @@ import {
   take,
   takeLatest,
   select,
-  request,
 } from 'redux-saga/effects';
 
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { editableRecordSelector } from './selectors';
 import {
   REQUEST,
+  request,
   requestSuccess,
   requestFailure,
   SAVE_REQUEST,

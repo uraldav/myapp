@@ -1,5 +1,5 @@
 import React from 'react';
-import { shape, arrayOf } from 'prop-types';
+import { shape, arrayOf, bool } from 'prop-types';
 import { compose, pure, shouldUpdate } from 'recompose';
 import { equals } from 'ramda';
 import QueueAnim from 'rc-queue-anim';
@@ -8,37 +8,35 @@ import './List.less';
 
 MentionList.propTypes = {
   data: arrayOf(shape(mentionDataTypes)),
+  loading: bool,
 };
 
 MentionList.defaultProps = {
   data: [],
+  loading: false,
 };
 
-function MentionList({
-  data,
-}) {
+function MentionList({ data, loading }) {
   // чтобы получить в QueueAnim анимированность, надо глянуть в сторону привязки id к строке.
   return (
     <div styleName="mention-list">
-      {
-        data.length
-        ? <QueueAnim appear={false}>
-          {
-            data.map((item, idx) => (
-              <MentionItem
-                key={[`mention-item-${idx}`]}
-                author={item.author}
-                content={item.content}
-                likes={item.likes}
-                comments={item.comments}
-                date={item.date}
-                tonality={item.tonality}
-              />
-            ))
-          }
+      {data.length ? (
+        <QueueAnim appear={false}>
+          {data.map((item, idx) => (
+            <MentionItem
+              key={[`mention-item-${idx}`]}
+              author={item.author}
+              content={item.content}
+              likes={item.likes}
+              comments={item.comments}
+              date={item.date}
+              tonality={item.tonality}
+            />
+          ))}
         </QueueAnim>
-        : <div />
-      }
+      ) : (
+        <div />
+      )}
     </div>
   );
 }
