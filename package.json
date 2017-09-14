@@ -4,7 +4,7 @@
   "author": "Innodata",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "yarn && webpack-dev-server",
+    "start": "yarn && webpack-dev-server --host 0.0.0.0 --port 8081",
     "test": "yarn && yarn lint && yarn test:jest",
     "start:mock": "yarn && concurrently --kill-others \"yarn mock:api\" \"yarn start\"",
     "lint": "yarn lint:js && yarn lint:css",
