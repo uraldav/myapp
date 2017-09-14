@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input } from 'antd';
-import { string, bool, func } from 'prop-types';
+import { string, bool, func, node } from 'prop-types';
 import { compose, withHandlers, pure } from 'recompose';
 
 EditableCell.propTypes = {
@@ -9,15 +9,17 @@ EditableCell.propTypes = {
   handleChange: func.isRequired,
   onChange: func.isRequired /* eslint react/no-unused-prop-types: 0 */,
   autoFocus: bool,
+  children: node,
 };
 
 EditableCell.defaultProps = {
   editable: false,
   value: '',
   autoFocus: false,
+  children: null,
 };
 
-function EditableCell({ handleChange, editable, value, autoFocus }) {
+function EditableCell({ handleChange, editable, value, autoFocus, children }) {
   return (
     <div>
       {editable ? (
@@ -27,6 +29,7 @@ function EditableCell({ handleChange, editable, value, autoFocus }) {
             autoFocus={autoFocus}
             onBlur={({ target }) => handleChange(target.value)}
             onPressEnter={({ target }) => handleChange(target.value)}
+            addonAfter={children}
           />
         </div>
       ) : (

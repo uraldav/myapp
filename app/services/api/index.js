@@ -3,6 +3,7 @@ import auth from './auth';
 import users from './users';
 import thematics from './thematics';
 import priorityCoefficients from './priorityCoefficients';
+import userRoles from './userRoles';
 
 export default axios => ({
   mentions: mentions(axios),
@@ -10,4 +11,5 @@ export default axios => ({
   users: users(axios),
   thematics: thematics(axios),
   priorityCoefficients: priorityCoefficients(axios),
+  userRoles: userRoles(axios),
 });
