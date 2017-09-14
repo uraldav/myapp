@@ -8,5 +8,6 @@ module.exports = () => {
     model_thematics: require('./model_thematics')(),
     user_roles: require('./user_roles')(),
     permissions: require('./permissions')(),
+    priority_coefficients: require('./priority_coefficients')(),
   };
 };

@@ -31,6 +31,12 @@ function NestedRoutes() {
           return import('../../containers/UserRoles');
         }}
       />
+      <AsyncRoute
+        path="/priority_coefficients"
+        requireComponent={() => {
+          return import('../../containers/PriorityCoefficients');
+        }}
+      />
     </div>
   );
 }
