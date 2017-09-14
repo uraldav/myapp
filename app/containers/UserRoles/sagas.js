@@ -33,22 +33,22 @@ export default function* () {
 
 export function* requestUserRolesSaga() {
   const api = yield getContext('api');
+  const { response, error } = yield call(api.userRoles.fetchUserRoles);
 
-  try {
-    const response = yield call(api.userRoles.fetchUserRoles);
+  if (response) {
     yield put(requestSuccess(response));
-  } catch (error) {
+  } else {
     yield put(requestFailure(error));
   }
 }
 
 export function* requestPermissionsSaga() {
   const api = yield getContext('api');
+  const { response, error } = yield call(api.userRoles.fetchPermissions);
 
-  try {
-    const response = yield call(api.userRoles.fetchPermissions);
+  if (response) {
     yield put(requestPermissionsSuccess(response));
-  } catch (error) {
+  } else {
     yield put(requestPermissionsFailure(error));
   }
 }

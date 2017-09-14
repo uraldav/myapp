@@ -1,9 +1,10 @@
-export const fetchUserRoles = axios => () =>
+const fetchUserRoles = axios => () =>
   axios
     .get('/api/user_roles')
     .then(({ data }) => ({ response: data }))
     .catch(error => ({ error }));
-export const fetchPermissions = axios => () =>
+
+const fetchPermissions = axios => () =>
   axios
     .get('/api/permissions')
     .then(({ data }) => ({ response: data }))
