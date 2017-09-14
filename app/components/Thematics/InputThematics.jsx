@@ -10,7 +10,7 @@ import {
   bool,
 } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
-import { Table, Tag, Button, Input, Popconfirm, Modal } from 'antd';
+import { Icon, Table, Tag, Button, Input, Popconfirm, Modal } from 'antd';
 import { path } from 'ramda';
 import EditableCell from '../ui/Table/EditableCell';
 import './tableWithTags.less';
@@ -197,16 +197,16 @@ function renderCellWithTags(
           return editableThematic && editableThematic.id === recordId ? (
             <Tag key={tag.id}>{tag.word}</Tag>
           ) : (
-            <Popconfirm
-              title={`Удалить тег ${tag.word}?`}
-              key={tag.id}
-              onConfirm={() =>
-                onDeleteWord({ field, recordId, word: tag.word })}
-            >
-              <Tag closable onClose={e => e.preventDefault()}>
-                {tag.word}
-              </Tag>
-            </Popconfirm>
+            <Tag styleName="tag" key={tag.id}>
+              {tag.word}&nbsp;&nbsp;
+              <Popconfirm
+                title={`Удалить тег ${tag.word}?`}
+                onConfirm={() =>
+                  onDeleteWord({ field, recordId, word: tag.word })}
+              >
+                <Icon type="close" />
+              </Popconfirm>
+            </Tag>
           );
         })}
       {editableCell !== null &&

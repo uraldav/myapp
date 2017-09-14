@@ -15,6 +15,10 @@ import {
   SAVE_THEMATIC_MODEL_REQUEST,
   DELETE_THEMATIC_INPUT_REQUEST,
   DELETE_THEMATIC_MODEL_REQUEST,
+  DELETE_TAG_INPUT_REQUEST,
+  DELETE_TAG_MODEL_REQUEST,
+  SAVE_TAG_INPUT_REQUEST,
+  SAVE_TAG_MODEL_REQUEST,
   inputThematicsRequest,
   inputThematicsSuccess,
   modelThematicsRequest,
@@ -29,6 +33,14 @@ import {
   deleteThematicInputFailure,
   deleteThematicModelSuccess,
   deleteThematicModelFailure,
+  deleteTagInputSuccess,
+  deleteTagInputFailure,
+  deleteTagModelSuccess,
+  deleteTagModelFailure,
+  saveTagInputSuccess,
+  saveTagInputFailure,
+  saveTagModelSuccess,
+  saveTagModelFailure,
 } from './ducks';
 import {
   editableInputThematicSelector,
@@ -60,6 +72,22 @@ export default function* () {
     DELETE_THEMATIC_MODEL_REQUEST,
     deleteModelThematicSaga,
   );
+  const watchDeleteTagInputRequest = yield takeLatest(
+    DELETE_TAG_INPUT_REQUEST,
+    deleteTagInputRequestSaga,
+  );
+  const watchDeleteTagModelRequest = yield takeLatest(
+    DELETE_TAG_MODEL_REQUEST,
+    deleteTagModelRequestSaga,
+  );
+  const watchSaveTagInputRequest = yield takeLatest(
+    SAVE_TAG_INPUT_REQUEST,
+    saveTagInputRequestSaga,
+  );
+  const watchSaveTagModelRequest = yield takeLatest(
+    SAVE_TAG_MODEL_REQUEST,
+    saveTagModelRequestSaga,
+  );
 
   yield take(LOCATION_CHANGE);
   yield cancel(
@@ -69,6 +97,10 @@ export default function* () {
     watchSaveModelThematicRequest,
     watchDeleteInputThematicRequest,
     watchDeleteModelThematicRequest,
+    watchDeleteTagInputRequest,
+    watchDeleteTagModelRequest,
+    watchSaveTagInputRequest,
+    watchSaveTagModelRequest,
   );
 }
 
@@ -126,30 +158,108 @@ export function* saveModelThematicSaga() {
   }
 }
 
-export function* deleteInputThematicSaga(inputThematic) {
+export function* deleteInputThematicSaga({ payload }) {
   const api = yield getContext('api');
 
-  const { response, error } = yield call(
-    api.thematics.deleteInputThematic,
-    inputThematic,
-  );
-  if (response) {
-    yield put(deleteThematicInputSuccess(response));
+  if (payload.id !== 0) {
+    const { response, error } = yield call(
+      api.thematics.deleteInputThematic,
+      payload,
+    );
+    if (response) {
+      yield put(deleteThematicInputSuccess(payload));
+      yield put(inputThematicsRequest());
+    } else {
+      yield put(deleteThematicInputFailure(error));
+    }
   } else {
-    yield put(deleteThematicInputFailure(error));
+    yield put(deleteThematicInputSuccess(payload));
   }
 }
 
-export function* deleteModelThematicSaga(modelThematic) {
+export function* deleteModelThematicSaga({ payload }) {
   const api = yield getContext('api');
 
   const { response, error } = yield call(
     api.thematics.deleteModelThematic,
-    modelThematic,
+    payload,
   );
   if (response) {
-    yield put(deleteThematicModelSuccess(response));
+    yield put(deleteThematicModelSuccess(payload));
+    yield put(modelThematicsRequest());
   } else {
     yield put(deleteThematicModelFailure(error));
+  }
+}
+
+export function* deleteTagInputRequestSaga({
+  payload: { word, field, recordId },
+}) {
+  const api = yield getContext('api');
+
+  const { response, error } = yield call(
+    api.thematics.deleteTagInputThematic,
+    recordId,
+    field,
+    word,
+  );
+  if (response) {
+    yield put(deleteTagInputSuccess({ word, field, recordId }));
+  } else {
+    yield put(deleteTagInputFailure(error));
+  }
+}
+
+export function* deleteTagModelRequestSaga({
+  payload: { word, field, recordId },
+}) {
+  const api = yield getContext('api');
+
+  const { response, error } = yield call(
+    api.thematics.deleteTagModelThematic,
+    recordId,
+    field,
+    word,
+  );
+  if (response) {
+    yield put(deleteTagModelSuccess({ word, field, recordId }));
+  } else {
+    yield put(deleteTagModelFailure(error));
+  }
+}
+
+export function* saveTagInputRequestSaga({
+  payload: { value, field, recordId },
+}) {
+  const api = yield getContext('api');
+
+  const { response, error } = yield call(
+    api.thematics.createTagInputThematic,
+    recordId,
+    field,
+    value,
+  );
+  if (response) {
+    yield put(saveTagInputSuccess({ value, field, recordId }));
+  } else {
+    yield put(saveTagInputFailure(error));
+  }
+}
+
+export function* saveTagModelRequestSaga({
+  payload: { value, field, recordId },
+}) {
+  const api = yield getContext('api');
+
+  const { response, error } = yield call(
+    api.thematics.createTagModelThematic,
+    recordId,
+    field,
+    value,
+  );
+  if (response) {
+    yield put(saveTagModelSuccess({ value, field, recordId }));
+  } else {
+    yield put(saveTagModelFailure(error));
   }
 }

@@ -27,8 +27,20 @@ export const ADD_TAG_INPUT_REQUEST = ducks.defineType('ADD_TAG_INPUT_REQUEST');
 export const SAVE_TAG_INPUT_REQUEST = ducks.defineType(
   'SAVE_TAG_INPUT_REQUEST',
 );
+export const SAVE_TAG_INPUT_SUCCESS = ducks.defineType(
+  'SAVE_TAG_INPUT_SUCCESS',
+);
+export const SAVE_TAG_INPUT_FAILURE = ducks.defineType(
+  'SAVE_TAG_INPUT_FAILURE',
+);
 export const DELETE_TAG_INPUT_REQUEST = ducks.defineType(
   'DELETE_TAG_INPUT_REQUEST',
+);
+export const DELETE_TAG_INPUT_SUCCESS = ducks.defineType(
+  'DELETE_TAG_INPUT_SUCCESS',
+);
+export const DELETE_TAG_INPUT_FAILURE = ducks.defineType(
+  'DELETE_TAG_INPUT_FAILURE',
 );
 export const ADD_THEMATIC_INPUT = ducks.defineType('ADD_THEMATIC_INPUT');
 export const SAVE_THEMATIC_INPUT_REQUEST = ducks.defineType(
@@ -57,8 +69,20 @@ export const ADD_TAG_MODEL_REQUEST = ducks.defineType('ADD_TAG_MODEL_REQUEST');
 export const SAVE_TAG_MODEL_REQUEST = ducks.defineType(
   'SAVE_TAG_MODEL_REQUEST',
 );
+export const SAVE_TAG_MODEL_SUCCESS = ducks.defineType(
+  'SAVE_TAG_MODEL_SUCCESS',
+);
+export const SAVE_TAG_MODEL_FAILURE = ducks.defineType(
+  'SAVE_TAG_MODEL_FAILURE',
+);
 export const DELETE_TAG_MODEL_REQUEST = ducks.defineType(
   'DELETE_TAG_MODEL_REQUEST',
+);
+export const DELETE_TAG_MODEL_SUCCESS = ducks.defineType(
+  'DELETE_TAG_MODEL_SUCCESS',
+);
+export const DELETE_TAG_MODEL_FAILURE = ducks.defineType(
+  'DELETE_TAG_MODEL_FAILURE',
 );
 export const ADD_THEMATIC_MODEL = ducks.defineType('ADD_THEMATIC_MODEL');
 export const SAVE_THEMATIC_MODEL_REQUEST = ducks.defineType(
@@ -103,8 +127,16 @@ export const modelThematicsFailure = ducks.createAction(
 );
 export const addTagInputRequest = ducks.createAction(ADD_TAG_INPUT_REQUEST);
 export const saveTagInputRequest = ducks.createAction(SAVE_TAG_INPUT_REQUEST);
+export const saveTagInputSuccess = ducks.createAction(SAVE_TAG_INPUT_SUCCESS);
+export const saveTagInputFailure = ducks.createAction(SAVE_TAG_INPUT_FAILURE);
 export const deleteTagInputRequest = ducks.createAction(
   DELETE_TAG_INPUT_REQUEST,
+);
+export const deleteTagInputSuccess = ducks.createAction(
+  DELETE_TAG_INPUT_SUCCESS,
+);
+export const deleteTagInputFailure = ducks.createAction(
+  DELETE_TAG_INPUT_FAILURE,
 );
 export const addThematicInput = ducks.createAction(ADD_THEMATIC_INPUT);
 export const saveThematicInputRequest = ducks.createAction(
@@ -131,8 +163,16 @@ export const deleteThematicInputFailure = ducks.createAction(
 
 export const addTagModelRequest = ducks.createAction(ADD_TAG_MODEL_REQUEST);
 export const saveTagModelRequest = ducks.createAction(SAVE_TAG_MODEL_REQUEST);
+export const saveTagModelSuccess = ducks.createAction(SAVE_TAG_MODEL_SUCCESS);
+export const saveTagModelFailure = ducks.createAction(SAVE_TAG_MODEL_FAILURE);
 export const deleteTagModelRequest = ducks.createAction(
   DELETE_TAG_MODEL_REQUEST,
+);
+export const deleteTagModelSuccess = ducks.createAction(
+  DELETE_TAG_MODEL_SUCCESS,
+);
+export const deleteTagModelFailure = ducks.createAction(
+  DELETE_TAG_MODEL_FAILURE,
 );
 export const addThematicModel = ducks.createAction(ADD_THEMATIC_MODEL);
 export const saveThematicModelRequest = ducks.createAction(
@@ -209,7 +249,7 @@ export default ducks.createReducer(
         recordId: payload.recordId,
       }),
 
-    [SAVE_TAG_INPUT_REQUEST]: (state, { payload }) => {
+    [SAVE_TAG_INPUT_SUCCESS]: (state, { payload }) => {
       if (payload.value) {
         state = state.updateIn(['inputThematics'], thematics =>
           thematics.update(
@@ -226,7 +266,7 @@ export default ducks.createReducer(
       return state.set('editableInputCell', null);
     },
 
-    [DELETE_TAG_INPUT_REQUEST]: (state, { payload }) =>
+    [DELETE_TAG_INPUT_SUCCESS]: (state, { payload }) =>
       state.updateIn(['inputThematics'], thematics =>
         thematics.update(
           thematics.findIndex(
@@ -257,7 +297,7 @@ export default ducks.createReducer(
       }
       return state.set('editableInputThematic', payload);
     },
-    [DELETE_THEMATIC_INPUT_REQUEST]: (state, { payload }) => {
+    [DELETE_THEMATIC_INPUT_SUCCESS]: (state, { payload }) => {
       const editableInputThematicRecord = state.get('editableInputThematic');
       if (
         editableInputThematicRecord &&
@@ -265,20 +305,23 @@ export default ducks.createReducer(
       ) {
         state = state.set('editableInputThematic', null);
       }
-      return state.updateIn(['inputThematics'], thematics =>
-        thematics.filterNot((thematic) => {
-          return thematic.get('id') === payload.id;
-        }),
-      );
     },
-
+    [DELETE_THEMATIC_MODEL_SUCCESS]: (state, { payload }) => {
+      const editableModelThematicRecord = state.get('editableModelThematic');
+      if (
+        editableModelThematicRecord &&
+        editableModelThematicRecord.id === payload.id
+      ) {
+        state = state.set('editableModelThematic', null);
+      }
+    },
     [ADD_TAG_MODEL_REQUEST]: (state, { payload }) =>
       (state = state.set('editableModelCell', {
         field: payload.field,
         recordId: payload.recordId,
       })),
 
-    [SAVE_TAG_MODEL_REQUEST]: (state, { payload }) => {
+    [SAVE_TAG_MODEL_SUCCESS]: (state, { payload }) => {
       if (payload.value) {
         state = state.updateIn(['modelThematics'], thematics =>
           thematics.update(
@@ -295,7 +338,7 @@ export default ducks.createReducer(
       return state.set('editableModelCell', null);
     },
 
-    [DELETE_TAG_MODEL_REQUEST]: (state, { payload }) =>
+    [DELETE_TAG_MODEL_SUCCESS]: (state, { payload }) =>
       state.updateIn(['modelThematics'], thematics =>
         thematics.update(
           thematics.findIndex(

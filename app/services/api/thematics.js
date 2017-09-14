@@ -38,6 +38,30 @@ const deleteModelThematic = axios => modelThematic =>
     .then(({ data }) => ({ response: data }))
     .catch(error => ({ error }));
 
+const deleteTagInputThematic = axios => (parentId, field, word) =>
+  axios
+    .delete('/api/input_thematics/words', { params: { parentId, field, word } })
+    .then(({ data }) => ({ response: data }))
+    .catch(error => ({ error }));
+
+const deleteTagModelThematic = axios => (parentId, field, word) =>
+  axios
+    .delete('/api/model_thematics/words', { params: { parentId, field, word } })
+    .then(({ data }) => ({ response: data }))
+    .catch(error => ({ error }));
+
+const createTagInputThematic = axios => (parentId, field, word) =>
+  axios
+    .post('/api/input_thematics/words', { parentId, field, word })
+    .then(({ data }) => ({ response: data }))
+    .catch(error => ({ error }));
+
+const createTagModelThematic = axios => (parentId, field, word) =>
+  axios
+    .post('/api/model_thematics/words', { parentId, field, word })
+    .then(({ data }) => ({ response: data }))
+    .catch(error => ({ error }));
+
 export default axios => ({
   fetchInputThematics: fetchInputThematics(axios),
   fetchModelThematics: fetchModelThematics(axios),
@@ -45,4 +69,8 @@ export default axios => ({
   saveModelThematic: saveModelThematic(axios),
   deleteInputThematic: deleteInputThematic(axios),
   deleteModelThematic: deleteModelThematic(axios),
+  deleteTagInputThematic: deleteTagInputThematic(axios),
+  deleteTagModelThematic: deleteTagModelThematic(axios),
+  createTagInputThematic: createTagInputThematic(axios),
+  createTagModelThematic: createTagModelThematic(axios),
 });
