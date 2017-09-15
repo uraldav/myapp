@@ -5,8 +5,9 @@ import { Layout, Icon, Tooltip } from 'antd';
 import ScrollArea from 'react-scrollbar';
 import SideMenu from './SideMenu';
 import './index.less';
+import Header from '../Header';
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 App.propTypes = {
   location: object.isRequired,
@@ -18,9 +19,7 @@ App.propTypes = {
 function App({ location, children, toggleSidebarCollapsed, sidebarCollapsed }) {
   return (
     <Layout styleName="page">
-      <Header styleName="header">
-        <div styleName="logo">АЭРОФЛОТ</div>
-      </Header>
+      <Header />
       <Layout>
         <Sider
           trigger={
