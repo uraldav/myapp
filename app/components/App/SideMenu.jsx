@@ -137,8 +137,8 @@ function SideMenu({ location }) {
         </Menu.Item>
         <Menu.Item>
           <MenuLink
-            icon={<Icon type="person" />}
-            tittle="Важные авторы"
+            icon={<Icon type="user" />}
+            title="Важные авторы"
             to="/importantAuthor"
           />
         </Menu.Item>

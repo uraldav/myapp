@@ -18,7 +18,8 @@ const recordShape = shape({
 Users.propTypes = {
   editableUserRecord: recordShape,
   data: arrayOf(recordShape),
-  onChangeEditableRecord: func.isRequired, /* eslint react/no-unused-prop-types: 0 */
+  onChangeEditableRecord:
+    func.isRequired /* eslint react/no-unused-prop-types: 0 */,
   onSave: func.isRequired,
   onAdd: func.isRequired,
   onDelete: func.isRequired,
@@ -70,14 +71,26 @@ function Users({
             title: 'ФИО',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
-              renderCell(index, 'name', record, editableUserRecord, handleCellChange),
+              renderCell(
+                index,
+                'name',
+                record,
+                editableUserRecord,
+                handleCellChange,
+              ),
           },
           {
             title: 'Логин',
             width: '12%',
             sorter: (a, b) => a.login.localeCompare(b.login),
             render: (text, record, index) =>
-              renderCell(index, 'login', record, editableUserRecord, handleCellChange),
+              renderCell(
+                index,
+                'login',
+                record,
+                editableUserRecord,
+                handleCellChange,
+              ),
           },
           {
             title: 'Должность',
@@ -97,14 +110,26 @@ function Users({
             width: '17%',
             sorter: (a, b) => a.mail.localeCompare(b.mail),
             render: (text, record, index) =>
-              renderCell(index, 'email', record, editableUserRecord, handleCellChange),
+              renderCell(
+                index,
+                'email',
+                record,
+                editableUserRecord,
+                handleCellChange,
+              ),
           },
           {
             title: 'Роль',
             width: '12%',
             sorter: (a, b) => a.role.localeCompare(b.role),
             render: (text, record, index) =>
-              renderCell(index, 'userRole', record, editableUserRecord, handleCellChange),
+              renderCell(
+                index,
+                'userRole',
+                record,
+                editableUserRecord,
+                handleCellChange,
+              ),
           },
           {
             title: '',
@@ -157,8 +182,15 @@ function Users({
   );
 }
 
-function renderCell(index, field, record, editableUserRecord, handleCellChange) {
-  const isEditableCell = editableUserRecord !== null && editableUserRecord.id === record.id;
+function renderCell(
+  index,
+  field,
+  record,
+  editableUserRecord,
+  handleCellChange,
+) {
+  const isEditableCell =
+    editableUserRecord !== null && editableUserRecord.id === record.id;
 
   if (isEditableCell) {
     return (
@@ -173,10 +205,15 @@ function renderCell(index, field, record, editableUserRecord, handleCellChange) 
 }
 export default compose(
   withHandlers({
-    handleCellChange: ({ onChangeEditableRecord, editableUserRecord }) => (field, index, value) =>
-      onChangeEditableRecord({ ...editableUserRecord, [field]: value }),
-    handleEdit: ({ onChangeEditableRecord }) => record => onChangeEditableRecord(record),
-    handleCancel: ({ onChangeEditableRecord }) => () => onChangeEditableRecord(null),
+    handleCellChange: ({ onChangeEditableRecord, editableUserRecord }) => (
+      field,
+      index,
+      value,
+    ) => onChangeEditableRecord({ ...editableUserRecord, [field]: value }),
+    handleEdit: ({ onChangeEditableRecord }) => record =>
+      onChangeEditableRecord(record),
+    handleCancel: ({ onChangeEditableRecord }) => () =>
+      onChangeEditableRecord(null),
   }),
   pure,
 )(Users);
