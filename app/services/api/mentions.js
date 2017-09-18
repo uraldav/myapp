@@ -56,6 +56,7 @@ function mapMentions({ data }) {
       likes,
       comments,
       weight,
+      url,
       tonality: tonalityMap(tone),
     }),
   );

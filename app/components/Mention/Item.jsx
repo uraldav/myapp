@@ -12,6 +12,7 @@ export const mentionDataTypes = {
   content: string,
   likes: number,
   comments: number,
+  url: string,
   date: instanceOf(Date),
   tonality: oneOf(['positive', 'negative', 'neutral']),
   toggleopened: func.isRequired,
@@ -33,6 +34,7 @@ function MentionItem({
   comments,
   date,
   tonality,
+  url,
   opened,
   toggleopened,
 }) {
@@ -71,7 +73,7 @@ function MentionItem({
             <Button shape="circle" icon="user" size="large" />
             <Button shape="circle" icon="mail" size="large" />
           </div>
-          Оригинальный фрейм из источника
+          {url}
         </div>
       )}
     </Card>
