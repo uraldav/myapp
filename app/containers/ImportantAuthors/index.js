@@ -2,15 +2,25 @@ import { object } from 'prop-types';
 import { compose, pure, getContext } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { dataSelector } from './selectors';
+import { dataSelector, editableRecordSelector } from './selectors';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
 import ImportantAuthors from '../../components/ImportantAuthors';
 import injectReducer from '../../utils/injectReducer';
 import injectSaga from '../../utils/injectSaga';
 
+import { add, changeEditableRecord, deleteRequest, saveRequest } from './ducks';
+
 const mapStateToProps = createStructuredSelector({
   data: dataSelector,
+  editableRecord: editableRecordSelector,
 });
+
+const mapDispatchToProps = {
+  onChangeEditableRecord: changeEditableRecord,
+  onAdd: add,
+  onDelete: deleteRequest,
+  onSave: saveRequest,
+};
 
 export default compose(
   getContext({
@@ -25,6 +35,6 @@ export default compose(
       injectSaga(store, saga);
     }),
   ),
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   pure,
 )(ImportantAuthors);

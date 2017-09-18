@@ -1,6 +1,6 @@
 import React from 'react';
-import { shape, string, number, bool, arrayOf, func } from 'prop-types';
-import { Card, Button, Input, Table } from 'antd';
+import { shape, string, number, arrayOf, func } from 'prop-types';
+import { Card, Button, Input, Table, Select, Popconfirm, Modal } from 'antd';
 import { compose, pure, withHandlers } from 'recompose';
 import { path } from 'ramda';
 import EditableCell from '../ui/Table/EditableCell';
@@ -16,23 +16,38 @@ const recordShape = shape({
 
 Authors.defaultProps = {
   data: [],
+  editableRecord: null,
 };
 
 Authors.propTypes = {
+  /* eslint react/no-unused-prop-types: 0 */
   data: arrayOf(recordShape),
+  editableRecord: recordShape,
+  handleEdit: func.isRequired,
+  onDelete: func.isRequired,
+  onSave: func.isRequired,
+  handleCancel: func.isRequired,
 };
 
-function Authors({ data }) {
+function Authors({
+  data,
+  editableRecord,
+  handleEdit,
+  onDelete,
+  onSave,
+  handleCancel,
+}) {
   return (
     <Card
       title={
         <span>
           <Button.Group>
-            <Button type="primary" icon="plus">
+            <Button
+              type="primary"
+              icon="plus"
+              disabled={editableRecord !== null}
+            >
               Добавить
-            </Button>
-            <Button type="primary" icon="minus">
-              Удалить
             </Button>
             <Button type="primary" icon="retweet">
               Обновить
@@ -51,30 +66,69 @@ function Authors({ data }) {
             title: 'Наименование аккаунта',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
-              renderCell(index, 'accountName', record),
+              renderCell(index, 'accountName', record, editableRecord),
           },
           {
             title: 'Социальная сеть',
-            sorter: (a, b) => a.name.localeCompare(b.name),
-            render: (text, record, index) =>
-              renderCell(index, 'socialNetwork', record),
+            dataIndex: 'socialNetwork',
+            render: (text, record) => renderSelect(text, record),
           },
           {
             title: 'Количество подписчиков',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
-              renderCell(index, 'subscribersNumber', record),
+              renderCell(index, 'subscribersNumber', record, editableRecord),
           },
           {
             title: 'Комментарий',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
-              renderCell(index, 'comment', record),
+              renderCell(index, 'comment', record, editableRecord),
           },
           {
-            title: 'Выбрать',
-            sorter: (a, b) => a.name.localeCompare(b.name),
-            render: (text, record, index) => renderCell(index, 'name', record),
+            title: '',
+            key: 'operation',
+            width: '120px',
+            fixed: 'right',
+
+            render: (text, record) => {
+              return (
+                <span styleName="action-button-wrapper">
+                  {editableRecord && editableRecord.id === record.id ? (
+                    <span>
+                      <Button.Group>
+                        <Button icon="save" onClick={onSave} />
+                        <Popconfirm
+                          title="Отменить изменения?"
+                          onConfirm={handleCancel}
+                        >
+                          <Button icon="close" />
+                        </Popconfirm>
+                      </Button.Group>
+                    </span>
+                  ) : (
+                    <span>
+                      <Button
+                        icon="edit"
+                        disabled={editableRecord !== null}
+                        onClick={() => handleEdit(record)}
+                      />
+                    </span>
+                  )}
+                  <span className="ant-divider" />
+                  <Button
+                    icon="delete"
+                    onClick={() =>
+                      Modal.confirm({
+                        title: 'Удалить пользователя?',
+                        content: `Вы уверены, что хотите удалить пользователя  ${record.name}?`,
+                        iconType: 'exclamation-circle',
+                        onOk: () => Promise.resolve(onDelete(record)),
+                      })}
+                  />
+                </span>
+              );
+            },
           },
         ]}
       />
@@ -82,8 +136,64 @@ function Authors({ data }) {
   );
 }
 
-function renderCell(index, field, record) {
-  const isEditableCell = record.id;
+function renderCell(
+  index,
+  field,
+  record,
+  editableRecord,
+  handleCellChange,
+  autoFocus,
+) {
+  const isEditableCell =
+    editableRecord !== null && editableRecord.id === record.id;
+
+  if (isEditableCell) {
+    return (
+      <EditableCell
+        autoFocus={autoFocus}
+        editable
+        value={path(field.split('.'), editableRecord)}
+        onChange={value => handleCellChange(field, index, value)}
+      />
+    );
+  }
   return path(field.split('.'), record);
 }
-export default compose(pure)(Authors);
+export default compose(
+  withHandlers({
+    handleCellChange: ({ onChangeEditableRecord, editableRecord }) => (
+      field,
+      index,
+      value,
+    ) => onChangeEditableRecord({ ...editableRecord, [field]: value }),
+    handleEdit: ({ onChangeEditableRecord }) => record =>
+      onChangeEditableRecord(record),
+    handleCancel: ({ onChangeEditableRecord }) => () =>
+      onChangeEditableRecord(null),
+  }),
+  pure,
+)(Authors);
+
+function renderSelect(text, record, onPermissionChange) {
+  return (
+    <Select
+      value={text}
+      styleName="select"
+      onChange={value =>
+        onPermissionChange({ value, functional: record.functional })}
+    >
+      <Select.Option value="0" key="0">
+        Выбрать
+      </Select.Option>
+      <Select.Option value="1" key="1">
+        Facebook
+      </Select.Option>
+      <Select.Option value="2" key="2">
+        Twitter
+      </Select.Option>
+      <Select.Option value="3" key="3">
+        Instagram
+      </Select.Option>
+    </Select>
+  );
+}
