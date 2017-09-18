@@ -1,7 +1,7 @@
 import React from 'react';
 import { string, oneOf, number, instanceOf, func, bool } from 'prop-types';
 import { compose, pure, withState, withHandlers } from 'recompose';
-import { Card, Icon, Tooltip, Button } from 'antd';
+import { Card, Icon, Tooltip, Button, Input, Tag, Popconfirm } from 'antd';
 import FaIcon from 'react-fontawesome';
 import TextTruncate from 'react-text-truncate';
 import moment from 'moment';
@@ -15,16 +15,20 @@ export const mentionDataTypes = {
   url: string,
   date: instanceOf(Date),
   tonality: oneOf(['positive', 'negative', 'neutral']),
-  toggleopened: func.isRequired,
-  opened: bool.isRequired,
 };
 
 MentionItem.propTypes = {
   ...mentionDataTypes,
+  toggleOpened: func.isRequired,
+  opened: bool,
+  toggleTag: func.isRequired,
+  tagEditing: bool,
 };
 
 MentionItem.defaultProps = {
   tonality: 'neutral',
+  opened: false,
+  tagEditing: false,
 };
 
 function MentionItem({
@@ -36,7 +40,9 @@ function MentionItem({
   tonality,
   url,
   opened,
-  toggleopened,
+  toggleOpened,
+  tagEditing,
+  toggleTag,
 }) {
   return (
     <Card
@@ -44,7 +50,7 @@ function MentionItem({
       styleName="mention-item"
       title={<span>{author}</span>}
       extra={<span>{moment(date).format('HH:mm:ss, D MMMM')}</span>}
-      onDoubleClick={() => toggleopened()}
+      onDoubleClick={() => toggleOpened()}
     >
       <div styleName="content">
         {opened ? <span>{content}</span> : <TextTruncate text={content} />}
@@ -65,6 +71,33 @@ function MentionItem({
       </div>
       {opened && (
         <div>
+          <div>
+            <Tag>
+              Питание&nbsp;&nbsp;
+              <Popconfirm title={'Удалить тег Питание?'}>
+                <Icon type="close" />
+              </Popconfirm>
+            </Tag>
+            {tagEditing ? (
+              <Input
+                autoFocus
+                type="text"
+                size="small"
+                styleName="add-input"
+                onBlur={() => toggleTag()}
+                onPressEnter={() => toggleTag()}
+              />
+            ) : (
+              <Button
+                size="small"
+                type="dashed"
+                styleName="add-button"
+                onClick={() => toggleTag()}
+              >
+                + Добавить
+              </Button>
+            )}
+          </div>
           <div styleName="buttons">
             <Button shape="circle" size="large">
               <FaIcon name="bookmark-o" />
@@ -83,8 +116,14 @@ function MentionItem({
 export default compose(
   withState('opened', 'setOpened', false),
   withHandlers({
-    toggleopened: ({ opened, setOpened }) => () => {
+    toggleOpened: ({ opened, setOpened }) => () => {
       setOpened(!opened);
+    },
+  }),
+  withState('tagEditing', 'setTagEditing', false),
+  withHandlers({
+    toggleTag: ({ tagEditing, setTagEditing }) => () => {
+      setTagEditing(!tagEditing);
     },
   }),
   pure,
