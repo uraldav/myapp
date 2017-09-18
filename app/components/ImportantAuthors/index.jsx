@@ -27,6 +27,7 @@ Authors.propTypes = {
   onDelete: func.isRequired,
   onSave: func.isRequired,
   handleCancel: func.isRequired,
+  handleCellChange: func.isRequired,
 };
 
 function Authors({
@@ -36,6 +37,7 @@ function Authors({
   onDelete,
   onSave,
   handleCancel,
+  handleCellChange,
 }) {
   return (
     <Card
@@ -48,9 +50,6 @@ function Authors({
               disabled={editableRecord !== null}
             >
               Добавить
-            </Button>
-            <Button type="primary" icon="retweet">
-              Обновить
             </Button>
           </Button.Group>
         </span>
@@ -66,7 +65,13 @@ function Authors({
             title: 'Наименование аккаунта',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
-              renderCell(index, 'accountName', record, editableRecord),
+              renderCell(
+                index,
+                'accountName',
+                record,
+                editableRecord,
+                handleCellChange,
+              ),
           },
           {
             title: 'Социальная сеть',
@@ -76,14 +81,12 @@ function Authors({
           {
             title: 'Количество подписчиков',
             sorter: (a, b) => a.name.localeCompare(b.name),
-            render: (text, record, index) =>
-              renderCell(index, 'subscribersNumber', record, editableRecord),
+            dataIndex: 'subscribersNumber',
           },
           {
             title: 'Комментарий',
             sorter: (a, b) => a.name.localeCompare(b.name),
-            render: (text, record, index) =>
-              renderCell(index, 'comment', record, editableRecord),
+            dataIndex: 'comment',
           },
           {
             title: '',

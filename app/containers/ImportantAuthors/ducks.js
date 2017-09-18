@@ -17,6 +17,12 @@ export const ADD = ducks.defineType('ADD');
 export const CHANGE_EDITABLE_RECORD = ducks.defineType(
   'CHANGE_EDITABLE_RECORD',
 );
+export const CHANGE_EDITABLE_RECORD_NAME = ducks.defineType(
+  'CHANGE_EDITABLE_RECORD_NAME',
+);
+export const SELECT_EDITABLE_RECORD = ducks.defineType(
+  'SELECT_EDITABLE_RECORD',
+);
 
 export const request = ducks.createAction(REQUEST);
 export const requestSuccess = ducks.createAction(REQUEST_SUCCESS);

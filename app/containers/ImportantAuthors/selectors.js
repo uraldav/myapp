@@ -17,5 +17,5 @@ export const loadingSelector = createSelector(
 
 export const editableRecordSelector = createSelector(
   importantAuthorsSelector,
-  Authors => Authors.getIn(['editableUserRecord']),
+  Authors => Authors.getIn(['editableRecord']),
 );
