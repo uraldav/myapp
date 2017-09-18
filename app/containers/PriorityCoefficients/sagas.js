@@ -19,7 +19,6 @@ import {
   SAVE_REQUEST,
   saveSuccess,
   saveFailure,
-  request,
 } from './ducks';
 
 export default function* () {
