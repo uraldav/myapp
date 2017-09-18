@@ -55,12 +55,7 @@ function Users({
           Добавить
         </Button>
       }
-      extra={
-        <Input.Search
-          placeholder="Поиск"
-          onSearch={value => console.log(value)}
-        />
-      }
+      extra={<Input.Search placeholder="Поиск" />}
     >
       <Table
         dataSource={data.map(item => ({ ...item, key: item.id }))}
@@ -71,14 +66,28 @@ function Users({
             title: 'ФИО',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
-              renderCell(index, 'name', record, editableUserRecord, handleCellChange, true),
+              renderCell(
+                index,
+                'name',
+                record,
+                editableUserRecord,
+                handleCellChange,
+                true,
+              ),
           },
           {
             title: 'Логин',
             width: '12%',
             sorter: (a, b) => a.login.localeCompare(b.login),
             render: (text, record, index) =>
-              renderCell(index, 'login', record, editableUserRecord, handleCellChange, false),
+              renderCell(
+                index,
+                'login',
+                record,
+                editableUserRecord,
+                handleCellChange,
+                false,
+              ),
           },
           {
             title: 'Должность',
@@ -98,14 +107,28 @@ function Users({
             width: '17%',
             sorter: (a, b) => a.mail.localeCompare(b.mail),
             render: (text, record, index) =>
-              renderCell(index, 'email', record, editableUserRecord, handleCellChange, false),
+              renderCell(
+                index,
+                'email',
+                record,
+                editableUserRecord,
+                handleCellChange,
+                false,
+              ),
           },
           {
             title: 'Роль',
             width: '12%',
             sorter: (a, b) => a.role.localeCompare(b.role),
             render: (text, record, index) =>
-              renderCell(index, 'userRole', record, editableUserRecord, handleCellChange, false),
+              renderCell(
+                index,
+                'userRole',
+                record,
+                editableUserRecord,
+                handleCellChange,
+                false,
+              ),
           },
           {
             title: '',
@@ -158,8 +181,16 @@ function Users({
   );
 }
 
-function renderCell(index, field, record, editableUserRecord, handleCellChange, autoFocus) {
-  const isEditableCell = editableUserRecord !== null && editableUserRecord.id === record.id;
+function renderCell(
+  index,
+  field,
+  record,
+  editableUserRecord,
+  handleCellChange,
+  autoFocus,
+) {
+  const isEditableCell =
+    editableUserRecord !== null && editableUserRecord.id === record.id;
 
   if (isEditableCell) {
     return (
