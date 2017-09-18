@@ -1,7 +1,7 @@
 import React from 'react';
-import { string, oneOf, number, instanceOf } from 'prop-types';
-import { compose, pure } from 'recompose';
-import { Card, Icon, Tooltip } from 'antd';
+import { string, oneOf, number, instanceOf, func, bool } from 'prop-types';
+import { compose, pure, withState, withHandlers } from 'recompose';
+import { Card, Icon, Tooltip, Button } from 'antd';
 import FaIcon from 'react-fontawesome';
 import TextTruncate from 'react-text-truncate';
 import moment from 'moment';
@@ -14,6 +14,8 @@ export const mentionDataTypes = {
   comments: number,
   date: instanceOf(Date),
   tonality: oneOf(['positive', 'negative', 'neutral']),
+  toggleopened: func.isRequired,
+  opened: bool.isRequired,
 };
 
 MentionItem.propTypes = {
@@ -31,35 +33,57 @@ function MentionItem({
   comments,
   date,
   tonality,
+  opened,
+  toggleopened,
 }) {
   return (
     <Card
       className={tonality}
       styleName="mention-item"
-      title={
-        <span>{author}</span>
-      }
-      extra={
-        <span>{moment(date).format('HH:mm:ss, D MMMM')}</span>
-      }
+      title={<span>{author}</span>}
+      extra={<span>{moment(date).format('HH:mm:ss, D MMMM')}</span>}
+      onDoubleClick={() => toggleopened()}
     >
       <div styleName="content">
-        <TextTruncate text={content} />
+        {opened ? <span>{content}</span> : <TextTruncate text={content} />}
       </div>
       <div styleName="footer">
         <div styleName="social-info">
           <Tooltip title="Комментарии" placement="bottomLeft">
-            <span><FaIcon name="reply" /> {comments}</span>
+            <span>
+              <FaIcon name="reply" /> {comments}
+            </span>
           </Tooltip>
           <Tooltip title="Мне нравится" placement="bottomLeft">
-            <span><Icon type="heart" /> {likes}</span>
+            <span>
+              <Icon type="heart" /> {likes}
+            </span>
           </Tooltip>
         </div>
       </div>
+      {opened && (
+        <div>
+          <div styleName="buttons">
+            <Button shape="circle" size="large">
+              <FaIcon name="bookmark-o" />
+            </Button>
+            <Button shape="circle" icon="flag" size="large" />
+            <Button shape="circle" icon="user" size="large" />
+            <Button shape="circle" icon="mail" size="large" />
+          </div>
+          Оригинальный фрейм из источника
+        </div>
+      )}
     </Card>
   );
 }
 
 export default compose(
+  withState('opened', 'setOpened', false),
+  withHandlers({
+    toggleopened: ({ opened, setOpened }) => () => {
+      setOpened(!opened);
+    },
+  }),
   pure,
 )(MentionItem);
