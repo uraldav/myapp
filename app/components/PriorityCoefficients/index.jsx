@@ -129,13 +129,7 @@ function PriorityCoefficients({
   );
 }
 
-function renderCell(
-  index,
-  field,
-  record,
-  editableRecord,
-  handleCellChange,
-) {
+function renderCell(index, field, record, editableRecord, handleCellChange) {
   const isEditableCell =
     editableRecord !== null && editableRecord.id === record.id;
 

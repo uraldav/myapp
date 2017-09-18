@@ -7,5 +7,6 @@ module.exports = () => {
     input_thematics: require('./input_thematics')(),
     model_thematics: require('./model_thematics')(),
     priority_coefficients: require('./priority_coefficients')(),
+    important_authors: require('./important_authors')(),
   };
 };
