@@ -54,7 +54,7 @@ function PriorityCoefficients({
         columns={[
           {
             title: 'Метрика',
-            sorter: (a, b) => a.name.localeCompare(b.name),
+            sorter: (a, b) => a.metrics.localeCompare(b.metrics),
             render: (text, record, index) =>
               renderCell(
                 index,
@@ -67,7 +67,6 @@ function PriorityCoefficients({
           {
             title: 'Для формулы приоритезации',
             width: '20%',
-            sorter: (a, b) => a.login.localeCompare(b.login),
             render: (text, record, index) =>
               renderCell(
                 index,
@@ -80,7 +79,6 @@ function PriorityCoefficients({
           {
             title: 'Для ленты "Требуют внимания"',
             width: '20%',
-            sorter: (a, b) => a.position.localeCompare(b.position),
             render: (text, record, index) =>
               renderCell(
                 index,

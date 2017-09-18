@@ -37,10 +37,10 @@ function MentionItem({
       className={tonality}
       styleName="mention-item"
       title={
-        <span styleName="title">
-          <span>{author}</span>
-          <span>{moment(date).format('HH:mm:ss, D MMMM')}</span>
-        </span>
+        <span>{author}</span>
+      }
+      extra={
+        <span>{moment(date).format('HH:mm:ss, D MMMM')}</span>
       }
     >
       <div styleName="content">

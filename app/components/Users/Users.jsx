@@ -71,26 +71,14 @@ function Users({
             title: 'ФИО',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
-              renderCell(
-                index,
-                'name',
-                record,
-                editableUserRecord,
-                handleCellChange,
-              ),
+              renderCell(index, 'name', record, editableUserRecord, handleCellChange, true),
           },
           {
             title: 'Логин',
             width: '12%',
             sorter: (a, b) => a.login.localeCompare(b.login),
             render: (text, record, index) =>
-              renderCell(
-                index,
-                'login',
-                record,
-                editableUserRecord,
-                handleCellChange,
-              ),
+              renderCell(index, 'login', record, editableUserRecord, handleCellChange, false),
           },
           {
             title: 'Должность',
@@ -110,26 +98,14 @@ function Users({
             width: '17%',
             sorter: (a, b) => a.mail.localeCompare(b.mail),
             render: (text, record, index) =>
-              renderCell(
-                index,
-                'email',
-                record,
-                editableUserRecord,
-                handleCellChange,
-              ),
+              renderCell(index, 'email', record, editableUserRecord, handleCellChange, false),
           },
           {
             title: 'Роль',
             width: '12%',
             sorter: (a, b) => a.role.localeCompare(b.role),
             render: (text, record, index) =>
-              renderCell(
-                index,
-                'userRole',
-                record,
-                editableUserRecord,
-                handleCellChange,
-              ),
+              renderCell(index, 'userRole', record, editableUserRecord, handleCellChange, false),
           },
           {
             title: '',
@@ -182,19 +158,13 @@ function Users({
   );
 }
 
-function renderCell(
-  index,
-  field,
-  record,
-  editableUserRecord,
-  handleCellChange,
-) {
-  const isEditableCell =
-    editableUserRecord !== null && editableUserRecord.id === record.id;
+function renderCell(index, field, record, editableUserRecord, handleCellChange, autoFocus) {
+  const isEditableCell = editableUserRecord !== null && editableUserRecord.id === record.id;
 
   if (isEditableCell) {
     return (
       <EditableCell
+        autoFocus={autoFocus}
         editable
         value={path(field.split('.'), editableUserRecord)}
         onChange={value => handleCellChange(field, index, value)}

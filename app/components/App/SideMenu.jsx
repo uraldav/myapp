@@ -149,6 +149,13 @@ function SideMenu({ location }) {
             to="/priority_coefficients"
           />
         </Menu.Item>
+        <Menu.Item>
+          <MenuLink
+            icon={<Icon type="solution" />}
+            title="Роли пользователей"
+            to="/user_roles"
+          />
+        </Menu.Item>
       </SubMenu>
     </Menu>
   );
