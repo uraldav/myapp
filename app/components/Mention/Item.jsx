@@ -4,6 +4,8 @@ import { compose, pure, withState, withHandlers } from 'recompose';
 import { Card, Icon, Tooltip, Button, Input, Tag, Popconfirm } from 'antd';
 import FaIcon from 'react-fontawesome';
 import TextTruncate from 'react-text-truncate';
+import InstagramEmbed from 'react-instagram-embed';
+import TweetEmbed from 'react-tweet-embed';
 import moment from 'moment';
 import './Item.less';
 
@@ -106,13 +108,42 @@ function MentionItem({
             <Button shape="circle" icon="user" size="large" />
             <Button shape="circle" icon="mail" size="large" />
           </div>
-          {url}
+          {detectSocialNetwork(url) === 'instagram' && (
+            <InstagramEmbed
+              url={prepareUrlInstagram(url)}
+              maxWidth={720}
+              onLoading={() => {}}
+              onSuccess={() => {}}
+              onAfterRender={() => {}}
+              onFailure={() => {}}
+            />
+          )}
+          {detectSocialNetwork(url) === 'twitter' && (
+            <TweetEmbed id={prepareIdTwitter(url)} />
+          )}
+          {detectSocialNetwork(url) === 'facebook' && (
+            <span>Тут будет эмбед из фейсбука</span>
+          )}
         </div>
       )}
     </Card>
   );
 }
 
+function detectSocialNetwork(url) {
+  if (/instagram.com/.test(url)) return 'instagram';
+  if (/twitter.com/.test(url)) return 'twitter';
+  if (/facebook.com/.test(url)) return 'facebook';
+  return '';
+}
+
+function prepareUrlInstagram(url) {
+  return /instagram.com\/p\/.*\//.exec(url)[0];
+}
+
+function prepareIdTwitter(url) {
+  return url.split('/').slice(-1)[0];
+}
 export default compose(
   withState('opened', 'setOpened', false),
   withHandlers({
