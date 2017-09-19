@@ -4,12 +4,6 @@ const fetchAuthors = axios => () =>
     .then(({ data }) => ({ response: data }))
     .catch(error => ({ error }));
 
-export default axios => ({
-  fetchAuthors: fetchAuthors(axios),
-  deleteAuthors: deleteAuthors(axios),
-  saveAuthors: saveAuthors(axios),
-  fetchChanges: fetchChanges(axios),
-});
 const deleteAuthors = axios => record =>
   axios
     .delete('/api/important_authors', { params: { id: record.id } })
@@ -26,3 +20,10 @@ const fetchChanges = axios => () =>
     .get('/api/important_authors')
     .then(({ data }) => ({ response: data }))
     .catch(error => ({ error }));
+
+export default axios => ({
+  fetchAuthors: fetchAuthors(axios),
+  deleteAuthors: deleteAuthors(axios),
+  saveAuthors: saveAuthors(axios),
+  fetchChanges: fetchChanges(axios),
+});
