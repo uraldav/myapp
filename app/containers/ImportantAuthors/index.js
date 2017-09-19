@@ -8,7 +8,7 @@ import ImportantAuthors from '../../components/ImportantAuthors';
 import injectReducer from '../../utils/injectReducer';
 import injectSaga from '../../utils/injectSaga';
 
-import { add, changeEditableRecord, deleteRequest, saveRequest } from './ducks';
+import { add, changeEditableRecord, deleteRequest, saveRequest, updateChangeRecord } from './ducks';
 
 const mapStateToProps = createStructuredSelector({
   data: dataSelector,
@@ -20,6 +20,7 @@ const mapDispatchToProps = {
   onAdd: add,
   onDelete: deleteRequest,
   onSave: saveRequest,
+  onChange: updateChangeRecord,
 };
 
 export default compose(

@@ -24,18 +24,19 @@ Authors.propTypes = {
   onAdd: func.isRequired,
   data: arrayOf(recordShape),
   onChangeEditableRecord: func.isRequired,
+  onChange: func.isRequired,
   editableRecord: recordShape,
   handleEdit: func.isRequired,
   onDelete: func.isRequired,
   onSave: func.isRequired,
   handleCancel: func.isRequired,
   handleCellChange: func.isRequired,
-  
 };
 
 function Authors({
   data,
   editableRecord,
+  onChange,
   onAdd,
   handleEdit,
   onDelete,
@@ -81,7 +82,7 @@ function Authors({
           {
             title: 'Социальная сеть',
             dataIndex: 'socialNetwork',
-            render: (text, record) => renderSelect(text, record),
+            render: (text, record) => renderSelect(text, record, onChange),
           },
           {
             title: 'Количество подписчиков',
@@ -182,13 +183,12 @@ export default compose(
   pure,
 )(Authors);
 
-function renderSelect(text, record, onPermissionChange) {
+function renderSelect(text, record, onChange) {
   return (
     <Select
       value={text}
       styleName="select"
-      onChange={value =>
-        onPermissionChange({ value, functional: record.functional })}
+      onChange={value => onChange({ value, functional: record.functional })}
     >
       <Select.Option value="0" key="0">
         Выбрать

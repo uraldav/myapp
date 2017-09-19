@@ -19,3 +19,22 @@ export const editableRecordSelector = createSelector(
   importantAuthorsSelector,
   Authors => Authors.getIn(['editableRecord']),
 );
+
+export const formattedChangeSelector = createSelector(editableRecordSelector, importantAuthorsSelector, (editableRecord, change) => {
+  if (editableRecord !== null && change !== null) {
+    return editableRecord
+      .change
+      .map(chan => ({
+        functional: chan.functional,
+        value: chan.value,
+        name: change
+          .find(p => p.functional === chan.functional)
+          .name,
+      }));
+  }
+  return [];
+});
+export const changeSelector = createSelector(
+  importantAuthorsSelector,
+  change => change.get('change').toJS(),
+);

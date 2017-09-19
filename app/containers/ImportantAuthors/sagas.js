@@ -22,6 +22,8 @@ import {
   deleteFailure,
   saveSuccess,
   saveFailure,
+  requestChangeSuccess,
+  requestChangeFailure,
 } from './ducks';
 import { editableRecordSelector } from './selectors';
 
@@ -72,3 +74,15 @@ export function* deleteUserSaga({ payload }) {
     yield put(deleteFailure(error));
   }
 }
+
+export function* requestPermissionsSaga() {
+  const api = yield getContext('api');
+  const { response, error } = yield call(api.userRoles.fetchPermissions);
+
+  if (response) {
+    yield put(requestChangeSuccess(response));
+  } else {
+    yield put(requestChangeFailure(error));
+  }
+}
+
