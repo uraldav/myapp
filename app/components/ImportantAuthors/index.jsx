@@ -21,18 +21,22 @@ Authors.defaultProps = {
 
 Authors.propTypes = {
   /* eslint react/no-unused-prop-types: 0 */
+  onAdd: func.isRequired,
   data: arrayOf(recordShape),
+  onChangeEditableRecord: func.isRequired,
   editableRecord: recordShape,
   handleEdit: func.isRequired,
   onDelete: func.isRequired,
   onSave: func.isRequired,
   handleCancel: func.isRequired,
   handleCellChange: func.isRequired,
+  
 };
 
 function Authors({
   data,
   editableRecord,
+  onAdd,
   handleEdit,
   onDelete,
   onSave,
@@ -48,6 +52,7 @@ function Authors({
               type="primary"
               icon="plus"
               disabled={editableRecord !== null}
+              onClick={onAdd}
             >
               Добавить
             </Button>
