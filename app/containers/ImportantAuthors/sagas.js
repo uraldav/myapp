@@ -31,6 +31,7 @@ export default function* () {
   const watchRequest = yield takeLatest(REQUEST, requestSaga);
   const watchDeleteRequest = yield takeLatest(DELETE_REQUEST, deleteUserSaga);
   const watchCreateRequest = yield takeLatest(SAVE_REQUEST, saveSaga);
+  yield call(requestChangeSaga);
   yield fork(requestSaga);
 
   yield take(LOCATION_CHANGE);
@@ -51,9 +52,12 @@ export function* requestSaga() {
 
 export function* saveSaga() {
   const api = yield getContext('api');
-  const userRecord = yield select(editableRecordSelector);
+  const record = yield select(editableRecordSelector);
 
-  const { response, error } = yield call(api.users.saveUser, userRecord);
+  const { response, error } = yield call(
+    api.importantAuthors.saveAuthors,
+    record,
+  );
 
   if (response) {
     yield put(saveSuccess(response));
@@ -65,7 +69,10 @@ export function* saveSaga() {
 
 export function* deleteUserSaga({ payload }) {
   const api = yield getContext('api');
-  const { response, error } = yield call(api.users.deleteUser, payload);
+  const { response, error } = yield call(
+    api.importantAuthors.deleteAuthors,
+    payload,
+  );
 
   if (response) {
     yield put(deleteSuccess(response));
@@ -75,9 +82,9 @@ export function* deleteUserSaga({ payload }) {
   }
 }
 
-export function* requestPermissionsSaga() {
+export function* requestChangeSaga() {
   const api = yield getContext('api');
-  const { response, error } = yield call(api.userRoles.fetchPermissions);
+  const { response, error } = yield call(api.importantAuthors.fetchChanges);
 
   if (response) {
     yield put(requestChangeSuccess(response));
@@ -85,4 +92,3 @@ export function* requestPermissionsSaga() {
     yield put(requestChangeFailure(error));
   }
 }
-
