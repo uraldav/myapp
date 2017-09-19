@@ -2,6 +2,7 @@ import React from 'react';
 import { object } from 'prop-types';
 import { Layout } from 'antd';
 import { compose, pure, getContext } from 'recompose';
+import { Helmet } from 'react-helmet';
 import MentionList from './List';
 import MentionFilter from './Filter';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
@@ -14,6 +15,12 @@ const { Sider, Content } = Layout;
 function Mention() {
   return (
     <Layout>
+      <Helmet>
+        <script
+          src="//connect.facebook.net/ru_RU/sdk.js#xfbml=1&amp;version=v2.5"
+          async
+        />
+      </Helmet>
       <Content>
         <MentionList />
       </Content>
