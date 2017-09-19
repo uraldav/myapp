@@ -1,10 +1,11 @@
 import React from 'react';
 import { string, oneOf, number, instanceOf, func, bool } from 'prop-types';
-import { compose, pure, withState, withHandlers } from 'recompose';
+import { compose, pure, withState, withHandlers, lifecycle } from 'recompose';
 import { Card, Icon, Tooltip, Button, Input, Tag, Popconfirm } from 'antd';
 import FaIcon from 'react-fontawesome';
 import TextTruncate from 'react-text-truncate';
 import moment from 'moment';
+import Embed from './Embed';
 import './Item.less';
 
 export const mentionDataTypes = {
@@ -106,7 +107,7 @@ function MentionItem({
             <Button shape="circle" icon="user" size="large" />
             <Button shape="circle" icon="mail" size="large" />
           </div>
-          {url}
+          <Embed url={url} />
         </div>
       )}
     </Card>
