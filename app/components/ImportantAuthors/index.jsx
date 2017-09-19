@@ -1,59 +1,64 @@
 import React from 'react';
-import { number, arrayOf, shape, object, func, string } from 'prop-types';
+import { shape, string, number, arrayOf, func } from 'prop-types';
+import { Card, Button, Input, Table, Select, Popconfirm, Modal } from 'antd';
 import { compose, pure, withHandlers } from 'recompose';
-import { Input, Card, Button, Modal, Popconfirm, Table } from 'antd';
 import { path } from 'ramda';
 import EditableCell from '../ui/Table/EditableCell';
-import './Users.less';
+import './index.less';
 
 const recordShape = shape({
   id: number,
-  name: string,
-  login: string,
-  position: string,
-  email: string,
-  userRole: object,
+  accountName: string,
+  socialNetwork: string,
+  subscribersNumber: number,
+  comment: string,
 });
 
-Users.propTypes = {
-  editableUserRecord: recordShape,
-  data: arrayOf(recordShape),
-  onChangeEditableRecord:
-    func.isRequired /* eslint react/no-unused-prop-types: 0 */,
-  onSave: func.isRequired,
-  onAdd: func.isRequired,
-  onDelete: func.isRequired,
-  handleEdit: func.isRequired,
-  handleCellChange: func.isRequired,
-  handleCancel: func.isRequired,
-};
-
-Users.defaultProps = {
+Authors.defaultProps = {
   data: [],
-  editableUserRecord: null,
+  editableRecord: null,
 };
 
-function Users({
+Authors.propTypes = {
+  /* eslint react/no-unused-prop-types: 0 */
+  onAdd: func.isRequired,
+  data: arrayOf(recordShape),
+  onChangeEditableRecord: func.isRequired,
+  onChange: func.isRequired,
+  editableRecord: recordShape,
+  handleEdit: func.isRequired,
+  onDelete: func.isRequired,
+  onSave: func.isRequired,
+  handleCancel: func.isRequired,
+  handleCellChange: func.isRequired,
+};
+
+function Authors({
   data,
-  editableUserRecord,
-  onSave,
+  editableRecord,
+  onChange,
   onAdd,
+  handleEdit,
   onDelete,
+  onSave,
   handleCancel,
   handleCellChange,
-  handleEdit,
 }) {
   return (
     <Card
       title={
-        <Button
-          type="primary"
-          icon="plus"
-          disabled={editableUserRecord !== null}
-          onClick={onAdd}
-        >
-          Добавить
-        </Button>
+        <span>
+          <Button.Group>
+            <Button
+              type="primary"
+              icon="plus"
+              disabled={editableRecord !== null}
+              onClick={onAdd}
+            >
+              Добавить
+            </Button>
+          </Button.Group>
+        </span>
       }
       extra={<Input.Search placeholder="Поиск" />}
     >
@@ -63,72 +68,31 @@ function Users({
         styleName="table"
         columns={[
           {
-            title: 'ФИО',
+            title: 'Наименование аккаунта',
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text, record, index) =>
               renderCell(
                 index,
-                'name',
+                'accountName',
                 record,
-                editableUserRecord,
-                handleCellChange,
-                true,
-              ),
-          },
-          {
-            title: 'Логин',
-            width: '12%',
-            sorter: (a, b) => a.login.localeCompare(b.login),
-            render: (text, record, index) =>
-              renderCell(
-                index,
-                'login',
-                record,
-                editableUserRecord,
-                handleCellChange,
-                false,
-              ),
-          },
-          {
-            title: 'Должность',
-            width: '17%',
-            sorter: (a, b) => a.position.localeCompare(b.position),
-            render: (text, record, index) =>
-              renderCell(
-                index,
-                'position',
-                record,
-                editableUserRecord,
+                editableRecord,
                 handleCellChange,
               ),
           },
           {
-            title: 'E-mail',
-            width: '17%',
-            sorter: (a, b) => a.mail.localeCompare(b.mail),
-            render: (text, record, index) =>
-              renderCell(
-                index,
-                'email',
-                record,
-                editableUserRecord,
-                handleCellChange,
-                false,
-              ),
+            title: 'Социальная сеть',
+            dataIndex: 'socialNetwork',
+            render: (text, record) => renderSelect(text, record, onChange),
           },
           {
-            title: 'Роль',
-            width: '12%',
-            sorter: (a, b) => a.role.localeCompare(b.role),
-            render: (text, record, index) =>
-              renderCell(
-                index,
-                'userRole',
-                record,
-                editableUserRecord,
-                handleCellChange,
-                false,
-              ),
+            title: 'Количество подписчиков',
+            sorter: (a, b) => a.name.localeCompare(b.name),
+            dataIndex: 'subscribersNumber',
+          },
+          {
+            title: 'Комментарий',
+            sorter: (a, b) => a.name.localeCompare(b.name),
+            dataIndex: 'comment',
           },
           {
             title: '',
@@ -139,7 +103,7 @@ function Users({
             render: (text, record) => {
               return (
                 <span styleName="action-button-wrapper">
-                  {editableUserRecord && editableUserRecord.id === record.id ? (
+                  {editableRecord && editableRecord.id === record.id ? (
                     <span>
                       <Button.Group>
                         <Button icon="save" onClick={onSave} />
@@ -155,7 +119,7 @@ function Users({
                     <span>
                       <Button
                         icon="edit"
-                        disabled={editableUserRecord !== null}
+                        disabled={editableRecord !== null}
                         onClick={() => handleEdit(record)}
                       />
                     </span>
@@ -185,19 +149,19 @@ function renderCell(
   index,
   field,
   record,
-  editableUserRecord,
+  editableRecord,
   handleCellChange,
   autoFocus,
 ) {
   const isEditableCell =
-    editableUserRecord !== null && editableUserRecord.id === record.id;
+    editableRecord !== null && editableRecord.id === record.id;
 
   if (isEditableCell) {
     return (
       <EditableCell
         autoFocus={autoFocus}
         editable
-        value={path(field.split('.'), editableUserRecord)}
+        value={path(field.split('.'), editableRecord)}
         onChange={value => handleCellChange(field, index, value)}
       />
     );
@@ -206,15 +170,38 @@ function renderCell(
 }
 export default compose(
   withHandlers({
-    handleCellChange: ({ onChangeEditableRecord, editableUserRecord }) => (
+    handleCellChange: ({ onChangeEditableRecord, editableRecord }) => (
       field,
       index,
       value,
-    ) => onChangeEditableRecord({ ...editableUserRecord, [field]: value }),
+    ) => onChangeEditableRecord({ ...editableRecord, [field]: value }),
     handleEdit: ({ onChangeEditableRecord }) => record =>
       onChangeEditableRecord(record),
     handleCancel: ({ onChangeEditableRecord }) => () =>
       onChangeEditableRecord(null),
   }),
   pure,
-)(Users);
+)(Authors);
+
+function renderSelect(text, record, onChange) {
+  return (
+    <Select
+      value={text}
+      styleName="select"
+      onChange={value => onChange({ value, functional: record.functional })}
+    >
+      <Select.Option value="0" key="0">
+        Выбрать
+      </Select.Option>
+      <Select.Option value="1" key="1">
+        Facebook
+      </Select.Option>
+      <Select.Option value="2" key="2">
+        Twitter
+      </Select.Option>
+      <Select.Option value="3" key="3">
+        Instagram
+      </Select.Option>
+    </Select>
+  );
+}

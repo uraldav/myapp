@@ -9,5 +9,6 @@ module.exports = () => {
     user_roles: require('./user_roles')(),
     permissions: require('./permissions')(),
     priority_coefficients: require('./priority_coefficients')(),
+    important_authors: require('./important_authors')(),
   };
 };
