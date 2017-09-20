@@ -1,7 +1,11 @@
 import React from 'react';
-import { compose, pure, withProps } from 'recompose';
+import { object } from 'prop-types';
+import { compose, pure, withProps, getContext } from 'recompose';
 import App from '../../components/App';
 import AsyncRoute from '../../routing/AsyncRoute';
+import withAsyncDependencies from '../../utils/withAsyncDependencies';
+import injectReducer from '../../utils/injectReducer';
+import injectSaga from '../../utils/injectSaga';
 
 function NestedRoutes() {
   return (
@@ -43,5 +47,18 @@ function NestedRoutes() {
 
 export default compose(
   withProps(props => ({ children: NestedRoutes(props) })),
+  getContext({
+    store: object,
+  }),
+  withAsyncDependencies(({ store }) =>
+    Promise.all([
+      import('./ducks'),
+      import('./sagas'),
+    ]).then(([reducer, saga]) => {
+      injectReducer(store, 'app', reducer);
+      injectSaga(store, saga);
+      store.dispatch(reducer.menuItemsRequest());
+    }),
+  ),
   pure,
 )(App);
