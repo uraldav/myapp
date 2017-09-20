@@ -6,6 +6,7 @@ import {
   take,
   takeLatest,
 } from 'redux-saga/effects';
+import { notification } from 'antd';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   MENU_ITEMS_REQUEST,
@@ -19,6 +20,8 @@ export default function* () {
     menuItemsRequestSaga,
   );
 
+  yield yield takeLatest(action => /_FAILURE/.test(action.type), failure);
+
   yield take(LOCATION_CHANGE);
   yield cancel(watchMenuItemsRequest);
 }
@@ -31,4 +34,16 @@ export function* menuItemsRequestSaga() {
   } else {
     yield put(menuItemsFailure(error));
   }
+}
+
+export function* failure({ payload }) {
+  notification.error({
+    message: payload.message,
+    duration: 0,
+    description: process.env.NODE_ENV === 'production' ? '' : payload.stack,
+    style: {
+      width: process.env.NODE_ENV === 'production' ? 335 : 800,
+      marginLeft: process.env.NODE_ENV === 'production' ? 0 : 335 - 800,
+    },
+  });
 }
