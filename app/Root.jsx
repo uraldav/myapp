@@ -22,15 +22,15 @@ function Root({ store, history }) {
           <LocaleProvider locale={ruRU}>
             <Switch>
               <AsyncRoute
-                exact
-                requireComponent={() => {
-                  return import('./containers/App');
-                }}
-              />
-              <AsyncRoute
                 path="/auth"
                 requireComponent={() => {
                   return import('./containers/Auth');
+                }}
+              />
+              <AsyncRoute
+                exact
+                requireComponent={() => {
+                  return import('./containers/App');
                 }}
               />
               <Route component={() => <span>No page</span>} />
