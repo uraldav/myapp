@@ -37,7 +37,7 @@ function App({ location, children, toggleSidebarCollapsed, sidebarCollapsed }) {
           width={250}
         >
           <ScrollArea horizontal={false} smoothScrolling>
-            <SideMenu location={location} />
+            <SideMenu location={location} collapsed={sidebarCollapsed} />
           </ScrollArea>
         </Sider>
         <Content styleName="content">

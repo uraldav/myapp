@@ -1,6 +1,7 @@
 module.exports = () => {
   return {
     mentions: require('./mentions')(),
+    mentions_words: require('./mentions_words')(),
     auth: require('./auth')(),
     userdata: require('./auth')().userdata,
     users: require('./users')(),

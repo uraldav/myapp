@@ -1,21 +1,31 @@
 @import "app/style/colors/gray";
 
-.title {
-  display: block;
-  color: @gray-9;
-  text-decoration: none;
-}
+.menulink {
+  display: flex;
+  align-items: center;
+  height: 42px;
 
-.navlink {
   :global {
-    & .active {
-      text-decoration: none;
+    & .ant-badge {
+      margin-right: 10px;
     }
   }
 }
 
-.badge {
-  float: right;
-  padding-right: 1.5rem;
-  margin-right: 0;
+.spacer {
+  flex-basis: 20px;
+}
+
+.icon {
+  flex-basis: 20px;
+  padding: 0 25px;
+  font-size: 20px;
+}
+
+.title {
+  flex: 1;
+}
+
+.expander {
+  flex-basis: 24px;
 }
