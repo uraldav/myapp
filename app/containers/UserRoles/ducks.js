@@ -63,6 +63,7 @@ const initialState = fromJS({
   data: [],
   editableRecord: null,
   isEditing: false,
+  error: null,
 });
 
 const emptyUserRole = {
