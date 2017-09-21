@@ -12,9 +12,7 @@ const authorize = axios => (userName, password) =>
         userData: data.userdata,
       };
     })
-    .catch((error) => {
-      throw Error(error);
-    });
+    .catch(error => ({ error }));
 
 const fetchUserData = axios => token =>
   axios
@@ -28,9 +26,7 @@ const fetchUserData = axios => token =>
         userData: data,
       };
     })
-    .catch((error) => {
-      throw Error(error);
-    });
+    .catch(error => ({ error }));
 
 export default axios => ({
   authorize: authorize(axios),
