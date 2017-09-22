@@ -1,6 +1,6 @@
 const authorize = axios => (userName, password) =>
   axios
-    .get('/api/auth', {
+    .post('/api/auth', {
       data: {
         userName,
         password,
