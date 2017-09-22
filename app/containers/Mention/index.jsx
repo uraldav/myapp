@@ -1,7 +1,8 @@
 import React from 'react';
-import { object } from 'prop-types';
-import { Layout } from 'antd';
-import { compose, pure, getContext } from 'recompose';
+import { object, func, bool } from 'prop-types';
+import { Layout, Tooltip, Icon } from 'antd';
+import { compose, pure, getContext, withHandlers, withState } from 'recompose';
+// import ScrollArea from 'react-scrollbar';
 import MentionList from './List';
 import MentionFilter from './Filter';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
@@ -11,20 +12,52 @@ import './index.less';
 
 const { Sider, Content } = Layout;
 
-function Mention() {
+Mention.propTypes = {
+  toggleSidebarCollapsed: func.isRequired,
+  sidebarCollapsed: bool.isRequired,
+};
+
+function Mention({ sidebarCollapsed, toggleSidebarCollapsed }) {
   return (
     <Layout>
       <Content>
         <MentionList />
       </Content>
-      <Sider width={250} styleName="sider">
-        <MentionFilter />
+      <Sider
+        trigger={
+          <Tooltip
+            title={sidebarCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
+            placement="right"
+          >
+            <Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} />
+          </Tooltip>
+        }
+        collapsible
+        collapsed={sidebarCollapsed}
+        onCollapse={toggleSidebarCollapsed}
+        styleName="sider"
+        width={400}
+      >
+        {sidebarCollapsed ? (
+          <div>
+            <div styleName="vertical">ф</div>
+            <div styleName="vertical">и</div>
+            <div styleName="vertical">л</div>
+            <div styleName="vertical">ь</div>
+            <div styleName="vertical">т</div>
+            <div styleName="vertical">р</div>
+            <div styleName="vertical">ы</div>
+          </div>
+        ) : (
+          <MentionFilter />
+        )}
       </Sider>
     </Layout>
   );
 }
 
 export default compose(
+  withState('sidebarCollapsed', 'setSidebarCollapsed', false),
   getContext({
     store: object,
   }),
@@ -37,5 +70,13 @@ export default compose(
       injectSaga(store, saga);
     }),
   ),
+  withHandlers({
+    toggleSidebarCollapsed: ({
+      sidebarCollapsed,
+      setSidebarCollapsed,
+    }) => () => {
+      setSidebarCollapsed(!sidebarCollapsed);
+    },
+  }),
   pure,
 )(Mention);

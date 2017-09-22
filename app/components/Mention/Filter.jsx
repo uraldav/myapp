@@ -23,9 +23,7 @@ MentionFilter.propTypes = {
   onApplyFilter: func.isRequired,
 };
 
-function MentionFilter({
-  onApplyFilter,
-}) {
+function MentionFilter({ onApplyFilter }) {
   return (
     <Form styleName="filter">
       <Collapse bordered={false} styleName="collapse">
@@ -39,10 +37,7 @@ function MentionFilter({
           </Select>
         </Panel>
         <Panel header="Тематики">
-          <Select
-            mode="multiple"
-            placeholder="Выбрать тематику"
-          >
+          <Select mode="multiple" placeholder="Выбрать тематику">
             <Option value="1">Тематика 1</Option>
             <Option value="2">Тематика 2</Option>
             <Option value="3">Тематика 3</Option>
@@ -62,10 +57,7 @@ function MentionFilter({
           </InputGroup>
         </Panel>
         <Panel header="Пользователи">
-          <Select
-            mode="multiple"
-            placeholder="Выбрать пользователя"
-          >
+          <Select mode="multiple" placeholder="Выбрать пользователя">
             <Option value="1">Иванов Иван</Option>
             <Option value="2">Тони Зима</Option>
             <Option value="3">Флойд Майвейзер</Option>
@@ -82,12 +74,12 @@ function MentionFilter({
         </Panel>
       </Collapse>
       <div styleName="action-bar">
-        <Button type="primary" onClick={onApplyFilter}>Применить</Button>
+        <Button type="primary" onClick={onApplyFilter}>
+          Применить
+        </Button>
       </div>
     </Form>
   );
 }
 
-export default compose(
-  pure,
-)(MentionFilter);
+export default compose(pure)(MentionFilter);

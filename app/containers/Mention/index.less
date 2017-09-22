@@ -1,4 +1,26 @@
 .sider {
   background: #fff;
-  overflow: 'initial';
+
+  :global {
+    & .ant-layout-sider-children {
+      display: flex;
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    & .ant-layout-sider-trigger {
+      padding-right: 25px;
+      background: #fff;
+      color: #404040;
+      text-align: right;
+      font-size: 14px;
+    }
+  }
+}
+
+.vertical {
+  font-size: 20px;
+  text-align: center;
+  line-height: 20px;
+  text-transform: uppercase;
 }
