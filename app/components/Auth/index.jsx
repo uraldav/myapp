@@ -2,6 +2,7 @@ import React from 'react';
 import { string, object, func, bool } from 'prop-types';
 import { withHandlers, compose, pure } from 'recompose';
 import { Button, Row, Form, Input } from 'antd';
+import logo from '../Header/logo.svg';
 import './index.less';
 
 const FormItem = Form.Item;
@@ -22,9 +23,8 @@ function Auth({ error, loading, submit, form: { getFieldDecorator } }) {
   return (
     <div styleName="page">
       <div styleName="form">
-        <div styleName="logo">
-          {/* <img alt={'Логотип аэрофлот'} src="" /> */}
-          <span>Аэрофлот</span>
+        <div>
+          <img src={logo} alt="Аэрофлот" styleName="logo-img" />
         </div>
         <form>
           <FormItem hasFeedback>

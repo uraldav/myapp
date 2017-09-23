@@ -7,6 +7,7 @@ import {
   takeLatest,
   select,
 } from 'redux-saga/effects';
+import { notification } from 'antd';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import queryString from 'query-string';
 import { uniq, append } from 'ramda';
@@ -25,6 +26,8 @@ export default function* () {
     MENU_ITEMS_REQUEST,
     menuItemsRequestSaga,
   );
+
+  yield yield takeLatest(action => /_FAILURE/.test(action.type), failure);
 
   const location = yield select(locationSelector);
   const expandedMenuItems = yield select(expandedMenuItemsSelector);
@@ -72,4 +75,16 @@ export function* menuItemsRequestSaga() {
   } else {
     yield put(menuItemsFailure(error));
   }
+}
+
+export function* failure({ payload }) {
+  notification.error({
+    message: payload.message,
+    duration: 0,
+    description: process.env.NODE_ENV === 'production' ? '' : payload.stack,
+    style: {
+      width: process.env.NODE_ENV === 'production' ? 335 : 800,
+      marginLeft: process.env.NODE_ENV === 'production' ? 0 : 335 - 800,
+    },
+  });
 }

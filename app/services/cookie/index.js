@@ -5,28 +5,28 @@ const cookie = {
 
   set: (...args) => {
     JsCookie.set(...args);
-    this.notifyChange();
+    cookie.notifyChange();
   },
 
   remove: (...args) => {
     JsCookie.remove(...args);
-    this.notifyChange();
+    cookie.notifyChange();
   },
 
   onChange(listener) {
-    this.listeners.push(listener);
+    cookie.listeners.push(listener);
   },
 
   unChange(listener) {
-    const index = this.listeners.indexOf(listener);
+    const index = cookie.listeners.indexOf(listener);
 
     if (index !== -1) {
-      this.listeners.splice(index, 1);
+      cookie.listeners.splice(index, 1);
     }
   },
 
   notifyChange() {
-    this.listeners.forEach(listener => listener(JsCookie));
+    cookie.listeners.forEach(listener => listener(JsCookie));
   },
 
   listeners: [],

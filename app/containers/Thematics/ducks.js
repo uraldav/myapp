@@ -206,6 +206,7 @@ const initialState = fromJS({
   modelThematics: [],
   editableInputThematic: null,
   editableModelThematic: null,
+  error: null,  
 });
 
 const emptyInputThematic = {

@@ -43,7 +43,9 @@ export const requestPermissionsSuccess = ducks.createAction(
 export const requestPermissionsFailure = ducks.createAction(
   REQUEST_PERMISSIONS_FAILURE,
 );
-export const changeEditableRecordName = ducks.createAction(CHANGE_EDITABLE_RECORD_NAME);
+export const changeEditableRecordName = ducks.createAction(
+  CHANGE_EDITABLE_RECORD_NAME,
+);
 export const selectEditableRecord = ducks.createAction(SELECT_EDITABLE_RECORD);
 export const updateEditableRecordPermission = ducks.createAction(
   UPDATE_EDITABLE_RECORD_PERMISSION,
@@ -61,6 +63,7 @@ const initialState = fromJS({
   data: [],
   editableRecord: null,
   isEditing: false,
+  error: null,
 });
 
 const emptyUserRole = {
@@ -143,9 +146,9 @@ export default ducks.createReducer(
           .get('editableRecord')
           .permissions.map(
             item =>
-              (item.functional === payload.functional
+              item.functional === payload.functional
                 ? { ...item, value: payload.value }
-                : item),
+                : item,
           ),
       }),
 
@@ -155,13 +158,27 @@ export default ducks.createReducer(
           role => role.get('id') === state.get('editableRecord').id,
         ),
       );
-      return state.set('editableRecord', state.get('data').first().toJS());
+      return state.set(
+        'editableRecord',
+        state
+          .get('data')
+          .first()
+          .toJS(),
+      );
     },
 
     [ADD_USER_ROLE]: (state) => {
-      state = state.updateIn(['data'], users => users.unshift(fromJS(emptyUserRole)));
+      state = state.updateIn(['data'], users =>
+        users.unshift(fromJS(emptyUserRole)),
+      );
       state = state.set('isEditing', true);
-      return state.set('editableRecord', state.get('data').first().toJS());
+      return state.set(
+        'editableRecord',
+        state
+          .get('data')
+          .first()
+          .toJS(),
+      );
     },
 
     [SAVE_USER_ROLE]: (state) => {

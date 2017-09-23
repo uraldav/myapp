@@ -8,7 +8,7 @@ import getReactContainer from './utils/getReactContainer';
 
 const rootEl = getReactContainer('react-root');
 const history = createHistory();
-const store = configureStore();
+const store = configureStore(undefined, history);
 
 const renderApp = () => {
   ReactDOM.render(<Root store={store} history={history} />, rootEl);

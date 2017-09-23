@@ -49,6 +49,12 @@ function NestedRoutes() {
           return import('../../containers/PriorityCoefficients');
         }}
       />
+      <AsyncRoute
+        path="/important_authors"
+        requireComponent={() => {
+          return import('../../containers/ImportantAuthors');
+        }}
+      />
     </div>
   );
 }

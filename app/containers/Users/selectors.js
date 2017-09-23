@@ -14,7 +14,6 @@ export const dataSelector = createSelector(usersSelector, users =>
   users.get('data').toJS(),
 );
 
-export const editableUserRecordSelector = createSelector(
-  usersSelector,
-  mentions => mentions.getIn(['editableUserRecord']),
+export const editableUserRecordSelector = createSelector(usersSelector, users =>
+  users.getIn(['editableUserRecord']),
 );
