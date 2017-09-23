@@ -6,6 +6,7 @@ import {
   take,
   takeLatest,
   select,
+  fork,
 } from 'redux-saga/effects';
 import { notification } from 'antd';
 import { LOCATION_CHANGE } from 'react-router-redux';
@@ -17,6 +18,8 @@ import {
   menuItemsFailure,
   changeExpandedMenuItems,
   changeSelectedMenuItem,
+  userDataSuccess,
+  userDataFailure,
 } from './ducks';
 import { expandedMenuItemsSelector } from './selectors';
 import { locationSelector } from '../../store/globalSelectors';
@@ -26,6 +29,12 @@ export default function* () {
     MENU_ITEMS_REQUEST,
     menuItemsRequestSaga,
   );
+
+  const cookie = yield getContext('cookie');
+
+  if (cookie.get('Authorization')) {
+    yield fork(requestUserData);
+  }
 
   yield yield takeLatest(action => /_FAILURE/.test(action.type), failure);
 
@@ -87,4 +96,20 @@ export function* failure({ payload }) {
       marginLeft: process.env.NODE_ENV === 'production' ? 0 : 335 - 800,
     },
   });
+}
+
+export function* requestUserData() {
+  const api = yield getContext('api');
+  const cookie = yield getContext('cookie');
+
+  const { response, error } = yield call(
+    api.auth.fetchUserData,
+    cookie.get('Authorization'),
+  );
+
+  if (response) {
+    yield put(userDataSuccess(response));
+  } else {
+    yield put(userDataFailure(error));
+  }
 }

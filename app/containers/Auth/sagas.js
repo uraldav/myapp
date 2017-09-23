@@ -13,12 +13,7 @@ import { loginSelector, passwordSelector } from './selectors';
 import { REQUEST, success, failure } from './ducks';
 
 export default function* () {
-  const cookie = yield getContext('cookie');
   const watchRequest = yield takeLatest(REQUEST, requestSaga);
-
-  if (cookie.get('Authorization')) {
-    yield fork(restoreUserData);
-  }
 
   yield take(LOCATION_CHANGE);
   yield cancel(watchRequest);
@@ -45,19 +40,3 @@ export function* requestSaga() {
   }
 }
 
-export function* restoreUserData() {
-  const api = yield getContext('api');
-  const cookie = yield getContext('cookie');
-
-  const { userData, error } = yield call(
-    api.auth.fetchUserData,
-    cookie.get('Authorization'),
-  );
-
-  if (userData) {
-    yield put(success(userData));
-    yield put(push('/'));
-  } else {
-    yield put(failure(error));
-  }
-}

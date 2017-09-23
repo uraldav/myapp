@@ -23,7 +23,7 @@ const fetchUserData = axios => token =>
     })
     .then(({ data }) => {
       return {
-        userData: data,
+        response: { userData: data.userdata, token: data.token },
       };
     })
     .catch(error => ({ error }));
