@@ -1,11 +1,19 @@
 import React from 'react';
 import { object } from 'prop-types';
 import { compose, pure, withProps, getContext } from 'recompose';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import App from '../../components/App';
 import AsyncRoute from '../../routing/AsyncRoute';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
 import injectReducer from '../../utils/injectReducer';
 import injectSaga from '../../utils/injectSaga';
+import {
+  menuItemsSelector,
+  expandedMenuItemsSelector,
+  selectedMenuItemSelector,
+} from './selectors';
+import { changeExpandedMenuItems } from './ducks';
 
 function NestedRoutes() {
   return (
@@ -51,6 +59,16 @@ function NestedRoutes() {
   );
 }
 
+const mapStateToProps = createStructuredSelector({
+  menuItems: menuItemsSelector,
+  expandedMenuItems: expandedMenuItemsSelector,
+  selectedMenuItem: selectedMenuItemSelector,
+});
+
+const mapDispatchToProps = {
+  onChangeExpandedMenuItems: changeExpandedMenuItems,
+};
+
 export default compose(
   withProps(props => ({ children: NestedRoutes(props) })),
   getContext({
@@ -66,5 +84,6 @@ export default compose(
       store.dispatch(reducer.menuItemsRequest());
     }),
   ),
+  connect(mapStateToProps, mapDispatchToProps),
   pure,
 )(App);

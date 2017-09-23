@@ -1,5 +1,5 @@
 import React from 'react';
-import { func, bool, node, object } from 'prop-types';
+import { func, bool, node, object, shape, array, string } from 'prop-types';
 import { compose, pure, withHandlers, withState } from 'recompose';
 import { Layout, Icon, Tooltip } from 'antd';
 import ScrollArea from 'react-scrollbar';
@@ -14,9 +14,36 @@ App.propTypes = {
   children: node.isRequired,
   toggleSidebarCollapsed: func.isRequired,
   sidebarCollapsed: bool.isRequired,
+  menuItems: shape({
+    twitter: array,
+    instagram: array,
+    facebook: array,
+  }),
+  expandedMenuItems: array,
+  selectedMenuItem: string,
+  onChangeExpandedMenuItems: func.isRequired,
 };
 
-function App({ location, children, toggleSidebarCollapsed, sidebarCollapsed }) {
+App.defaultProps = {
+  expandedMenuItems: [],
+  selectedMenuItem: null,
+  menuItems: {
+    twitter: [],
+    instagram: [],
+    facebook: [],
+  },
+};
+
+function App({
+  location,
+  children,
+  toggleSidebarCollapsed,
+  sidebarCollapsed,
+  menuItems,
+  expandedMenuItems,
+  selectedMenuItem,
+  onChangeExpandedMenuItems,
+}) {
   return (
     <Layout styleName="page">
       <Header />
@@ -37,7 +64,14 @@ function App({ location, children, toggleSidebarCollapsed, sidebarCollapsed }) {
           width={250}
         >
           <ScrollArea horizontal={false} smoothScrolling>
-            <SideMenu location={location} collapsed={sidebarCollapsed} />
+            <SideMenu
+              location={location}
+              collapsed={sidebarCollapsed}
+              menuItems={menuItems}
+              expandedMenuItems={expandedMenuItems}
+              selectedMenuItem={selectedMenuItem || undefined}
+              onChangeExpandedMenuItems={onChangeExpandedMenuItems}
+            />
           </ScrollArea>
         </Sider>
         <Content styleName="content">

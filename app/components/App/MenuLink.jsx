@@ -15,7 +15,9 @@ MenuLink.propTypes = {
   level: number,
   expanderVisible: bool,
   isExpanded: bool,
+  isSelected: bool,
   onClickExpander: func.isRequired,
+  onClick: func,
 };
 
 MenuLink.defaultProps = {
@@ -24,6 +26,8 @@ MenuLink.defaultProps = {
   level: 0,
   expanderVisible: false,
   isExpanded: false,
+  isSelected: false,
+  onClick: x => x,
 };
 
 function MenuLink({
@@ -34,21 +38,38 @@ function MenuLink({
   level,
   expanderVisible,
   isExpanded,
+  isSelected,
+  onClick,
   onClickExpander,
 }) {
+  const Cmp = to ? NavLink : 'a';
   return (
-    <NavLink
+    <Cmp
       to={to}
       styleName="menulink"
-      className={cn({ expanded: isExpanded })}
+      className={cn({
+        expanded: isExpanded,
+        selected: isSelected,
+        'not-root': level !== 0,
+      })}
+      onClick={onClick}
     >
       {map(() => <div styleName="spacer" />, range(0, level))}
-      {icon && <div styleName="icon">{icon}</div>}
-      <div styleName="title">{title}</div>
-      {badge > 0 && <Badge count={badge} />}
+      {icon && (
+        <div styleName="icon" className="icon">
+          {icon}
+        </div>
+      )}
+      <div styleName="title" className="menulink-title">
+        {title}
+      </div>
+      {badge > 0 && (
+        <Badge className="menulink-badge" styleName="badge" count={badge} />
+      )}
       {expanderVisible && (
         <div
           styleName="expander"
+          className="menulink-expander"
           role="button"
           tabIndex="-1"
           onClick={(e) => {
@@ -59,7 +80,7 @@ function MenuLink({
           <Icon type="down" />
         </div>
       )}
-    </NavLink>
+    </Cmp>
   );
 }
 
