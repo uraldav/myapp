@@ -1,9 +1,6 @@
 import React from 'react';
-import { object } from 'prop-types';
-import { Layout } from 'antd';
-import { compose, pure, getContext } from 'recompose';
-import { Helmet } from 'react-helmet';
 import { object, func, bool } from 'prop-types';
+import { Helmet } from 'react-helmet';
 import { Layout, Tooltip, Icon } from 'antd';
 import { compose, pure, getContext, withHandlers, withState } from 'recompose';
 // import ScrollArea from 'react-scrollbar';
