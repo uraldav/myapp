@@ -20,18 +20,23 @@ export const initialState = fromJS({
   error: null,
 });
 
-export default ducks.createReducer({
-  [REQUEST]: (state, { payload }) =>
-    state.set('loading', true)
-         .set('login', payload.login)
-         .set('password', payload.password),
+export default ducks.createReducer(
+  {
+    [REQUEST]: (state, { payload }) =>
+      state
+        .set('loading', true)
+        .set('login', payload.login)
+        .set('password', payload.password),
 
-  [SUCCESS]: (state, { payload }) =>
-    state.set('userData', Map(payload.userData))
-         .set('token', payload.token)
-         .set('loading', false),
+    [SUCCESS]: (state, { payload }) =>
+      state
+        .set('userData', Map(payload.userData))
+        .set('token', payload.token)
+        .set('loading', false),
 
-  [FAILURE]: (state, { payload }) =>
-    state.set('error', payload.error)
-         .set('loading', false),
-}, initialState);
+    [FAILURE]: (state, { payload }) => {
+      return state.set('error', payload.error).set('loading', false);
+    },
+  },
+  initialState,
+);
