@@ -29,7 +29,7 @@ function Mention({ sidebarCollapsed, toggleSidebarCollapsed }) {
             title={sidebarCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
             placement="right"
           >
-            <Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} />
+            <Icon type={sidebarCollapsed ? 'menu-fold' : 'menu-unfold'} />
           </Tooltip>
         }
         collapsible
