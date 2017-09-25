@@ -3,7 +3,7 @@ import { object } from 'prop-types';
 import { compose, pure, withProps, getContext } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import App from '../../components/App';
 import AsyncRoute from '../../routing/AsyncRoute';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
@@ -18,7 +18,7 @@ import { changeExpandedMenuItems } from './ducks';
 
 function NestedRoutes() {
   return (
-    <div>
+    <Switch>
       <AsyncRoute
         exact
         path="/"
@@ -27,6 +27,7 @@ function NestedRoutes() {
         }}
       />
       <AsyncRoute
+        exact
         path="/users"
         requireComponent={() => {
           return import('../../containers/Users');
@@ -39,18 +40,21 @@ function NestedRoutes() {
         }}
       />
       <AsyncRoute
+        exact
         path="/user_roles"
         requireComponent={() => {
           return import('../../containers/UserRoles');
         }}
       />
       <AsyncRoute
+        exact
         path="/priority_coefficients"
         requireComponent={() => {
           return import('../../containers/PriorityCoefficients');
         }}
       />
       <AsyncRoute
+        exact
         path="/important_authors"
         requireComponent={() => {
           return import('../../containers/ImportantAuthors');
@@ -64,7 +68,7 @@ function NestedRoutes() {
           </span>
         )}
       />
-    </div>
+    </Switch>
   );
 }
 
