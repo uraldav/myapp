@@ -3,6 +3,7 @@ import { object } from 'prop-types';
 import { compose, pure, withProps, getContext } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
 import App from '../../components/App';
 import AsyncRoute from '../../routing/AsyncRoute';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
@@ -54,6 +55,14 @@ function NestedRoutes() {
         requireComponent={() => {
           return import('../../containers/ImportantAuthors');
         }}
+      />
+      <Route
+        component={() => (
+          <span>
+            404: Страница не найдена. Нам очень жаль. Выберите другой пункт в
+            меню.
+          </span>
+        )}
       />
     </div>
   );
