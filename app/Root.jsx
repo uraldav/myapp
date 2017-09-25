@@ -2,7 +2,7 @@ import React from 'react';
 import { object } from 'prop-types';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { compose, pure } from 'recompose';
 import { AppContainer } from 'react-hot-loader';
 import { LocaleProvider } from 'antd';
@@ -20,21 +20,21 @@ function Root({ store, history }) {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <LocaleProvider locale={ruRU}>
-            <Switch>
-              <AsyncRoute
-                exact
-                requireComponent={() => {
-                  return import('./containers/App');
-                }}
-              />
+            <div>
               <AsyncRoute
                 path="/auth"
                 requireComponent={() => {
                   return import('./containers/Auth');
                 }}
               />
+              <AsyncRoute
+                exact
+                requireComponent={() => {
+                  return import('./containers/App');
+                }}
+              />
               <Route component={() => <span>No page</span>} />
-            </Switch>
+            </div>
           </LocaleProvider>
         </ConnectedRouter>
       </Provider>

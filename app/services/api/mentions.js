@@ -26,10 +26,18 @@ const fetchMentions = axios => ({
         datePeriod,
       },
     })
-    .then(mapMentions);
+    .then(mapMentions)
+    .catch(error => ({ error }));
+
+const fetchMentionsWords = axios => () =>
+  axios
+    .get('./api/mentions_words')
+    .then(({ data }) => ({ response: data }))
+    .catch(error => ({ error }));
 
 export default axios => ({
   fetchMentions: fetchMentions(axios),
+  fetchMentionsWords: fetchMentionsWords(axios),
 });
 
 function mapMentions({ data }) {
@@ -56,6 +64,7 @@ function mapMentions({ data }) {
       likes,
       comments,
       weight,
+      url,
       tonality: tonalityMap(tone),
     }),
   );

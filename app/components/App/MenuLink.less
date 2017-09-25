@@ -1,21 +1,77 @@
 @import "app/style/colors/gray";
+@import "antd/lib/style/themes/default";
 
-.title {
-  display: block;
-  color: @gray-9;
-  text-decoration: none;
-}
+.menulink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 42px;
 
-.navlink {
   :global {
-    & .active {
-      text-decoration: none;
+    & .ant-badge {
+      margin-right: 10px;
     }
   }
 }
 
+.spacer {
+  min-width: 64px;
+}
+
+.icon {
+  min-width: 64px;
+  font-size: 20px;
+  text-align: center;
+}
+
 .badge {
-  float: right;
-  padding-right: 1.5rem;
-  margin-right: 0;
+  opacity: 1;
+  transition: opacity 0.2s;
+  position: absolute;
+  right: 28px;
+}
+
+.title {
+  flex: 1;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.expander {
+  flex-basis: 24px;
+  transition: opacity 0.2s;
+  outline: 0;
+
+  :global {
+    & .anticon {
+      transition: transform 0.6s;
+    }
+  }
+}
+
+:global {
+  .selected {
+    position: relative;
+    background-color: @item-active-bg;
+
+    &:after {
+      position: absolute;
+      background-color: @primary-color;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      height: 2.625rem;
+      width: 2px;
+      content: "";
+    }
+  }
+
+  .expanded .menulink-expander .anticon {
+    transform: rotateX(180deg);
+  }
+
+  .not-root .icon {
+    min-width: 36px;
+    text-align: left;
+  }
 }

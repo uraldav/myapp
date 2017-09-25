@@ -1,4 +1,8 @@
 import React from 'react';
+import { object } from 'prop-types';
+import { Layout } from 'antd';
+import { compose, pure, getContext } from 'recompose';
+import { Helmet } from 'react-helmet';
 import { object, func, bool } from 'prop-types';
 import { Layout, Tooltip, Icon } from 'antd';
 import { compose, pure, getContext, withHandlers, withState } from 'recompose';
@@ -20,6 +24,12 @@ Mention.propTypes = {
 function Mention({ sidebarCollapsed, toggleSidebarCollapsed }) {
   return (
     <Layout>
+      <Helmet>
+        <script
+          src="//connect.facebook.net/ru_RU/sdk.js#xfbml=1&amp;version=v2.5"
+          async
+        />
+      </Helmet>
       <Content>
         <MentionList />
       </Content>

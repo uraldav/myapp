@@ -1,24 +1,17 @@
 @import "antd/lib/style/themes/default";
 
 .menu {
-  border: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
 
-  :global {
-    & .selected {
-      background-color: @item-active-bg;
-      transition: background .3s @ease-in-out, width .15s @ease-in-out;
-    }
-    & .selected:after {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      height: 2.625rem;
-      border-right: 2px solid @primary-color;
-      content: "";
-      opacity: 1;
-      transition: transform .15s @ease-in-out, opacity .15s @ease-in-out;
-      transform: scaleY(1);
+:global {
+  .collapsed-menu {
+    & .menulink-title,
+    & .menulink-badge,
+    & .menulink-expander {
+      opacity: 0;
     }
   }
 }

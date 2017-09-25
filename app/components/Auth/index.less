@@ -1,14 +1,14 @@
 .page {
   display: flex;
-  height: 100%;
   align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 .form {
+  padding: 36px;
   width: 320px;
   height: 320px;
-  padding: 36px;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.08);
 
   & button {
@@ -16,9 +16,9 @@
   }
 
   & p {
+    margin-top: 16px;
     color: rgb(204, 204, 204);
     text-align: center;
-    margin-top: 16px;
 
     & span {
       &:first-child {
@@ -28,22 +28,9 @@
   }
 }
 
-.logo {
-  text-align: center;
-  height: 40px;
-  line-height: 40px;
+.logo-img {
+  display: block;
+  margin: 30px auto;
+  height: 1rem;
   cursor: pointer;
-  margin-bottom: 24px;
-
-  & img {
-    width: 40px;
-    margin-right: 8px;
-  }
-
-  & span {
-    vertical-align: text-bottom;
-    font-size: 16px;
-    text-transform: uppercase;
-    display: inline-block;
-  }
 }

@@ -31,6 +31,7 @@ function Header() {
         <Route path="/users" render={() => <h1>Пользователи</h1>} />
         <Route path="/thematics" render={() => <h1>Тематики и словари</h1>} />
         <Route path="/user_roles" render={() => <h1>Роли пользователей</h1>} />
+        <Route path="/important_authors" render={() => <h1>Важные авторы</h1>} />
         <Route
           path="/priority_coefficients"
           render={() => <h1>Коэффициенты для приоретизации</h1>}

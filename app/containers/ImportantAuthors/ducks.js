@@ -52,6 +52,7 @@ const initialState = fromJS({
   error: null,
   record: null,
 });
+
 const emptyRecord = {
   id: 0,
   accountName: '',
@@ -59,6 +60,7 @@ const emptyRecord = {
   subscribersNumber: 0,
   comment: '',
 };
+
 export default ducks.createReducer(
   {
     [REQUEST]: state => state.setIn(['loading'], true),
