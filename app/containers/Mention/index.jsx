@@ -3,7 +3,6 @@ import { object, func, bool } from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Layout, Tooltip, Icon } from 'antd';
 import { compose, pure, getContext, withHandlers, withState } from 'recompose';
-// import ScrollArea from 'react-scrollbar';
 import MentionList from './List';
 import MentionFilter from './Filter';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
@@ -43,7 +42,7 @@ function Mention({ sidebarCollapsed, toggleSidebarCollapsed }) {
         collapsed={sidebarCollapsed}
         onCollapse={toggleSidebarCollapsed}
         styleName="sider"
-        width={400}
+        width={250}
       >
         {sidebarCollapsed ? (
           <div>
