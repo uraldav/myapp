@@ -22,6 +22,7 @@ App.propTypes = {
   expandedMenuItems: array,
   selectedMenuItem: string,
   onChangeExpandedMenuItems: func.isRequired,
+  isAuthorized: bool.isRequired,
 };
 
 App.defaultProps = {
@@ -43,8 +44,10 @@ function App({
   expandedMenuItems,
   selectedMenuItem,
   onChangeExpandedMenuItems,
+  isAuthorized,
 }) {
   return (
+    isAuthorized &&
     <Layout styleName="page">
       <Header />
       <Layout>

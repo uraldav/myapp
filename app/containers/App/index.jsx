@@ -1,6 +1,6 @@
 import React from 'react';
 import { object } from 'prop-types';
-import { compose, pure, withProps, getContext } from 'recompose';
+import { compose, pure, withProps, getContext, lifecycle } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
@@ -15,6 +15,8 @@ import {
   selectedMenuItemSelector,
 } from './selectors';
 import { changeExpandedMenuItems } from './ducks';
+import cookie from '../../services/cookie';
+
 
 function NestedRoutes() {
   return (
@@ -72,7 +74,10 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  withProps(props => ({ children: NestedRoutes(props) })),
+  withProps(props => ({
+    children: NestedRoutes(props),
+    isAuthorized: !!cookie.get('Authorization'),
+  })),
   getContext({
     store: object,
   }),
@@ -86,6 +91,14 @@ export default compose(
       store.dispatch(reducer.menuItemsRequest());
     }),
   ),
+  lifecycle({
+    componentWillMount() {
+      if (!cookie.get('Authorization')) {
+        console.log('INTRUDER');
+        window.location = '/auth';
+      }
+    },
+  }),
   connect(mapStateToProps, mapDispatchToProps),
   pure,
 )(App);

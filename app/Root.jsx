@@ -28,9 +28,7 @@ function Root({ store, history }) {
                   return import('./containers/Auth');
                 }}
               />
-              <Route
-                component={App}
-              />
+              <Route  component={App} />
             </Switch>
           </LocaleProvider>
         </ConnectedRouter>
