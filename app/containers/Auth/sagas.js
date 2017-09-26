@@ -25,18 +25,22 @@ export function* requestSaga() {
   const login = yield select(loginSelector);
   const password = yield select(passwordSelector);
 
-  const { token, userData, error } = yield call(
-    api.auth.authorize,
-    login,
-    password,
-  );
+  const { response, error } = yield call(api.auth.authorize, login, password);
 
-  if (userData) {
-    cookie.set('Authorization', token);
-    yield put(success(userData));
+  if (response) {
+    if (process.env.NODE_ENV === 'production') {
+      cookie.set('Authorization', response.token);
+      yield put(success(response.userData));
+    } else {
+      const { response: devres, error: dever } = yield call(
+        api.auth.fetchUserData,
+        'sqsq',
+      );
+      cookie.set('Authorization', 'sqsq');
+      yield put(success(devres.userData));
+    }
     yield put(push('/'));
   } else {
     yield put(failure(error));
   }
 }
-

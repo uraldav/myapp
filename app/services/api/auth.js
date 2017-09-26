@@ -5,24 +5,22 @@ const authorize = axios => (userName, password) =>
       password,
     })
     .then(({ data }) => {
-      debugger;
       return {
-        token: data.token,
-        userData: data.user_data,
+        response: { userData: data.user_data, token: data.token },
       };
     })
     .catch(error => ({ error }));
 
 const fetchUserData = axios => token =>
   axios
-    .get('/api/userdata', {
+    .get('/api/user_data', {
       data: {
         token,
       },
     })
     .then(({ data }) => {
       return {
-        response: { userData: data.user_data, token: data.token },
+        response: { userData: data },
       };
     })
     .catch(error => ({ error }));
