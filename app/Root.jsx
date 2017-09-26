@@ -23,12 +23,13 @@ function Root({ store, history }) {
           <LocaleProvider locale={ruRU}>
             <Switch>
               <AsyncRoute
+                exact
                 path="/auth"
                 requireComponent={() => {
                   return import('./containers/Auth');
                 }}
               />
-              <Route  component={App} />
+              <Route component={App} />
             </Switch>
           </LocaleProvider>
         </ConnectedRouter>
