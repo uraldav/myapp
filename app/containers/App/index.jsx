@@ -17,7 +17,6 @@ import {
 import { changeExpandedMenuItems } from './ducks';
 import cookie from '../../services/cookie';
 
-
 function NestedRoutes() {
   return (
     <Switch>
@@ -58,9 +57,9 @@ function NestedRoutes() {
       <AsyncRoute
         exact
         path="/important_authors"
-        requireComponent={() => {
-          return import('../../containers/ImportantAuthors');
-        }}
+        requireComponent={() =>
+          import('../../containers/ImportantAuthors')
+        }
       />
       <Route
         component={() => (
@@ -105,7 +104,6 @@ export default compose(
   lifecycle({
     componentWillMount() {
       if (!cookie.get('Authorization')) {
-        console.log('INTRUDER');
         window.location = '/auth';
       }
     },

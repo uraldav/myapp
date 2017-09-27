@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { dataSelector, editableRecordSelector } from './selectors';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
+import withPermissions from '../../utils/withPermissions';
 import ImportantAuthors from '../../components/ImportantAuthors';
 import injectReducer from '../../utils/injectReducer';
 import injectSaga from '../../utils/injectSaga';
@@ -37,5 +38,6 @@ export default compose(
     }),
   ),
   connect(mapStateToProps, mapDispatchToProps),
+  withPermissions(['importantAuthorsView', 'importantAuthorsEdit']),
   pure,
 )(ImportantAuthors);

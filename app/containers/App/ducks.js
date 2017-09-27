@@ -45,6 +45,11 @@ const initialState = fromJS({
   },
   expandedMenuItems: [],
   selectedMenuItem: null,
+  permissions: {
+    authorized: false,
+    importantAuthorsEdit: false,
+    importantAuthorsView: true,
+  },
 });
 
 export default ducks.createReducer(

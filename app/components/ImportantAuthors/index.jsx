@@ -1,5 +1,5 @@
 import React from 'react';
-import { shape, string, number, arrayOf, func } from 'prop-types';
+import { shape, string, number, arrayOf, func, bool } from 'prop-types';
 import { Card, Button, Input, Table, Select, Popconfirm, Modal } from 'antd';
 import { compose, pure, withHandlers } from 'recompose';
 import { path } from 'ramda';
@@ -17,6 +17,7 @@ const recordShape = shape({
 Authors.defaultProps = {
   data: [],
   editableRecord: null,
+  permissions: null,
 };
 
 Authors.propTypes = {
@@ -31,6 +32,10 @@ Authors.propTypes = {
   onSave: func.isRequired,
   handleCancel: func.isRequired,
   handleCellChange: func.isRequired,
+  permissions: shape({
+    importantAuthorsView: bool,
+    importantAuthorsEdit: bool,
+  }),
 };
 
 function Authors({
@@ -43,8 +48,9 @@ function Authors({
   onSave,
   handleCancel,
   handleCellChange,
+  permissions,
 }) {
-  return (
+  return permissions.importantAuthorsView ? (
     <Card
       title={
         <span>
@@ -52,7 +58,7 @@ function Authors({
             <Button
               type="primary"
               icon="plus"
-              disabled={editableRecord !== null}
+              disabled={!permissions.importantAuthorsEdit || editableRecord !== null}
               onClick={onAdd}
             >
               Добавить
@@ -82,7 +88,7 @@ function Authors({
           {
             title: 'Социальная сеть',
             dataIndex: 'socialNetwork',
-            render: (text, record) => renderSelect(text, record, onChange),
+            render: (text, record) => renderSelect(text, record, onChange, permissions.importantAuthorsEdit),
           },
           {
             title: 'Количество подписчиков',
@@ -106,7 +112,7 @@ function Authors({
                   {editableRecord && editableRecord.id === record.id ? (
                     <span>
                       <Button.Group>
-                        <Button icon="save" onClick={onSave} />
+                        <Button icon="save" onClick={onSave} disabled={!permissions.importantAuthorsEdit} />
                         <Popconfirm
                           title="Отменить изменения?"
                           onConfirm={handleCancel}
@@ -119,7 +125,7 @@ function Authors({
                     <span>
                       <Button
                         icon="edit"
-                        disabled={editableRecord !== null}
+                        disabled={!permissions.importantAuthorsEdit || editableRecord !== null}
                         onClick={() => handleEdit(record)}
                       />
                     </span>
@@ -127,6 +133,7 @@ function Authors({
                   <span className="ant-divider" />
                   <Button
                     icon="delete"
+                    disabled={!permissions.importantAuthorsEdit}
                     onClick={() =>
                       Modal.confirm({
                         title: 'Удалить пользователя?',
@@ -142,6 +149,8 @@ function Authors({
         ]}
       />
     </Card>
+  ) : (
+    <Card>Доступ к данному справочнику ограничен.</Card>
   );
 }
 
@@ -183,11 +192,12 @@ export default compose(
   pure,
 )(Authors);
 
-function renderSelect(text, record, onChange) {
+function renderSelect(text, record, onChange, importantAuthorsEdit) {
   return (
     <Select
       value={text}
       styleName="select"
+      disabled={!importantAuthorsEdit}
       onChange={value => onChange({ value, functional: record.functional })}
     >
       <Select.Option value="0" key="0">
