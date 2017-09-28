@@ -17,6 +17,7 @@ import {
   changeEditableInputThematic,
   saveThematicInputRequest,
 } from './ducks';
+import withPermissions from '../../utils/withPermissions';
 
 const mapStateToProps = createStructuredSelector({
   data: inputThematicsSelector,
@@ -35,6 +36,8 @@ const mapDispatchToProps = {
   onSaveThematic: saveThematicInputRequest,
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), pure)(
-  InputThematics,
-);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withPermissions(['thematicsView', 'thematicsEdit']),
+  pure,
+)(InputThematics);

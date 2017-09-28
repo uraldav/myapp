@@ -46,9 +46,23 @@ const initialState = fromJS({
   expandedMenuItems: [],
   selectedMenuItem: null,
   permissions: {
+
     authorized: false,
-    importantAuthorsEdit: false,
+
     importantAuthorsView: true,
+    importantAuthorsEdit: true,
+
+    usersView: true,
+    usersEdit: true,
+
+    thematicsView: true,
+    thematicsEdit: true,
+
+    priorityCoefficientsView: true,
+    priorityCoefficientsEdit: true,
+
+    userRolesView: true,
+    userRolesEdit: true,
   },
 });
 

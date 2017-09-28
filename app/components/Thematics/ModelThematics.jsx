@@ -10,7 +10,7 @@ import {
   arrayOf,
 } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
-import { Table, Tag, Button, Input, Popconfirm, Modal } from 'antd';
+import { Table, Tag, Button, Input, Popconfirm, Modal, Card } from 'antd';
 import { path } from 'ramda';
 import EditableCell from '../ui/Table/EditableCell';
 import './tableWithTags.less';
@@ -38,6 +38,10 @@ ModelThematics.propTypes = {
   handleCancel: func.isRequired,
   onSaveThematic: func.isRequired,
   handleEdit: func.isRequired,
+  permissions: shape({
+    thematicsView: bool,
+    thematicsEdit: bool,
+  }),
 };
 
 ModelThematics.defaultProps = {
@@ -45,6 +49,7 @@ ModelThematics.defaultProps = {
   loading: false,
   editableCell: null,
   editableThematic: null,
+  permissions: null,
 };
 
 function ModelThematics({
@@ -61,15 +66,16 @@ function ModelThematics({
   handleCancel,
   onSaveThematic,
   handleEdit,
+  permissions,
 }) {
-  return (
+  return permissions.thematicsView ? (
     <Table
       loading={loading}
       title={() => (
         <Button
           type="primary"
           icon="plus"
-          disabled={editableThematic !== null}
+          disabled={!permissions.thematicsEdit || editableThematic !== null}
           onClick={onAddThematic}
         >
           Добавить
@@ -112,6 +118,7 @@ function ModelThematics({
               onSaveWord,
               onDeleteWord,
               editableThematic,
+              permissions,
             ),
         },
         {
@@ -128,6 +135,7 @@ function ModelThematics({
               onSaveWord,
               onDeleteWord,
               editableThematic,
+              permissions,
             ),
         },
         {
@@ -139,10 +147,10 @@ function ModelThematics({
           render: (text, record) => {
             return (
               <span styleName="action-button-wrapper">
-                {editableThematic && editableThematic.id === record.id ? (
+                {permissions.thematicsEdit && editableThematic && editableThematic.id === record.id ? (
                   <span>
                     <Button.Group>
-                      <Button icon="save" onClick={onSaveThematic} />
+                      <Button icon="save" onClick={onSaveThematic} disabled={!permissions.thematicsEdit} />
                       <Popconfirm
                         title="Отменить изменения?"
                         onConfirm={handleCancel}
@@ -155,7 +163,7 @@ function ModelThematics({
                   <span>
                     <Button
                       icon="edit"
-                      disabled={editableThematic !== null}
+                      disabled={!permissions.thematicsEdit || editableThematic !== null}
                       onClick={() => handleEdit(record)}
                     />
                   </span>
@@ -163,6 +171,7 @@ function ModelThematics({
                 <span className="ant-divider" />
                 <Button
                   icon="delete"
+                  disabled={!permissions.thematicsEdit}
                   onClick={() =>
                     Modal.confirm({
                       title: 'Удалить тематику?',
@@ -177,6 +186,8 @@ function ModelThematics({
         },
       ]}
     />
+  ) : (
+    <Card>Доступ к данному справочнику ограничен.</Card>
   );
 }
 
@@ -189,24 +200,25 @@ function renderCellWithTags(
   onSaveWord,
   onDeleteWord,
   editableThematic,
+  permissions,
 ) {
   return (
     <span styleName="tags-cell">
       {tags &&
         tags.map((tag) => {
-          return editableThematic && editableThematic.id === recordId ? (
+          return (!permissions.thematicsEdit || (editableThematic && editableThematic.id === recordId)) ? (
             <Tag key={tag.id}>{tag.word}</Tag>
           ) : (
-            <Popconfirm
-              title={`Удалить тег ${tag.word}?`}
-              key={tag.id}
-              onConfirm={() =>
-                onDeleteWord({ field, recordId, word: tag.word })}
-            >
-              <Tag closable onClose={e => e.preventDefault()}>
-                {tag.word}
-              </Tag>
-            </Popconfirm>
+            <Tag styleName="tag" key={tag.id}>
+              {tag.word}&nbsp;&nbsp;
+              <Popconfirm
+                title={`Удалить тег ${tag.word}?`}
+                onConfirm={() =>
+                  onDeleteWord({ field, recordId, word: tag.word })}
+              >
+                <Icon type="close" />
+              </Popconfirm>
+            </Tag>
           );
         })}
       {editableCell !== null &&
@@ -228,7 +240,7 @@ function renderCellWithTags(
           type="dashed"
           styleName="add-button"
           onClick={() => onAddWord({ field, recordId })}
-          disabled={editableThematic && editableThematic.id === recordId}
+          disabled={!permissions.thematicsEdit || (editableThematic && editableThematic.id === recordId)}
         >
           + Добавить
         </Button>

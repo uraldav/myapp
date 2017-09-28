@@ -2,6 +2,7 @@ import { object } from 'prop-types';
 import { compose, pure, getContext } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import withPermissions from '../../utils/withPermissions';
 import withAsyncDependencies from '../../utils/withAsyncDependencies';
 import injectReducer from '../../utils/injectReducer';
 import injectSaga from '../../utils/injectSaga';
@@ -40,5 +41,6 @@ export default compose(
     }),
   ),
   connect(mapStateToProps, mapDispatchToProps),
+  withPermissions(['usersView', 'usersEdit']),
   pure,
 )(UsersComponent);

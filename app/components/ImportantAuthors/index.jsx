@@ -58,7 +58,9 @@ function Authors({
             <Button
               type="primary"
               icon="plus"
-              disabled={!permissions.importantAuthorsEdit || editableRecord !== null}
+              disabled={
+                !permissions.importantAuthorsEdit || editableRecord !== null
+              }
               onClick={onAdd}
             >
               Добавить
@@ -88,7 +90,13 @@ function Authors({
           {
             title: 'Социальная сеть',
             dataIndex: 'socialNetwork',
-            render: (text, record) => renderSelect(text, record, onChange, permissions.importantAuthorsEdit),
+            render: (text, record) =>
+              renderSelect(
+                text,
+                record,
+                onChange,
+                permissions.importantAuthorsEdit,
+              ),
           },
           {
             title: 'Количество подписчиков',
@@ -112,7 +120,11 @@ function Authors({
                   {editableRecord && editableRecord.id === record.id ? (
                     <span>
                       <Button.Group>
-                        <Button icon="save" onClick={onSave} disabled={!permissions.importantAuthorsEdit} />
+                        <Button
+                          icon="save"
+                          onClick={onSave}
+                          disabled={!permissions.importantAuthorsEdit}
+                        />
                         <Popconfirm
                           title="Отменить изменения?"
                           onConfirm={handleCancel}
@@ -125,7 +137,10 @@ function Authors({
                     <span>
                       <Button
                         icon="edit"
-                        disabled={!permissions.importantAuthorsEdit || editableRecord !== null}
+                        disabled={
+                          !permissions.importantAuthorsEdit ||
+                          editableRecord !== null
+                        }
                         onClick={() => handleEdit(record)}
                       />
                     </span>

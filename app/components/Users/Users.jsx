@@ -1,5 +1,5 @@
 import React from 'react';
-import { number, arrayOf, shape, object, func, string } from 'prop-types';
+import { number, arrayOf, shape, object, func, string, bool } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
 import { Input, Card, Button, Modal, Popconfirm, Table } from 'antd';
 import { path } from 'ramda';
@@ -26,11 +26,16 @@ Users.propTypes = {
   handleEdit: func.isRequired,
   handleCellChange: func.isRequired,
   handleCancel: func.isRequired,
+  permissions: shape({
+    usersView: bool,
+    usersEdit: bool,
+  }),
 };
 
 Users.defaultProps = {
   data: [],
   editableUserRecord: null,
+  permissions: null,
 };
 
 function Users({
@@ -42,14 +47,15 @@ function Users({
   handleCancel,
   handleCellChange,
   handleEdit,
+  permissions,
 }) {
-  return (
+  return permissions.usersView ? (
     <Card
       title={
         <Button
           type="primary"
           icon="plus"
-          disabled={editableUserRecord !== null}
+          disabled={!permissions.usersEdit || editableUserRecord !== null}
           onClick={onAdd}
         >
           Добавить
@@ -142,12 +148,19 @@ function Users({
                   {editableUserRecord && editableUserRecord.id === record.id ? (
                     <span>
                       <Button.Group>
-                        <Button icon="save" onClick={onSave} />
+                        <Button
+                          icon="save"
+                          onClick={onSave}
+                          disabled={!permissions.usersEdit}
+                        />
                         <Popconfirm
                           title="Отменить изменения?"
                           onConfirm={handleCancel}
                         >
-                          <Button icon="close" />
+                          <Button
+                            icon="close"
+                            disabled={!permissions.usersEdit}
+                          />
                         </Popconfirm>
                       </Button.Group>
                     </span>
@@ -155,7 +168,9 @@ function Users({
                     <span>
                       <Button
                         icon="edit"
-                        disabled={editableUserRecord !== null}
+                        disabled={
+                          !permissions.usersEdit || editableUserRecord !== null
+                        }
                         onClick={() => handleEdit(record)}
                       />
                     </span>
@@ -163,6 +178,7 @@ function Users({
                   <span className="ant-divider" />
                   <Button
                     icon="delete"
+                    disabled={!permissions.usersEdit}
                     onClick={() =>
                       Modal.confirm({
                         title: 'Удалить пользователя?',
@@ -178,6 +194,8 @@ function Users({
         ]}
       />
     </Card>
+  ) : (
+    <Card>Доступ к данному справочнику ограничен.</Card>
   );
 }
 

@@ -10,7 +10,7 @@ import {
   bool,
 } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
-import { Icon, Table, Tag, Button, Input, Popconfirm, Modal } from 'antd';
+import { Icon, Table, Tag, Button, Input, Popconfirm, Modal, Card } from 'antd';
 import { path } from 'ramda';
 import EditableCell from '../ui/Table/EditableCell';
 import './tableWithTags.less';
@@ -38,6 +38,10 @@ InputThematics.propTypes = {
   handleCellChange: func.isRequired,
   handleCancel: func.isRequired,
   handleEdit: func.isRequired,
+  permissions: shape({
+    thematicsView: bool,
+    thematicsEdit: bool,
+  }),
 };
 
 InputThematics.defaultProps = {
@@ -45,6 +49,7 @@ InputThematics.defaultProps = {
   loading: false,
   editableCell: null,
   editableThematic: null,
+  permissions: null,
 };
 
 function InputThematics({
@@ -61,15 +66,16 @@ function InputThematics({
   handleCancel,
   onSaveThematic,
   handleEdit,
+  permissions,
 }) {
-  return (
+  return permissions.thematicsView ? (
     <Table
       loading={loading}
       title={() => (
         <Button
           type="primary"
           icon="plus"
-          disabled={editableThematic !== null}
+          disabled={!permissions.thematicsEdit || editableThematic !== null}
           onClick={() => onAddThematic()}
         >
           Добавить
@@ -112,6 +118,7 @@ function InputThematics({
               onSaveWord,
               onDeleteWord,
               editableThematic,
+              permissions,
             ),
         },
         {
@@ -128,6 +135,7 @@ function InputThematics({
               onSaveWord,
               onDeleteWord,
               editableThematic,
+              permissions,
             ),
         },
         {
@@ -139,7 +147,7 @@ function InputThematics({
           render: (text, record) => {
             return (
               <span styleName="action-button-wrapper">
-                {editableThematic && editableThematic.id === record.id ? (
+                {permissions.thematicsEdit && editableThematic && editableThematic.id === record.id ? (
                   <span>
                     <Button.Group>
                       <Button icon="save" onClick={() => onSaveThematic()} />
@@ -155,7 +163,7 @@ function InputThematics({
                   <span>
                     <Button
                       icon="edit"
-                      disabled={editableThematic !== null}
+                      disabled={!permissions.thematicsEdit || editableThematic !== null}
                       onClick={() => handleEdit(record)}
                     />
                   </span>
@@ -163,6 +171,7 @@ function InputThematics({
                 <span className="ant-divider" />
                 <Button
                   icon="delete"
+                  disabled={!permissions.thematicsEdit}
                   onClick={() =>
                     Modal.confirm({
                       title: 'Удалить тематику?',
@@ -177,6 +186,8 @@ function InputThematics({
         },
       ]}
     />
+  ) : (
+    <Card>Доступ к данному справочнику ограничен.</Card>
   );
 }
 
@@ -189,12 +200,13 @@ function renderCellWithTags(
   onSaveWord,
   onDeleteWord,
   editableThematic,
+  permissions,
 ) {
   return (
     <span styleName="tags-cell">
       {tags &&
         tags.map((tag) => {
-          return editableThematic && editableThematic.id === recordId ? (
+          return (!permissions.thematicsEdit || (editableThematic && editableThematic.id === recordId)) ? (
             <Tag key={tag.id}>{tag.word}</Tag>
           ) : (
             <Tag styleName="tag" key={tag.id}>
@@ -228,7 +240,7 @@ function renderCellWithTags(
           type="dashed"
           styleName="add-button"
           onClick={() => onAddWord({ field, recordId })}
-          disabled={editableThematic && editableThematic.id === recordId}
+          disabled={!permissions.thematicsEdit || (editableThematic && editableThematic.id === recordId)}
         >
           + Добавить
         </Button>

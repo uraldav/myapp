@@ -8,6 +8,7 @@ import injectSaga from '../../utils/injectSaga';
 import PriorityCoefficients from '../../components/PriorityCoefficients';
 import { editableRecordSelector, dataSelector } from './selectors';
 import { changeEditableRecord, saveRequest } from './ducks';
+import withPermissions from '../../utils/withPermissions';
 
 const mapStateToProps = createStructuredSelector({
   editableRecord: editableRecordSelector,
@@ -33,5 +34,6 @@ export default compose(
     }),
   ),
   connect(mapStateToProps, mapDispatchToProps),
+  withPermissions(['priorityCoefficientsView', 'priorityCoefficientsEdit']),
   pure,
 )(PriorityCoefficients);
