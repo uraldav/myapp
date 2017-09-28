@@ -2,7 +2,9 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 
-const context = resolve(__dirname, 'app');
+const rootPath = resolve(__dirname, '..');
+
+const context = resolve(rootPath, 'app');
 
 const cssScopedNamePattern = '[path][name]-[local]___[hash:base64:8]';
 
@@ -11,25 +13,14 @@ const config = {
   devtool: 'cheap-module-eval-source-map',
   context,
   resolve: {
-    extensions: [
-      '.js',
-      '.jsx',
-    ],
-    mainFields: [
-      'browser',
-      'jsnext:main',
-      'main',
-    ],
+    extensions: ['.js', '.jsx'],
+    mainFields: ['browser', 'jsnext:main', 'main'],
     alias: { moment: 'moment/moment.js' },
   },
-  entry: [
-    'react-hot-loader/patch',
-    'babel-polyfill',
-    './index.jsx',
-  ],
+  entry: ['react-hot-loader/patch', 'babel-polyfill', './index.jsx'],
   output: {
     filename: 'bundle.js',
-    path: resolve(__dirname, 'build'),
+    path: resolve(rootPath, 'build'),
     publicPath: '/',
   },
   devServer: {
@@ -39,7 +30,7 @@ const config = {
     quiet: false,
     noInfo: false,
     publicPath: '/',
-    contentBase: resolve(__dirname, 'build'),
+    contentBase: resolve(rootPath, 'build'),
     historyApiFallback: true,
     proxy: {
       '/api': {
@@ -65,7 +56,7 @@ const config = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        include: resolve(__dirname, 'app'),
+        include: resolve(rootPath, 'app'),
         use: [
           'react-hot-loader/webpack',
           {
@@ -91,10 +82,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.less/,
@@ -120,16 +108,25 @@ const config = {
             loader: 'less-loader',
             options: {
               sourceMap: true,
-              paths: [resolve(__dirname, 'node_modules')],
+              paths: [resolve(rootPath, 'node_modules')],
             },
           },
         ],
       },
       { test: /\.(png|jpg)$/, use: 'url-loader?limit=15000' },
       { test: /\.eot(\?v=\d+.\d+.\d+)?$/, use: 'file-loader' },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
-      { test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=image/svg+xml' },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: 'url-loader?limit=10000&mimetype=application/font-woff',
+      },
+      {
+        test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/,
+        use: 'url-loader?limit=10000&mimetype=application/octet-stream',
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        use: 'url-loader?limit=10000&mimetype=image/svg+xml',
+      },
     ],
   },
   plugins: [
@@ -140,7 +137,7 @@ const config = {
       test: /\.jsx?$/,
       options: {
         eslint: {
-          configFile: resolve(__dirname, '.eslintrc'),
+          configFile: resolve(rootPath, '.eslintrc'),
           cache: false,
         },
       },
