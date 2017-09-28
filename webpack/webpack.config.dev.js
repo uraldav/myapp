@@ -1,6 +1,5 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const context = resolve(__dirname, 'app');
@@ -114,7 +113,7 @@ const config = {
             loader: 'postcss-loader',
             options: {
               sourceMap: true,
-              plugins: [autoprefixer],
+              plugins: [],
             },
           },
           {

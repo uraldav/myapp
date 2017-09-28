@@ -27,7 +27,7 @@ export default function* () {
     menuItemsRequestSaga,
   );
 
-  yield yield takeLatest(action => /_FAILURE/.test(action.type), failure);
+  yield takeLatest(action => /_FAILURE/.test(action.type), failure);
 
   const location = yield select(locationSelector);
   const expandedMenuItems = yield select(expandedMenuItemsSelector);
