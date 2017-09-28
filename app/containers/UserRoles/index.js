@@ -20,11 +20,12 @@ import {
   saveUserRole,
   changeEditableRecordName,
 } from './ducks';
+import withPermissions from '../../utils/withPermissions';
 
 const mapStateToProps = createStructuredSelector({
   roles: rolesSelector,
   editableRecord: editableRecordSelector,
-  permissions: formattedPermissionsSelector,
+  userPermissions: formattedPermissionsSelector,
   isEditing: isEditableSelector,
 });
 
@@ -34,7 +35,7 @@ const mapDispatchToProps = {
   onUserRoleAdd: addUserRole,
   onUserRoleSave: saveUserRole,
   onUserRoleRename: changeEditableRecordName,
-  onPermissionChange: updateEditableRecordPermission,
+  onUserPermissionChange: updateEditableRecordPermission,
 };
 
 export default compose(
@@ -51,5 +52,6 @@ export default compose(
     }),
   ),
   connect(mapStateToProps, mapDispatchToProps),
+  withPermissions(['userRolesView', 'userRolesEdit']),
   pure,
 )(UserRolesComponent);

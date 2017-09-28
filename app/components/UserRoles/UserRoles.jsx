@@ -8,46 +8,55 @@ import './UserRoles.less';
 const Column = Table.Column;
 
 UserRoles.propTypes = {
-  permissions: arrayOf(object),
+  userPermissions: arrayOf(object),
   roles: arrayOf(object),
   editableRecord: object,
   onUserRoleClick: func.isRequired,
-  onPermissionChange: func.isRequired,
+  onUserPermissionChange: func.isRequired,
   onUserRoleDelete: func.isRequired,
   onUserRoleAdd: func.isRequired,
   onUserRoleSave: func.isRequired,
   onUserRoleRename: func.isRequired,
   isEditing: bool,
+  permissions: shape({ userRolesView: bool, userRolesEdit: bool }),
 };
 
 UserRoles.defaultProps = {
-  permissions: [],
+  userPermissions: [],
   roles: [],
   editableRecord: null,
   isEditing: false,
+  permissions: null,
 };
 
 function UserRoles({
-  permissions,
+  userPermissions,
   roles,
   editableRecord,
   onUserRoleClick,
-  onPermissionChange,
+  onUserPermissionChange,
   onUserRoleDelete,
   onUserRoleAdd,
   isEditing,
   onUserRoleSave,
   onUserRoleRename,
+  permissions,
 }) {
-  return (
+  return permissions.userRolesView ? (
     <Card>
       <Row>
         <Col span={8}>
           <div styleName="top-buttons">
-            <Button type="primary" icon="plus" onClick={() => onUserRoleAdd()}>
+            <Button
+              type="primary"
+              icon="plus"
+              onClick={() => onUserRoleAdd()}
+              disabled={!permissions.userRolesEdit}
+            >
               Добавить
             </Button>
             <Button
+              disabled={!permissions.userRolesEdit}
               type="danger"
               icon="minus"
               onClick={() =>
@@ -89,20 +98,25 @@ function UserRoles({
           <Table
             bordered
             pagination={false}
-            dataSource={permissions.map((item, idx) => ({ ...item, key: idx }))}
+            dataSource={userPermissions.map((item, idx) => ({
+              ...item,
+              key: idx,
+            }))}
             columns={[
               { title: 'Функция', dataIndex: 'name' },
               {
                 title: 'Уровень доступа',
                 dataIndex: 'value',
                 render: (text, record) =>
-                  renderSelect(text.toString(), record, onPermissionChange),
+                  renderSelect(text.toString(), record, onUserPermissionChange, permissions),
               },
             ]}
           />
         </Col>
       </Row>
     </Card>
+  ) : (
+    <Card>Доступ к данному справочнику ограничен.</Card>
   );
 }
 
@@ -137,13 +151,14 @@ function renderUserRole(
   );
 }
 
-function renderSelect(text, record, onPermissionChange) {
+function renderSelect(text, record, onUserPermissionChange, permissions) {
   return (
     <Select
+      disabled={!permissions.userRolesEdit}
       value={text}
       styleName="select"
       onChange={value =>
-        onPermissionChange({ value, functional: record.functional })}
+        onUserPermissionChange({ value, functional: record.functional })}
     >
       <Select.Option value="0" key="0">
         Недоступно

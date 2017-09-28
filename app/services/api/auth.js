@@ -1,29 +1,26 @@
 const authorize = axios => (userName, password) =>
   axios
     .post('/api/auth', {
-      data: {
-        userName,
-        password,
-      },
+      user_name: userName,
+      password,
     })
     .then(({ data }) => {
       return {
-        token: data.token,
-        userData: data.userdata,
+        response: { userData: data.user_data, token: data.token },
       };
     })
     .catch(error => ({ error }));
 
 const fetchUserData = axios => token =>
   axios
-    .get('/api/userdata', {
+    .get('/api/user_data', {
       data: {
         token,
       },
     })
     .then(({ data }) => {
       return {
-        userData: data,
+        response: { userData: data },
       };
     })
     .catch(error => ({ error }));

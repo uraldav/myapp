@@ -1,7 +1,7 @@
 module.exports = () => {
   return {
     token: 'sqsq',
-    userdata: {
+    user_data: {
       name: 'SomeName',
     },
   };

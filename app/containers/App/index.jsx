@@ -1,6 +1,6 @@
 import React from 'react';
 import { object } from 'prop-types';
-import { compose, pure, withProps, getContext } from 'recompose';
+import { compose, pure, withProps, getContext, lifecycle } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
@@ -15,6 +15,7 @@ import {
   selectedMenuItemSelector,
 } from './selectors';
 import { changeExpandedMenuItems } from './ducks';
+import cookie from '../../services/cookie';
 
 function NestedRoutes() {
   return (
@@ -56,9 +57,9 @@ function NestedRoutes() {
       <AsyncRoute
         exact
         path="/important_authors"
-        requireComponent={() => {
-          return import('../../containers/ImportantAuthors');
-        }}
+        requireComponent={() =>
+          import('../../containers/ImportantAuthors')
+        }
       />
       <Route
         component={() => (
@@ -83,7 +84,10 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  withProps(props => ({ children: NestedRoutes(props) })),
+  withProps(props => ({
+    children: NestedRoutes(props),
+    isAuthorized: !!cookie.get('Authorization'),
+  })),
   getContext({
     store: object,
   }),
@@ -97,6 +101,13 @@ export default compose(
       store.dispatch(reducer.menuItemsRequest());
     }),
   ),
+  lifecycle({
+    componentWillMount() {
+      if (!cookie.get('Authorization')) {
+        window.location = '/auth';
+      }
+    },
+  }),
   connect(mapStateToProps, mapDispatchToProps),
   pure,
 )(App);
