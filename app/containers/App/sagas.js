@@ -36,7 +36,7 @@ export default function* () {
     yield fork(requestUserData);
   }
 
-  yield yield takeLatest(action => /_FAILURE/.test(action.type), failure);
+  yield takeLatest(action => /_FAILURE/.test(action.type), failure);
 
   const location = yield select(locationSelector);
   const expandedMenuItems = yield select(expandedMenuItemsSelector);
