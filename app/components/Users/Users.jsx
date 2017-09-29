@@ -105,6 +105,7 @@ function Users({
                 record,
                 editableUserRecord,
                 handleCellChange,
+                false,
               ),
           },
           {
