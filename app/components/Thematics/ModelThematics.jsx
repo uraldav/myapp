@@ -10,10 +10,9 @@ import {
   arrayOf,
 } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
-import { Table, Tag, Button, Input, Popconfirm, Modal, Card } from 'antd';
-import { path } from 'ramda';
-import EditableCell from '../ui/Table/EditableCell';
-import { renderCellWithTags } from '../../utils/tableRender';
+import { Table, Button, Popconfirm, Modal, Card } from 'antd';
+import { renderCell, renderCellWithTags } from '../../utils/tableRender';
+import './index.less';
 
 const recordShape = shape({
   id: number,
@@ -87,22 +86,15 @@ function ModelThematics({
         {
           title: 'Тематика',
           dataIndex: 'name',
-          render: (tags, record, index) => {
-            const isEditableCell =
-              editableThematic !== null && editableThematic.id === record.id;
-
-            if (isEditableCell) {
-              return (
-                <EditableCell
-                  autoFocus
-                  editable
-                  value={path('name'.split('.'), editableThematic)}
-                  onChange={value => handleCellChange('name', index, value)}
-                />
-              );
-            }
-            return path('name'.split('.'), record);
-          },
+          render: (tags, record, index) =>
+            renderCell(
+              index,
+              'name',
+              record,
+              editableThematic,
+              handleCellChange,
+              true,
+            ),
         },
         {
           title: 'Слова для сочетания (1)',
@@ -147,10 +139,16 @@ function ModelThematics({
           render: (text, record) => {
             return (
               <span styleName="action-button-wrapper">
-                {permissions.thematicsEdit && editableThematic && editableThematic.id === record.id ? (
+                {permissions.thematicsEdit &&
+                editableThematic &&
+                editableThematic.id === record.id ? (
                   <span>
                     <Button.Group>
-                      <Button icon="save" onClick={onSaveThematic} disabled={!permissions.thematicsEdit} />
+                      <Button
+                        icon="save"
+                        onClick={onSaveThematic}
+                        disabled={!permissions.thematicsEdit}
+                      />
                       <Popconfirm
                         title="Отменить изменения?"
                         onConfirm={handleCancel}
@@ -163,7 +161,9 @@ function ModelThematics({
                   <span>
                     <Button
                       icon="edit"
-                      disabled={!permissions.thematicsEdit || editableThematic !== null}
+                      disabled={
+                        !permissions.thematicsEdit || editableThematic !== null
+                      }
                       onClick={() => handleEdit(record)}
                     />
                   </span>

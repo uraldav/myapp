@@ -4,7 +4,7 @@ import { Icon, Tag, Button, Input, Popconfirm } from 'antd';
 import EditableCell from '../components/ui/Table/EditableCell';
 import '../components/ui/Table/tableWithTags.less';
 
-export default function renderCell(
+function renderCell(
   index,
   field,
   record,
@@ -87,3 +87,4 @@ function renderCellWithTags(
   );
 }
 
+export { renderCell, renderCellWithTags };

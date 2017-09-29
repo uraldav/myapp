@@ -1,9 +1,7 @@
 import React from 'react';
-import { number, arrayOf, shape, object, func, string, bool } from 'prop-types';
+import { number, arrayOf, shape, func, string, bool } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
 import { Input, Card, Button, Modal, Popconfirm, Table } from 'antd';
-import { path } from 'ramda';
-import EditableCell from '../ui/Table/EditableCell';
 import './Users.less';
 import { renderCell } from '../../utils/tableRender';
 
@@ -13,7 +11,7 @@ const recordShape = shape({
   login: string,
   position: string,
   email: string,
-  userRole: object,
+  userRole: string,
 });
 
 Users.propTypes = {

@@ -1,9 +1,7 @@
 import React from 'react';
-import { number, arrayOf, shape, object, func, string, bool } from 'prop-types';
+import { number, arrayOf, shape, func, string, bool } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
-import { Input, Card, Button, Modal, Popconfirm, Table } from 'antd';
-import { path } from 'ramda';
-import EditableCell from '../ui/Table/EditableCell';
+import { Input, Card, Button, Popconfirm, Table } from 'antd';
 import './index.less';
 import { renderCell } from '../../utils/tableRender';
 
