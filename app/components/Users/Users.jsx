@@ -5,6 +5,7 @@ import { Input, Card, Button, Modal, Popconfirm, Table } from 'antd';
 import { path } from 'ramda';
 import EditableCell from '../ui/Table/EditableCell';
 import './Users.less';
+import { renderCell } from '../../utils/tableRender';
 
 const recordShape = shape({
   id: number,
@@ -199,29 +200,6 @@ function Users({
   );
 }
 
-function renderCell(
-  index,
-  field,
-  record,
-  editableUserRecord,
-  handleCellChange,
-  autoFocus,
-) {
-  const isEditableCell =
-    editableUserRecord !== null && editableUserRecord.id === record.id;
-
-  if (isEditableCell) {
-    return (
-      <EditableCell
-        autoFocus={autoFocus}
-        editable
-        value={path(field.split('.'), editableUserRecord)}
-        onChange={value => handleCellChange(field, index, value)}
-      />
-    );
-  }
-  return path(field.split('.'), record);
-}
 export default compose(
   withHandlers({
     handleCellChange: ({ onChangeEditableRecord, editableUserRecord }) => (

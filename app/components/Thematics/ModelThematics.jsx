@@ -13,7 +13,7 @@ import { compose, pure, withHandlers } from 'recompose';
 import { Table, Tag, Button, Input, Popconfirm, Modal, Card } from 'antd';
 import { path } from 'ramda';
 import EditableCell from '../ui/Table/EditableCell';
-import './tableWithTags.less';
+import { renderCellWithTags } from '../../utils/tableRender';
 
 const recordShape = shape({
   id: number,
@@ -188,64 +188,6 @@ function ModelThematics({
     />
   ) : (
     <Card>Доступ к данному справочнику ограничен.</Card>
-  );
-}
-
-function renderCellWithTags(
-  tags,
-  field,
-  recordId,
-  editableCell,
-  onAddWord,
-  onSaveWord,
-  onDeleteWord,
-  editableThematic,
-  permissions,
-) {
-  return (
-    <span styleName="tags-cell">
-      {tags &&
-        tags.map((tag) => {
-          return (!permissions.thematicsEdit || (editableThematic && editableThematic.id === recordId)) ? (
-            <Tag key={tag.id}>{tag.word}</Tag>
-          ) : (
-            <Tag styleName="tag" key={tag.id}>
-              {tag.word}&nbsp;&nbsp;
-              <Popconfirm
-                title={`Удалить тег ${tag.word}?`}
-                onConfirm={() =>
-                  onDeleteWord({ field, recordId, word: tag.word })}
-              >
-                <Icon type="close" />
-              </Popconfirm>
-            </Tag>
-          );
-        })}
-      {editableCell !== null &&
-      editableCell.field === field &&
-      editableCell.recordId === recordId ? (
-        <Input
-          autoFocus
-          type="text"
-          size="small"
-          styleName="add-input"
-          onBlur={({ target }) =>
-            onSaveWord({ value: target.value, field, recordId })}
-          onPressEnter={({ target }) =>
-            onSaveWord({ value: target.value, field, recordId })}
-        />
-      ) : (
-        <Button
-          size="small"
-          type="dashed"
-          styleName="add-button"
-          onClick={() => onAddWord({ field, recordId })}
-          disabled={!permissions.thematicsEdit || (editableThematic && editableThematic.id === recordId)}
-        >
-          + Добавить
-        </Button>
-      )}
-    </span>
   );
 }
 
