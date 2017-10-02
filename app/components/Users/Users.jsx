@@ -1,10 +1,9 @@
 import React from 'react';
-import { number, arrayOf, shape, object, func, string, bool } from 'prop-types';
+import { number, arrayOf, shape, func, string, bool } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
 import { Input, Card, Button, Modal, Popconfirm, Table } from 'antd';
-import { path } from 'ramda';
-import EditableCell from '../ui/Table/EditableCell';
 import './Users.less';
+import { renderCell } from '../../utils/tableRender';
 
 const recordShape = shape({
   id: number,
@@ -12,7 +11,7 @@ const recordShape = shape({
   login: string,
   position: string,
   email: string,
-  userRole: object,
+  userRole: string,
 });
 
 Users.propTypes = {
@@ -106,6 +105,7 @@ function Users({
                 record,
                 editableUserRecord,
                 handleCellChange,
+                false,
               ),
           },
           {
@@ -199,29 +199,6 @@ function Users({
   );
 }
 
-function renderCell(
-  index,
-  field,
-  record,
-  editableUserRecord,
-  handleCellChange,
-  autoFocus,
-) {
-  const isEditableCell =
-    editableUserRecord !== null && editableUserRecord.id === record.id;
-
-  if (isEditableCell) {
-    return (
-      <EditableCell
-        autoFocus={autoFocus}
-        editable
-        value={path(field.split('.'), editableUserRecord)}
-        onChange={value => handleCellChange(field, index, value)}
-      />
-    );
-  }
-  return path(field.split('.'), record);
-}
 export default compose(
   withHandlers({
     handleCellChange: ({ onChangeEditableRecord, editableUserRecord }) => (

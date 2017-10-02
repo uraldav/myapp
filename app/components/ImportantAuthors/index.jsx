@@ -2,9 +2,8 @@ import React from 'react';
 import { shape, string, number, arrayOf, func, bool } from 'prop-types';
 import { Card, Button, Input, Table, Select, Popconfirm, Modal } from 'antd';
 import { compose, pure, withHandlers } from 'recompose';
-import { path } from 'ramda';
-import EditableCell from '../ui/Table/EditableCell';
 import './index.less';
+import { renderCell } from '../../utils/tableRender';
 
 const recordShape = shape({
   id: number,
@@ -169,29 +168,6 @@ function Authors({
   );
 }
 
-function renderCell(
-  index,
-  field,
-  record,
-  editableRecord,
-  handleCellChange,
-  autoFocus,
-) {
-  const isEditableCell =
-    editableRecord !== null && editableRecord.id === record.id;
-
-  if (isEditableCell) {
-    return (
-      <EditableCell
-        autoFocus={autoFocus}
-        editable
-        value={path(field.split('.'), editableRecord)}
-        onChange={value => handleCellChange(field, index, value)}
-      />
-    );
-  }
-  return path(field.split('.'), record);
-}
 export default compose(
   withHandlers({
     handleCellChange: ({ onChangeEditableRecord, editableRecord }) => (

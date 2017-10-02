@@ -1,10 +1,9 @@
 import React from 'react';
-import { number, arrayOf, shape, object, func, string, bool } from 'prop-types';
+import { number, arrayOf, shape, func, string, bool } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
-import { Input, Card, Button, Modal, Popconfirm, Table } from 'antd';
-import { path } from 'ramda';
-import EditableCell from '../ui/Table/EditableCell';
+import { Input, Card, Button, Popconfirm, Table } from 'antd';
 import './index.less';
+import { renderCell } from '../../utils/tableRender';
 
 const recordShape = shape({
   id: number,
@@ -68,6 +67,7 @@ function PriorityCoefficients({
                 record,
                 editableRecord,
                 handleCellChange,
+                true,
               ),
           },
           {
@@ -80,6 +80,7 @@ function PriorityCoefficients({
                 record,
                 editableRecord,
                 handleCellChange,
+                false,
               ),
           },
           {
@@ -92,6 +93,7 @@ function PriorityCoefficients({
                 record,
                 editableRecord,
                 handleCellChange,
+                false,
               ),
           },
           {
@@ -143,22 +145,6 @@ function PriorityCoefficients({
   ) : (
     <Card>Доступ к данному справочнику ограничен.</Card>
   );
-}
-
-function renderCell(index, field, record, editableRecord, handleCellChange) {
-  const isEditableCell =
-    editableRecord !== null && editableRecord.id === record.id;
-
-  if (isEditableCell) {
-    return (
-      <EditableCell
-        editable
-        value={path(field.split('.'), editableRecord)}
-        onChange={value => handleCellChange(field, index, value)}
-      />
-    );
-  }
-  return path(field.split('.'), record);
 }
 
 export default compose(

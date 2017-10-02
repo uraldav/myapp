@@ -10,10 +10,9 @@ import {
   arrayOf,
 } from 'prop-types';
 import { compose, pure, withHandlers } from 'recompose';
-import { Table, Tag, Button, Input, Popconfirm, Modal, Card } from 'antd';
-import { path } from 'ramda';
-import EditableCell from '../ui/Table/EditableCell';
-import './tableWithTags.less';
+import { Table, Button, Popconfirm, Modal, Card } from 'antd';
+import { renderCell, renderCellWithTags } from '../../utils/tableRender';
+import './index.less';
 
 const recordShape = shape({
   id: number,
@@ -87,22 +86,15 @@ function ModelThematics({
         {
           title: 'Тематика',
           dataIndex: 'name',
-          render: (tags, record, index) => {
-            const isEditableCell =
-              editableThematic !== null && editableThematic.id === record.id;
-
-            if (isEditableCell) {
-              return (
-                <EditableCell
-                  autoFocus
-                  editable
-                  value={path('name'.split('.'), editableThematic)}
-                  onChange={value => handleCellChange('name', index, value)}
-                />
-              );
-            }
-            return path('name'.split('.'), record);
-          },
+          render: (tags, record, index) =>
+            renderCell(
+              index,
+              'name',
+              record,
+              editableThematic,
+              handleCellChange,
+              true,
+            ),
         },
         {
           title: 'Слова для сочетания (1)',
@@ -147,10 +139,16 @@ function ModelThematics({
           render: (text, record) => {
             return (
               <span styleName="action-button-wrapper">
-                {permissions.thematicsEdit && editableThematic && editableThematic.id === record.id ? (
+                {permissions.thematicsEdit &&
+                editableThematic &&
+                editableThematic.id === record.id ? (
                   <span>
                     <Button.Group>
-                      <Button icon="save" onClick={onSaveThematic} disabled={!permissions.thematicsEdit} />
+                      <Button
+                        icon="save"
+                        onClick={onSaveThematic}
+                        disabled={!permissions.thematicsEdit}
+                      />
                       <Popconfirm
                         title="Отменить изменения?"
                         onConfirm={handleCancel}
@@ -163,7 +161,9 @@ function ModelThematics({
                   <span>
                     <Button
                       icon="edit"
-                      disabled={!permissions.thematicsEdit || editableThematic !== null}
+                      disabled={
+                        !permissions.thematicsEdit || editableThematic !== null
+                      }
                       onClick={() => handleEdit(record)}
                     />
                   </span>
@@ -188,64 +188,6 @@ function ModelThematics({
     />
   ) : (
     <Card>Доступ к данному справочнику ограничен.</Card>
-  );
-}
-
-function renderCellWithTags(
-  tags,
-  field,
-  recordId,
-  editableCell,
-  onAddWord,
-  onSaveWord,
-  onDeleteWord,
-  editableThematic,
-  permissions,
-) {
-  return (
-    <span styleName="tags-cell">
-      {tags &&
-        tags.map((tag) => {
-          return (!permissions.thematicsEdit || (editableThematic && editableThematic.id === recordId)) ? (
-            <Tag key={tag.id}>{tag.word}</Tag>
-          ) : (
-            <Tag styleName="tag" key={tag.id}>
-              {tag.word}&nbsp;&nbsp;
-              <Popconfirm
-                title={`Удалить тег ${tag.word}?`}
-                onConfirm={() =>
-                  onDeleteWord({ field, recordId, word: tag.word })}
-              >
-                <Icon type="close" />
-              </Popconfirm>
-            </Tag>
-          );
-        })}
-      {editableCell !== null &&
-      editableCell.field === field &&
-      editableCell.recordId === recordId ? (
-        <Input
-          autoFocus
-          type="text"
-          size="small"
-          styleName="add-input"
-          onBlur={({ target }) =>
-            onSaveWord({ value: target.value, field, recordId })}
-          onPressEnter={({ target }) =>
-            onSaveWord({ value: target.value, field, recordId })}
-        />
-      ) : (
-        <Button
-          size="small"
-          type="dashed"
-          styleName="add-button"
-          onClick={() => onAddWord({ field, recordId })}
-          disabled={!permissions.thematicsEdit || (editableThematic && editableThematic.id === recordId)}
-        >
-          + Добавить
-        </Button>
-      )}
-    </span>
   );
 }
 
