@@ -13,8 +13,9 @@ import {
   menuItemsSelector,
   expandedMenuItemsSelector,
   selectedMenuItemSelector,
+  isMenuCollapsedSelector,
 } from './selectors';
-import { changeExpandedMenuItems } from './ducks';
+import { changeExpandedMenuItems, menuCollapse } from './ducks';
 import cookie from '../../services/cookie';
 
 function NestedRoutes() {
@@ -77,10 +78,12 @@ const mapStateToProps = createStructuredSelector({
   menuItems: menuItemsSelector,
   expandedMenuItems: expandedMenuItemsSelector,
   selectedMenuItem: selectedMenuItemSelector,
+  isMenuCollapsed: isMenuCollapsedSelector,
 });
 
 const mapDispatchToProps = {
   onChangeExpandedMenuItems: changeExpandedMenuItems,
+  onMenuCollapse: menuCollapse,
 };
 
 export default compose(

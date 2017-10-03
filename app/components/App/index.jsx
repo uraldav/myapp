@@ -12,8 +12,6 @@ const { Sider, Content } = Layout;
 App.propTypes = {
   location: object.isRequired,
   children: node.isRequired,
-  toggleSidebarCollapsed: func.isRequired,
-  sidebarCollapsed: bool.isRequired,
   menuItems: shape({
     twitter: array,
     instagram: array,
@@ -23,6 +21,8 @@ App.propTypes = {
   selectedMenuItem: string,
   onChangeExpandedMenuItems: func.isRequired,
   isAuthorized: bool.isRequired,
+  onMenuCollapse: func.isRequired,
+  isMenuCollapsed: bool,
 };
 
 App.defaultProps = {
@@ -33,6 +33,7 @@ App.defaultProps = {
     instagram: [],
     facebook: [],
   },
+  isMenuCollapsed: false,
 };
 
 function App({
@@ -45,55 +46,47 @@ function App({
   selectedMenuItem,
   onChangeExpandedMenuItems,
   isAuthorized,
+  isMenuCollapsed,
+  onMenuCollapse,
 }) {
   return (
-    isAuthorized &&
-    <Layout styleName="page">
-      <Header />
-      <Layout>
-        <Sider
-          trigger={
-            <Tooltip
-              title={sidebarCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
-              placement="right"
-            >
-              <Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} />
-            </Tooltip>
-          }
-          collapsible
-          collapsed={sidebarCollapsed}
-          onCollapse={toggleSidebarCollapsed}
-          styleName="sider"
-          width={250}
-        >
-          <ScrollArea horizontal={false} smoothScrolling>
-            <SideMenu
-              location={location}
-              collapsed={sidebarCollapsed}
-              menuItems={menuItems}
-              expandedMenuItems={expandedMenuItems}
-              selectedMenuItem={selectedMenuItem || undefined}
-              onChangeExpandedMenuItems={onChangeExpandedMenuItems}
-            />
-          </ScrollArea>
-        </Sider>
-        <Content styleName="content">
-          <ScrollArea smoothScrolling>{children}</ScrollArea>
-        </Content>
+    isAuthorized && (
+      <Layout styleName="page">
+        <Header />
+        <Layout>
+          <Sider
+            trigger={
+              <Tooltip
+                title={sidebarCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
+                placement="right"
+              >
+                <Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} />
+              </Tooltip>
+            }
+            collapsible
+            collapsed={isMenuCollapsed}
+            onCollapse={onMenuCollapse}
+            styleName="sider"
+            width={250}
+          >
+            <ScrollArea horizontal={false} smoothScrolling>
+              <SideMenu
+                location={location}
+                collapsed={isMenuCollapsed}
+                menuItems={menuItems}
+                expandedMenuItems={expandedMenuItems}
+                selectedMenuItem={selectedMenuItem || undefined}
+                onChangeExpandedMenuItems={onChangeExpandedMenuItems}
+              />
+            </ScrollArea>
+          </Sider>
+          <Content styleName="content">
+            <ScrollArea smoothScrolling>{children}</ScrollArea>
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    )
   );
 }
 
-export default compose(
-  withState('sidebarCollapsed', 'setSidebarCollapsed', false),
-  withHandlers({
-    toggleSidebarCollapsed: ({
-      sidebarCollapsed,
-      setSidebarCollapsed,
-    }) => () => {
-      setSidebarCollapsed(!sidebarCollapsed);
-    },
-  }),
-  pure,
-)(App);
+export default compose(pure)(App);

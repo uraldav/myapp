@@ -6,6 +6,7 @@ const ducks = createDuck('App');
 export const MENU_ITEMS_REQUEST = ducks.defineType('MENU_ITEMS_REQUEST');
 export const MENU_ITEMS_SUCCESS = ducks.defineType('MENU_ITEMS_SUCCESS');
 export const MENU_ITEMS_FAILURE = ducks.defineType('MENU_ITEMS_FAILURE');
+export const MENU_COLLAPSE = ducks.defineType('MENU_COLLAPSE');
 
 export const CHANGE_EXPANDED_MENU_ITEMS = ducks.defineType(
   'CHANGE_EXPANDED_MENU_ITEMS',
@@ -20,6 +21,7 @@ export const USER_DATA_FAILURE = ducks.defineType('USER_DATA_FAILURE');
 export const menuItemsRequest = ducks.createAction(MENU_ITEMS_REQUEST);
 export const menuItemsSuccess = ducks.createAction(MENU_ITEMS_SUCCESS);
 export const menuItemsFailure = ducks.createAction(MENU_ITEMS_FAILURE);
+export const menuCollapse = ducks.createAction(MENU_COLLAPSE);
 
 export const changeExpandedMenuItems = ducks.createAction(
   CHANGE_EXPANDED_MENU_ITEMS,
@@ -43,8 +45,10 @@ const initialState = fromJS({
     facebook: [],
     otherWords: [],
   },
+  isMenuCollapsed: false,
   expandedMenuItems: [],
   selectedMenuItem: null,
+
   permissions: {
 
     authorized: false,
@@ -71,6 +75,7 @@ export default ducks.createReducer(
     [MENU_ITEMS_REQUEST]: state => state.set('loadingMenuItems', true),
     [MENU_ITEMS_SUCCESS]: (state, { payload }) =>
       state.set('loadingMenuItems', false).set('menuItems', fromJS(payload)),
+    [MENU_COLLAPSE]: state => state.set('isMenuCollapsed', !state.get('isMenuCollapsed')),
     [CHANGE_EXPANDED_MENU_ITEMS]: (state, { payload }) =>
       state.set('expandedMenuItems', fromJS(payload)),
     [CHANGE_SELECTED_MENU_ITEM]: (state, { payload }) =>
