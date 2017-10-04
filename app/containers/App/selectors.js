@@ -17,3 +17,7 @@ export const expandedMenuItemsSelector = createSelector(appSelector, app =>
 export const selectedMenuItemSelector = createSelector(appSelector, app =>
   app.get('selectedMenuItem'),
 );
+
+export const isMenuCollapsedSelector = createSelector(appSelector, app =>
+  app.get('isMenuCollapsed'),
+);
