@@ -22,6 +22,7 @@ App.propTypes = {
   onChangeExpandedMenuItems: func.isRequired,
   isAuthorized: bool.isRequired,
   onMenuCollapse: func.isRequired,
+  onMenuExpand: func.isRequired,
   isMenuCollapsed: bool,
 };
 
@@ -39,8 +40,6 @@ App.defaultProps = {
 function App({
   location,
   children,
-  toggleSidebarCollapsed,
-  sidebarCollapsed,
   menuItems,
   expandedMenuItems,
   selectedMenuItem,
@@ -48,6 +47,7 @@ function App({
   isAuthorized,
   isMenuCollapsed,
   onMenuCollapse,
+  onMenuExpand,
 }) {
   return (
     isAuthorized && (
@@ -57,15 +57,15 @@ function App({
           <Sider
             trigger={
               <Tooltip
-                title={sidebarCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
+                title={isMenuCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
                 placement="right"
               >
-                <Icon type={sidebarCollapsed ? 'menu-unfold' : 'menu-fold'} />
+                <Icon type={isMenuCollapsed ? 'menu-unfold' : 'menu-fold'} />
               </Tooltip>
             }
             collapsible
             collapsed={isMenuCollapsed}
-            onCollapse={onMenuCollapse}
+            onCollapse={isMenuCollapsed ? onMenuCollapse : onMenuExpand}
             styleName="sider"
             width={250}
           >
