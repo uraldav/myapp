@@ -12,7 +12,15 @@ FacebookEmbed.defaultProps = {
 };
 
 function FacebookEmbed({ url, width }) {
-  return <div className="fb-post" data-href={url} data-width={width} />;
+  return facebookDetectCommentary(url) ? (
+    <div className="fb-comment-embed" data-href={url} data-width={width} data-include-parent />
+  ) : (
+    <div className="fb-post" data-href={url} data-width={width} />
+  );
+}
+
+function facebookDetectCommentary(url) {
+  return /\?comment_id=/.test(url);
 }
 
 export default compose(
