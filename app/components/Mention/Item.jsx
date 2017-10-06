@@ -107,7 +107,7 @@ function MentionItem({
             <Button shape="circle" icon="user" size="large" />
             <Button shape="circle" icon="mail" size="large" />
           </div>
-          <Embed url={url} />
+          <Embed url={url} author={author} content={content} />
         </div>
       )}
     </Card>

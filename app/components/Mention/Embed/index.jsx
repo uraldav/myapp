@@ -4,23 +4,31 @@ import { string } from 'prop-types';
 import InstagramEmbed from 'react-instagram-embed';
 import TweetEmbed from 'react-tweet-embed';
 import FacebookEmbed from './FacebookEmbed';
+import InstagramCommentary from './InstagramCommentary';
 
 Embed.propTypes = {
   url: string.isRequired,
+  author: string.isRequired,
+  content: string.isRequired,
 };
 
-function Embed({ url }) {
+function Embed({ url, author, content }) {
   return (
     <div>
       {detectSocialNetwork(url) === 'instagram' && (
-        <InstagramEmbed
-          url={prepareUrlInstagram(url)}
-          maxWidth={720}
-          onLoading={() => {}}
-          onSuccess={() => {}}
-          onAfterRender={() => {}}
-          onFailure={() => {}}
-        />
+        <div>
+          <InstagramEmbed
+            url={prepareUrlInstagram(url)}
+            maxWidth={720}
+            onLoading={() => {}}
+            onSuccess={() => {}}
+            onAfterRender={() => {}}
+            onFailure={() => {}}
+          />
+          {detectInstagramCommentary(url) && (
+            <InstagramCommentary author={author} content={content} url={url} />
+          )}
+        </div>
       )}
       {detectSocialNetwork(url) === 'twitter' && (
         <TweetEmbed id={prepareIdTwitter(url)} />
@@ -39,6 +47,10 @@ function detectSocialNetwork(url) {
 
 function prepareUrlInstagram(url) {
   return /instagram.com\/p\/.*\//.exec(url)[0];
+}
+
+function detectInstagramCommentary(url) {
+  return /\/#/.test(url);
 }
 
 function prepareIdTwitter(url) {
