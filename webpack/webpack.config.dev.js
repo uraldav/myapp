@@ -20,8 +20,8 @@ const config = {
   entry: ['react-hot-loader/patch', 'babel-polyfill', './index.jsx'],
   output: {
     filename: 'bundle.js',
-    path: resolve(rootPath, 'build'),
-    publicPath: '/',
+    path: resolve(rootPath, 'build', 'assets'),
+    publicPath: '/assets/',
   },
   devServer: {
     hot: true,
@@ -29,7 +29,7 @@ const config = {
     open: true,
     quiet: false,
     noInfo: false,
-    publicPath: '/',
+    publicPath: '/assets/',
     contentBase: resolve(rootPath, 'build'),
     historyApiFallback: true,
     proxy: {
@@ -113,19 +113,19 @@ const config = {
           },
         ],
       },
-      { test: /\.(png|jpg)$/, use: 'url-loader?limit=15000' },
-      { test: /\.eot(\?v=\d+.\d+.\d+)?$/, use: 'file-loader' },
+      { test: /\.(png|jpg)$/, use: 'url-loader' },
+      { test: /\.eot(\?v=\d+.\d+.\d+)?$/, use: 'url-loader' },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: 'url-loader?limit=10000&mimetype=application/font-woff',
+        use: 'url-loader?mimetype=application/font-woff',
       },
       {
         test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/,
-        use: 'url-loader?limit=10000&mimetype=application/octet-stream',
+        use: 'url-loader?mimetype=application/octet-stream',
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'url-loader?limit=10000&mimetype=image/svg+xml',
+        use: 'url-loader',
       },
     ],
   },
