@@ -11,7 +11,7 @@ InstagramCommentary.propTypes = {
 
 function InstagramCommentary({ url, author, content }) {
   return (
-    <div styleName="instagramCommentary">
+    <div styleName="instagram-commentary">
       <a href={`https://www.instagram.com/${author}`} styleName="author">
         {author}
       </a>{' '}
