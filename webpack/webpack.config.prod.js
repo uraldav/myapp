@@ -19,8 +19,8 @@ const config = {
   entry: ['babel-polyfill', './index.jsx'],
   output: {
     filename: 'bundle.js',
-    path: resolve(__dirname, '..', 'build'),
-    publicPath: '/',
+    path: resolve(__dirname, '..', 'build', 'assets'),
+    publicPath: '/assets/',
   },
   devServer: {
     hot: false,
