@@ -4,18 +4,23 @@
   "author": "Innodata",
   "license": "UNLICENSED",
   "scripts": {
-    "start":
-      "yarn && webpack-dev-server --host 0.0.0.0 --port 8081 --config ./webpack/webpack.config.dev.js",
+    "start:inv":
+      "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js --env.app=investigation",
+    "start:prd":
+      "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js --env.app=prd",
     "test": "yarn && yarn lint && yarn test:jest",
-    "start:mock":
-      "yarn && concurrently --kill-others \"yarn mock:api\" \"yarn start\"",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "eslint --ext .jsx --ext .js */**",
     "lint:css": "stylelint ./app/**/*.less --syntax less",
-    "mock:api":
-      "json-server ./mock/db.js --watch --port 9000 --routes ./mock/routes.json",
+    "mock:prd":
+      "json-server ./mocks/prd-db.js --watch --port 9000 --routes ./mocks/routes.json",
+    "mock:inv":
+      "json-server ./mocks/investigation-db.js --watch --port 9000 --routes ./mocks/routes.json",
     "test:jest": "jest --config jest.config.json --no-cache",
-    "build": "webpack --config ./webpack/webpack.config.prod.js"
+    "build:inv":
+      "webpack --config ./webpack/webpack.config.prod.js --env.app=investigation",
+    "build:prd":
+      "webpack --config ./webpack/webpack.config.prod.js --env.app=prd"
   },
   "jest": {
     "verbose": true,
@@ -86,10 +91,10 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-react-boilerplate": "1.1.1",
     "babel-preset-stage-0": "^6.24.1",
-    "concurrently": "^3.5.0",
     "css-loader": "0.28.4",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "15.1.0",
+    "eslint-import-resolver-alias": "^1.0.3",
     "eslint-loader": "1.8.0",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.0",
