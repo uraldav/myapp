@@ -27,6 +27,13 @@ function NestedRoutes() {
           return import('app-common/containers/UserRoles');
         }}
       />
+      <AsyncRoute
+        exact
+        path="/mass_measures"
+        requireComponent={() => {
+          return import('../MassMeasures');
+        }}
+      />
       <Route
         component={() => (
           <span>

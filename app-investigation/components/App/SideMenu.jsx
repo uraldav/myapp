@@ -35,8 +35,14 @@ function SideMenu({
       <MenuLink
         title="Расследования"
         icon={<FaIcon name="inbox" />}
-        isSelected={selectedMenuItem.item === 'twitter'}
+        isSelected={false}
         to="/investigations"
+      />
+      <MenuLink
+        title="Массовые меры"
+        icon={<FaIcon name="check-square" />}
+        isSelected={false}
+        to="/mass_measures"
       />
       <MenuLink
         expanderVisible
