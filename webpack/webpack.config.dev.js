@@ -24,7 +24,7 @@ const config = (env) => {
     entry: ['react-hot-loader/patch', 'babel-polyfill', './index.jsx'],
     output: {
       filename: 'bundle.js',
-      path: resolve(rootPath, 'build', 'assets', env.app),
+      path: resolve(rootPath, 'build', env.app, 'assets'),
       publicPath: '/assets/',
     },
     devServer: {
@@ -34,7 +34,7 @@ const config = (env) => {
       quiet: false,
       noInfo: false,
       publicPath: '/assets/',
-      contentBase: resolve(rootPath, 'build'),
+      contentBase: resolve(rootPath, 'build', env.app),
       historyApiFallback: true,
       proxy: {
         '/api': {
