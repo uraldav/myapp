@@ -1,20 +1,9 @@
 import React from 'react';
 import { compose, pure } from 'recompose';
 import moment from 'moment';
-import { Card, Table, Tabs, Button, DatePicker } from 'antd';
+import { Card, Table, Tabs, Button, DatePicker, Input } from 'antd';
+import { arrayOf, object, func } from 'prop-types';
 import './index.less';
-
-const dataMock = [
-  {
-    id: '123',
-    segment_name: 'Мандарины убрать',
-    segment_description: 'Негативные отзывы по питанию (мандарины)',
-    spp: 'ДУКП ОСС',
-    status: 'Выполнено',
-    date: '27.12.2017',
-    date_measures: '28.12.2017',
-  },
-];
 
 const dateFormat = 'DD.MM.YYYY';
 
@@ -29,52 +18,94 @@ const measuresMock = [
   },
 ];
 
-function MassMeasures() {
+const Column = Table.Column;
+
+MassMeasures.propTypes = {
+  measures: arrayOf(object),
+  selectedMeasure: object,
+  onMeasureClick: func.isRequired,
+};
+
+MassMeasures.defaultProps = {
+  measures: [],
+  selectedMeasure: null,
+};
+
+function MassMeasures({ measures, selectedMeasure, onMeasureClick }) {
   return (
     <section>
       <Card>
         <Table
-          dataSource={dataMock.map(item => ({ ...item, key: item.id }))}
+          onRowClick={record => onMeasureClick(record)}
+          dataSource={measures.map(item => ({ ...item, key: item.id }))}
           pagination={false}
-          columns={[
-            {
-              title: 'ID',
-              dataIndex: 'id',
-              sorter: (a, b) => a.id.localeCompare(b.id),
-            },
-            {
-              title: 'Название сегмента',
-              dataIndex: 'segment_name',
-              sorter: (a, b) => a.segment_name.localeCompare(b.segment_name),
-            },
-            {
-              title: 'Название сегмента',
-              dataIndex: 'segment_description',
-              sorter: (a, b) =>
-                a.segment_description.localeCompare(b.segment_description),
-            },
-            {
-              title: 'СПП',
-              dataIndex: 'spp',
-              sorter: (a, b) => a.spp.localeCompare(b.spp),
-            },
-            {
-              title: 'Статус',
-              dataIndex: 'status',
-              sorter: (a, b) => a.status.localeCompare(b.status),
-            },
-            {
-              title: 'Плановая дата',
-              dataIndex: 'date',
-              sorter: (a, b) => a.date.localeCompare(b.date),
-            },
-            {
-              title: 'Дата ввода мер',
-              dataIndex: 'date_measures',
-              sorter: (a, b) => a.date_measures.localeCompare(b.date_measures),
-            },
-          ]}
-        />
+          title={() => (
+            <Input.Search
+              styleName="search"
+              placeholder="Поиск по ID сегмента, названию сегмента или СПП"
+              onSearch={value => console.log(value)}
+            />
+          )}
+        >
+          <Column
+            styleName="cell"
+            title="ID"
+            dataIndex="id"
+            sorter={(a, b) => a.id.localeCompare(b.id)}
+            render={(text, record, index) =>
+              renderMeasure(text, record, index, selectedMeasure)}
+          />
+          <Column
+            styleName="cell"
+            title="Название сегмента"
+            dataIndex="segment_name"
+            sorter={(a, b) => a.segment_name.localeCompare(b.segment_name)}
+            render={(text, record, index) =>
+              renderMeasure(text, record, index, selectedMeasure)}
+          />
+          <Column
+            styleName="cell"
+            title="Описание сегмента"
+            dataIndex="segment_description"
+            sorter={(a, b) =>
+              a.segment_description.localeCompare(b.segment_description)}
+            render={(text, record, index) =>
+              renderMeasure(text, record, index, selectedMeasure)}
+          />
+          <Column
+            styleName="cell"
+            title="СПП"
+            dataIndex="spp"
+            sorter={(a, b) => a.spp.localeCompare(b.spp)}
+            render={(text, record, index) =>
+              renderMeasure(text, record, index, selectedMeasure)}
+          />
+          <Column
+            styleName="cell"
+            title="Статус"
+            dataIndex="status"
+            sorter={(a, b) => a.status.localeCompare(b.status)}
+            render={(text, record, index) =>
+              renderMeasure(text, record, index, selectedMeasure)}
+          />
+
+          <Column
+            styleName="cell"
+            title="Плановая дата"
+            dataIndex="date"
+            sorter={(a, b) => a.date.localeCompare(b.date)}
+            render={(text, record, index) =>
+              renderMeasure(text, record, index, selectedMeasure)}
+          />
+          <Column
+            styleName="cell"
+            title="Дата ввода мер"
+            dataIndex="date_measures"
+            sorter={(a, b) => a.date_measures.localeCompare(b.date_measures)}
+            render={(text, record, index) =>
+              renderMeasure(text, record, index, selectedMeasure, true)}
+          />
+        </Table>
         <Tabs type="card" styleName="tabs">
           <Tabs.TabPane tab="Меры" key="1">
             <Table
@@ -133,6 +164,15 @@ function MassMeasures() {
       </Card>
     </section>
   );
+}
+
+function renderMeasure(text, record, index, selected, isLast) {
+  let style = 'cell-inner';
+  if (selected && record.id === selected.id) {
+    if (isLast) style = 'cell-inner-selected-last';
+    else style = 'cell-inner-selected';
+  }
+  return <span styleName={style}>{text}</span>;
 }
 
 export default compose(pure)(MassMeasures);
