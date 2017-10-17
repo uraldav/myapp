@@ -29,11 +29,19 @@ function NestedRoutes() {
       />
       <AsyncRoute
         exact
+        path="/users"
+        requireComponent={() => {
+          return import('../Users');
+        }}
+      />
+      <AsyncRoute
+        exact
         path="/mass_measures"
         requireComponent={() => {
           return import('../MassMeasures');
         }}
       />
+
       <Route
         component={() => (
           <span>
