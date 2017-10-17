@@ -64,8 +64,6 @@ MassMeasures.defaultProps = {
   measuresModalOpened: false,
 };
 
-const userModalVisible = true;
-
 function MassMeasures({
   measures,
   selectedMeasure,
@@ -76,7 +74,8 @@ function MassMeasures({
   closeUsersModal,
 
   measuresModalOpened,
-  toggleMeasuresModalOpened,
+  openMeasuresModal,
+  closeMeasuresModal,
 }) {
   return (
     <section>
@@ -173,7 +172,7 @@ function MassMeasures({
                       <Button
                         icon="solution"
                         size="small"
-                        onClick={() => toggleMeasuresModalOpened()}
+                        onClick={() => openMeasuresModal()}
                       />,
                     ),
                 },
@@ -226,87 +225,93 @@ function MassMeasures({
           </Tabs.TabPane>
         </Tabs>
       </Card>
-      <Modal
-        visible={usersModalOpened}
-        onOk={() => closeUsersModal()}
-        onCancel={() => closeUsersModal()}
-        width="90%"
-        title={
-          <div>
-            <span>Выбор сотрудника</span>
-            <Input.Search
-              styleName="title-search"
-              placeholder="Поиск по коду подразделения, наименованию подразделения, табельному номеру или ФИО"
-              onSearch={value => console.log(value)}
-            />
-          </div>
-        }
-        okText="Изменить"
-      >
-        <Table
-          dataSource={staff}
-          pagination={false}
-          rowSelection
-          columns={[
-            {
-              title: 'Код подразделения',
-              dataIndex: 'dep_code',
-              sorter: (a, b) => a.dep_code > b.dep_code,
-            },
-            {
-              title: 'Подразделение',
-              dataIndex: 'dep_name',
-              sorter: (a, b) => a.dep_name.localeCompare(b.dep_name),
-            },
-            {
-              title: 'Табельный номер',
-              dataIndex: 'employee_number',
-              sorter: (a, b) => a.employee_number > b.employee_number,
-            },
-            {
-              title: 'ФИО сотрудника',
-              dataIndex: 'employee_fullname',
-              sorter: (a, b) =>
-                a.employee_fullname.localeCompare(b.employee_fullname),
-            },
-          ]}
-        />
-      </Modal>
-      <Modal
-        visible={measuresModalOpened}
-        onOk={() => toggleMeasuresModalOpened()}
-        onCancel={() => toggleMeasuresModalOpened()}
-        width="90%"
-        title={
-          <div>
-            <span>Выбор типовой меры</span>
-            <Input.Search
-              styleName="title-search"
-              placeholder="Поиск по коду меры или названию типовой меры"
-              onSearch={value => console.log(value)}
-            />
-          </div>
-        }
-        okText="Изменить"
-      >
-        <Table
-          dataSource={typeMeasures}
-          pagination={false}
-          rowSelection
-          columns={[
-            {
-              title: 'Код меры',
-              dataIndex: 'measure_id',
-              sorter: (a, b) => a.dep_code > b.dep_code,
-            },
-            {
-              title: 'Типовая мера',
-              dataIndex: 'measure_type',
-              sorter: (a, b) => a.dep_name.localeCompare(b.dep_name),
-            },
-          ]}
-        />
-      </Modal>
+      {usersModalOpened && (
+        <Modal
+          visible={usersModalOpened}
+          maskClosable={false}
+          onOk={() => closeUsersModal()}
+          onCancel={() => closeUsersModal()}
+          width="90%"
+          title={
+            <div>
+              <span>Выбор сотрудника</span>
+              <Input.Search
+                styleName="title-search"
+                placeholder="Поиск по коду подразделения, наименованию подразделения, табельному номеру или ФИО"
+                onSearch={value => console.log(value)}
+              />
+            </div>
+          }
+          okText="Изменить"
+        >
+          <Table
+            dataSource={staff}
+            pagination={false}
+            rowSelection
+            columns={[
+              {
+                title: 'Код подразделения',
+                dataIndex: 'dep_code',
+                sorter: (a, b) => a.dep_code > b.dep_code,
+              },
+              {
+                title: 'Подразделение',
+                dataIndex: 'dep_name',
+                sorter: (a, b) => a.dep_name.localeCompare(b.dep_name),
+              },
+              {
+                title: 'Табельный номер',
+                dataIndex: 'employee_number',
+                sorter: (a, b) => a.employee_number > b.employee_number,
+              },
+              {
+                title: 'ФИО сотрудника',
+                dataIndex: 'employee_fullname',
+                sorter: (a, b) =>
+                  a.employee_fullname.localeCompare(b.employee_fullname),
+              },
+            ]}
+          />
+        </Modal>
+      )}
+      {measuresModalOpened && (
+        <Modal
+          maskClosable={false}
+          visible={measuresModalOpened}
+          onOk={() => closeMeasuresModal()}
+          onCancel={() => closeMeasuresModal()}
+          width="90%"
+          title={
+            <div>
+              <span>Выбор типовой меры</span>
+              <Input.Search
+                styleName="title-search"
+                placeholder="Поиск по коду меры или названию типовой меры"
+                onSearch={value => console.log(value)}
+              />
+            </div>
+          }
+          okText="Изменить"
+        >
+          <Table
+            dataSource={typeMeasures}
+            pagination={false}
+            rowSelection
+            columns={[
+              {
+                title: 'Код меры',
+                dataIndex: 'measure_id',
+                sorter: (a, b) => a.dep_code > b.dep_code,
+              },
+              {
+                title: 'Типовая мера',
+                dataIndex: 'measure_type',
+                sorter: (a, b) => a.dep_name.localeCompare(b.dep_name),
+              },
+            ]}
+          />
+        </Modal>
+      )}
     </section>
   );
 }
@@ -341,11 +346,11 @@ export default compose(
   }),
   withState('measuresModalOpened', 'setMeasuresModalOpened', false),
   withHandlers({
-    toggleMeasuresModalOpened: ({
-      measuresModalOpened,
-      setMeasuresModalOpened,
-    }) => () => {
-      setMeasuresModalOpened(!measuresModalOpened);
+    openMeasuresModal: ({ setMeasuresModalOpened }) => () => {
+      setMeasuresModalOpened(true);
+    },
+    closeMeasuresModal: ({ setMeasuresModalOpened }) => () => {
+      setMeasuresModalOpened(false);
     },
   }),
   pure,
