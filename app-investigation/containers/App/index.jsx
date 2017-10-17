@@ -27,6 +27,13 @@ function NestedRoutes() {
           return import('app-common/containers/UserRoles');
         }}
       />
+      <AsyncRoute
+        exact
+        path="/users"
+        requireComponent={() => {
+          return import('../Users');
+        }}
+      />
       <Route
         component={() => (
           <span>
