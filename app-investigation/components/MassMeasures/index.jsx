@@ -1,8 +1,8 @@
 import React from 'react';
-import { compose, pure } from 'recompose';
+import { compose, pure, withState, withHandlers } from 'recompose';
 import moment from 'moment';
-import { Card, Table, Tabs, Button, DatePicker, Input } from 'antd';
-import { arrayOf, object, func } from 'prop-types';
+import { Card, Table, Tabs, Button, DatePicker, Input, Modal } from 'antd';
+import { arrayOf, object, func, bool } from 'prop-types';
 import './index.less';
 
 const dateFormat = 'DD.MM.YYYY';
@@ -18,20 +18,66 @@ const measuresMock = [
   },
 ];
 
+const staff = [
+  {
+    dep_code: '12345',
+    dep_name: 'ДОС ПИЗ',
+    employee_number: '444333',
+    employee_fullname: 'Игорев Пётр Сидорович',
+  },
+  {
+    dep_code: '12345',
+    dep_name: 'ДОС ПИЗ',
+    employee_number: '444332',
+    employee_fullname: 'Игорев Пётр Дидорович',
+  },
+  {
+    dep_code: '12345',
+    dep_name: 'ДОС ПИЗ',
+    employee_number: '444331',
+    employee_fullname: 'Игорев Пётр Гидрович',
+  },
+];
+
+const typeMeasures = [
+  { measure_id: '1234', measure_type: 'апельсины убрать' },
+  { measure_id: '1235', measure_type: 'гнуть свою линию' },
+];
+
 const Column = Table.Column;
 
 MassMeasures.propTypes = {
   measures: arrayOf(object),
   selectedMeasure: object,
   onMeasureClick: func.isRequired,
+  usersModalOpened: bool,
+  openUsersModal: func.isRequired,
+  closeUsersModal: func.isRequired,
+  measuresModalOpened: bool,
+  toggleMeasuresModalOpened: func.isRequired,
 };
 
 MassMeasures.defaultProps = {
   measures: [],
   selectedMeasure: null,
+  usersModalOpened: false,
+  measuresModalOpened: false,
 };
 
-function MassMeasures({ measures, selectedMeasure, onMeasureClick }) {
+const userModalVisible = true;
+
+function MassMeasures({
+  measures,
+  selectedMeasure,
+  onMeasureClick,
+
+  usersModalOpened,
+  openUsersModal,
+  closeUsersModal,
+
+  measuresModalOpened,
+  toggleMeasuresModalOpened,
+}) {
   return (
     <section>
       <Card>
@@ -121,12 +167,30 @@ function MassMeasures({ measures, selectedMeasure, onMeasureClick }) {
                   title: 'Типовая мера',
                   dataIndex: 'measure',
                   sorter: (a, b) => a.measure.localeCompare(b.measure),
+                  render: text =>
+                    renderCellWithButton(
+                      text,
+                      <Button
+                        icon="solution"
+                        size="small"
+                        onClick={() => toggleMeasuresModalOpened()}
+                      />,
+                    ),
                 },
                 {
                   title: 'ФИО сотрудника',
                   dataIndex: 'employee_name',
                   sorter: (a, b) =>
                     a.employee_name.localeCompare(b.employee_name),
+                  render: text =>
+                    renderCellWithButton(
+                      text,
+                      <Button
+                        icon="solution"
+                        size="small"
+                        onClick={() => openUsersModal()}
+                      />,
+                    ),
                 },
                 {
                   title: 'Табельный номер',
@@ -162,7 +226,97 @@ function MassMeasures({ measures, selectedMeasure, onMeasureClick }) {
           </Tabs.TabPane>
         </Tabs>
       </Card>
+      <Modal
+        visible={usersModalOpened}
+        onOk={() => closeUsersModal()}
+        onCancel={() => closeUsersModal()}
+        width="90%"
+        title={
+          <div>
+            <span>Выбор сотрудника</span>
+            <Input.Search
+              styleName="title-search"
+              placeholder="Поиск по коду подразделения, наименованию подразделения, табельному номеру или ФИО"
+              onSearch={value => console.log(value)}
+            />
+          </div>
+        }
+        okText="Изменить"
+      >
+        <Table
+          dataSource={staff}
+          pagination={false}
+          rowSelection
+          columns={[
+            {
+              title: 'Код подразделения',
+              dataIndex: 'dep_code',
+              sorter: (a, b) => a.dep_code > b.dep_code,
+            },
+            {
+              title: 'Подразделение',
+              dataIndex: 'dep_name',
+              sorter: (a, b) => a.dep_name.localeCompare(b.dep_name),
+            },
+            {
+              title: 'Табельный номер',
+              dataIndex: 'employee_number',
+              sorter: (a, b) => a.employee_number > b.employee_number,
+            },
+            {
+              title: 'ФИО сотрудника',
+              dataIndex: 'employee_fullname',
+              sorter: (a, b) =>
+                a.employee_fullname.localeCompare(b.employee_fullname),
+            },
+          ]}
+        />
+      </Modal>
+      <Modal
+        visible={measuresModalOpened}
+        onOk={() => toggleMeasuresModalOpened()}
+        onCancel={() => toggleMeasuresModalOpened()}
+        width="90%"
+        title={
+          <div>
+            <span>Выбор типовой меры</span>
+            <Input.Search
+              styleName="title-search"
+              placeholder="Поиск по коду меры или названию типовой меры"
+              onSearch={value => console.log(value)}
+            />
+          </div>
+        }
+        okText="Изменить"
+      >
+        <Table
+          dataSource={typeMeasures}
+          pagination={false}
+          rowSelection
+          columns={[
+            {
+              title: 'Код меры',
+              dataIndex: 'measure_id',
+              sorter: (a, b) => a.dep_code > b.dep_code,
+            },
+            {
+              title: 'Типовая мера',
+              dataIndex: 'measure_type',
+              sorter: (a, b) => a.dep_name.localeCompare(b.dep_name),
+            },
+          ]}
+        />
+      </Modal>
     </section>
+  );
+}
+
+function renderCellWithButton(text, button) {
+  return (
+    <div styleName="cell-button-wrapper">
+      <span>{text}</span>
+      <div>{button}</div>
+    </div>
   );
 }
 
@@ -175,4 +329,24 @@ function renderMeasure(text, record, index, selected, isLast) {
   return <span styleName={style}>{text}</span>;
 }
 
-export default compose(pure)(MassMeasures);
+export default compose(
+  withState('usersModalOpened', 'setUsersModalOpened', false),
+  withHandlers({
+    openUsersModal: ({ setUsersModalOpened }) => () => {
+      setUsersModalOpened(true);
+    },
+    closeUsersModal: ({ setUsersModalOpened }) => () => {
+      setUsersModalOpened(false);
+    },
+  }),
+  withState('measuresModalOpened', 'setMeasuresModalOpened', false),
+  withHandlers({
+    toggleMeasuresModalOpened: ({
+      measuresModalOpened,
+      setMeasuresModalOpened,
+    }) => () => {
+      setMeasuresModalOpened(!measuresModalOpened);
+    },
+  }),
+  pure,
+)(MassMeasures);
