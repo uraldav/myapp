@@ -41,7 +41,13 @@ function NestedRoutes() {
           return import('../MassMeasures');
         }}
       />
-
+      <AsyncRoute
+        exact
+        path="/departments"
+        requireComponent={() => {
+          return import('../Departments');
+        }}
+      />
       <Route
         component={() => (
           <span>

@@ -18,6 +18,7 @@ function Header() {
         <Route path="/mass_measures" render={() => <h1>Массовые меры</h1>} />
         <Route path="/users" render={() => <h1>Пользователи</h1>} />
         <Route path="/user_roles" render={() => <h1>Роли пользователей</h1>} />
+        <Route path="/departments" render={() => <h1>Подразделения</h1>} />
       </div>
     </Layout.Header>
   );

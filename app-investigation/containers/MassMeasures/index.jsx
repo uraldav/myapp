@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import withAsyncDependencies from 'app-common/utils/withAsyncDependencies';
 import injectReducer from 'app-common/utils/injectReducer';
 import injectSaga from 'app-common/utils/injectSaga';
-import UserRolesComponent from '../../components/MassMeasures';
+import MassMeasuresComponent from '../../components/MassMeasures';
 import {
   dataSelector,
   editableMeasureSelector,
@@ -38,4 +38,4 @@ export default compose(
   ),
   connect(mapStateToProps, mapDispatchToProps),
   pure,
-)(UserRolesComponent);
+)(MassMeasuresComponent);
