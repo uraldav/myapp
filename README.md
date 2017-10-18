@@ -15,21 +15,28 @@ When repositiory is cloned,you need to go to the repository from terminal using 
 TO LAUNCH
 
 If you want to launch ARM-DOS app:
-1)"mock:prd": to launch mock server 
-2)"start:brd":to launch app
+1)"npm run mock:prd": to launch mock server 
+2)"npm run start:prd":to launch app
 
 If you want to launch  ARM-PRD:
-1)"mock:inv":to lauch mock server
-2)"start:inv":to lauch the app
+1)"npm run mock:inv":to lauch mock server
+2)"npm run start:inv":to lauch the app
+
+
+
+use "-- --env.proxy-target=host:port" as additional parametr if you want to connect to speseific targer 
+i.e
+npm run mock:prd -- --env.proxy-target=localhost:9000
+
 
 TO BUILD APP IN PRODUCTION:
 
-"build:inv":to build ARM-INV
-"build:prd":to build ARM-DOS
+"npm run build:inv":to build ARM-INV
+"npm run build:prd":to build ARM-DOS
 
 To run tests
 There is a general command to run tests on the project that is:
-"test"
+"npm run test"
 
 If you want run spectial test on certain part of the project you need to check the test tree:
                                   test
@@ -45,7 +52,7 @@ If you want run spectial test on certain part of the project you need to check t
                               lint:js              lint:css 
 
 WHERE
-"test:jest" is jest based tests on sagas,selectors and ducks
-"lint" sytaxis tests on the whole project 
-"lint:js" sytaxis tests on JavaScrip Syntax
-"lint:css"  sytaxis tests on CSS Syntax
+"npm run test:jest" is jest based tests on sagas,selectors and ducks
+"npm run lint" sytaxis tests on the whole project 
+"npm run lint:js" sytaxis tests on JavaScrip Syntax
+"npm run lint:css"  sytaxis tests on CSS Syntax

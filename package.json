@@ -4,27 +4,23 @@
   "author": "Innodata",
   "license": "UNLICENSED",
   "scripts": {
-    "start:inv":
-      "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js --env.app=investigation",
-    "start:prd":
-      "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js --env.app=prd",
+    "start:inv": "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js --env.app=investigation",
+    "start:prd": "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js --env.app=prd",
     "test": "yarn && yarn lint && yarn test:jest",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "eslint --ext .jsx --ext .js */**",
     "lint:css": "stylelint ./app/**/*.less --syntax less",
-    "mock:prd":
-      "json-server ./mocks/prd-db.js --watch --port 9000 --routes ./mocks/routes.json",
-    "mock:inv":
-      "json-server ./mocks/investigation-db.js --watch --port 9000 --routes ./mocks/routes.json",
+    "mock:prd": "json-server ./mocks/prd-db.js --watch --port 9000 --routes ./mocks/routes.json",
+    "mock:inv": "json-server ./mocks/investigation-db.js --watch --port 9000 --routes ./mocks/routes.json",
     "test:jest": "jest --config jest.config.json --no-cache",
-    "build:inv":
-      "webpack --config ./webpack/webpack.config.prod.js --env.app=investigation",
-    "build:prd":
-      "webpack --config ./webpack/webpack.config.prod.js --env.app=prd"
+    "build:inv": "webpack --config ./webpack/webpack.config.prod.js --env.app=investigation",
+    "build:prd": "webpack --config ./webpack/webpack.config.prod.js --env.app=prd"
   },
   "jest": {
     "verbose": true,
-    "moduleDirectories": ["node_modules"],
+    "moduleDirectories": [
+      "node_modules"
+    ],
     "moduleNameMapper": {
       "^.+\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "^.+\\.(gif|ttf|eot|svg|png)$": "<rootDir>/__mocks__/fileMock.js"
