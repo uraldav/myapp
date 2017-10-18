@@ -24,7 +24,7 @@ If you want to launch  ARM-PRD:
 
 
 
-use "-- --env.proxy-target=host:port" as additional parametr if you want to connect to speseific targer 
+use "-- --env.proxy-target=host:port" as additional parametr if you want to connect to speseific target
 i.e
 npm run mock:prd -- --env.proxy-target=localhost:9000
 
