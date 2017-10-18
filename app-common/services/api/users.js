@@ -11,7 +11,7 @@ const deleteUser = axios => userRecord =>
     .catch(error => ({ error }));
 
 const saveUser = axios => userRecord =>
-  axios[userRecord.id === 0 ? 'post' : 'patch'](
+  axios.post(
     '/api/users',
     mapUserToRequest(userRecord),
   )
