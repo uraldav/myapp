@@ -78,6 +78,16 @@ function SideMenu({
             title="Роли пользователей"
             to="/user_roles"
           />,
+          <MenuLink
+            level={1}
+            isSelected={
+              selectedMenuItem.item === 'departments' &&
+              selectedMenuItem.parent === 'settings'
+            }
+            icon={<Icon type="switcher" />}
+            title="Подразделения"
+            to="/departments"
+          />,
         ].map(item => item)}
     </div>
   );
