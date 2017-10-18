@@ -5,7 +5,7 @@ const fetchPriorityCoefficients = axios => () =>
     .catch(error => ({ error }));
 
 const save = axios => record =>
-  axios.patch(
+  axios.post(
     '/api/priority_coefficients', record,
   ).then(({ data }) => ({ response: data }))
   .catch(error => ({ error }));
