@@ -38,7 +38,7 @@ const config = (env) => {
       historyApiFallback: true,
       proxy: {
         '/api': {
-          target: 'http://localhost:9000',
+          target: env['proxy-target'] || 'http://localhost:9000',
         },
       },
     },
