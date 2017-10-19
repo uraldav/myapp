@@ -22,6 +22,12 @@ function NestedRoutes() {
     <Switch>
       <AsyncRoute
         exact
+        path="/investigations"
+        requireComponent={() => {
+          return import('../Investigations/InvestigationConnected');
+        }}
+      />
+      <AsyncRoute
         path="/user_roles"
         requireComponent={() => {
           return import('app-common/containers/UserRoles');

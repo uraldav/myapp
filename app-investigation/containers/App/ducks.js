@@ -61,7 +61,9 @@ export default ducks.createReducer(
       state.set('selectedMenuItem', payload),
 
     [USER_DATA_SUCCESS]: (state, { payload }) =>
-      state.set('userData', Map(payload.userData)).set('token', payload.token),
+      state
+        .set('userData', fromJS(payload.userData))
+        .set('token', payload.token),
   },
   initialState,
 );

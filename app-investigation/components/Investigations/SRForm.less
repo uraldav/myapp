@@ -1,0 +1,36 @@
+.form {
+  :global {
+    & .ant-form-item {
+      display: flex;
+      align-items: center;
+    }
+    & .ant-form-item-label {
+      white-space: initial;
+      text-overflow: initial;
+      line-height: 12px;
+    }
+  }
+}
+
+.toolbar {
+  margin-bottom: 10px;
+}
+
+.form-group-header {
+  padding: 7px;
+  background-color: #f7f7f7;
+  margin-bottom: 10px;
+}
+
+.textarea-field {
+  flex-direction: column;
+  :global {
+    & .ant-form-item-label {
+      width: 100%;
+      text-align: left;
+    }
+    & .ant-form-item-control-wrapper {
+      width: 100%;
+    }
+  }
+}
