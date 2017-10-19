@@ -252,7 +252,7 @@ function MassMeasures({
               {
                 title: 'Код подразделения',
                 dataIndex: 'dep_code',
-                sorter: (a, b) => a.dep_code > b.dep_code,
+                sorter: (a, b) => a.dep_code - b.dep_code,
               },
               {
                 title: 'Подразделение',
@@ -262,7 +262,7 @@ function MassMeasures({
               {
                 title: 'Табельный номер',
                 dataIndex: 'employee_number',
-                sorter: (a, b) => a.employee_number > b.employee_number,
+                sorter: (a, b) => a.employee_number - b.employee_number,
               },
               {
                 title: 'ФИО сотрудника',
@@ -301,7 +301,7 @@ function MassMeasures({
               {
                 title: 'Код меры',
                 dataIndex: 'measure_id',
-                sorter: (a, b) => a.dep_code > b.dep_code,
+                sorter: (a, b) => a.dep_code - b.dep_code,
               },
               {
                 title: 'Типовая мера',
