@@ -6,12 +6,25 @@ import withAsyncDependencies from 'app-common/utils/withAsyncDependencies';
 import injectReducer from 'app-common/utils/injectReducer';
 import injectSaga from 'app-common/utils/injectSaga';
 import ReasonsComponent from '../../components/Reasons';
-import { dataSelector } from './selectors';
+import { dataSelector, editableRecordSelector } from './selectors';
+import {
+  addReason,
+  changeEditableRecord,
+  deleteRequest,
+  saveRequest,
+} from './ducks';
 
 const mapStateToProps = createStructuredSelector({
   data: dataSelector,
+  editableRecord: editableRecordSelector,
 });
 
+const mapDispatchToProps = {
+  onChangeEditableRecord: changeEditableRecord,
+  onAdd: addReason,
+  onDelete: deleteRequest,
+  onSave: saveRequest,
+};
 
 export default compose(
   getContext({
@@ -26,6 +39,6 @@ export default compose(
       injectSaga(store, saga);
     }),
   ),
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   pure,
 )(ReasonsComponent);

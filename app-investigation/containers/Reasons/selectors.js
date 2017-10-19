@@ -13,3 +13,8 @@ export const loadingSelector = createSelector(reasonsSelector, reasons =>
 export const dataSelector = createSelector(reasonsSelector, reasons =>
   reasons.get('data').toJS(),
 );
+
+export const editableRecordSelector = createSelector(reasonsSelector, reasons =>
+  reasons.getIn(['editableRecord']),
+);
+
