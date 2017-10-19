@@ -88,6 +88,26 @@ function SideMenu({
             title="Подразделения"
             to="/departments"
           />,
+          <MenuLink
+            level={1}
+            isSelected={
+              selectedMenuItem.item === 'reasons' &&
+              selectedMenuItem.parent === 'settings'
+            }
+            icon={<Icon type="exception" />}
+            title="Причины"
+            to="/reasons"
+          />,
+          <MenuLink
+            level={1}
+            isSelected={
+              selectedMenuItem.item === 'measures' &&
+              selectedMenuItem.parent === 'settings'
+            }
+            icon={<Icon type="select" />}
+            title="Меры"
+            to="/measures"
+          />,
         ].map(item => item)}
     </div>
   );
