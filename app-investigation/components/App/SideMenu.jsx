@@ -35,8 +35,14 @@ function SideMenu({
       <MenuLink
         title="Расследования"
         icon={<FaIcon name="inbox" />}
-        isSelected={selectedMenuItem.item === 'twitter'}
+        isSelected={false}
         to="/investigations"
+      />
+      <MenuLink
+        title="Массовые меры"
+        icon={<FaIcon name="check-square" />}
+        isSelected={false}
+        to="/mass_measures"
       />
       <MenuLink
         expanderVisible
@@ -71,6 +77,16 @@ function SideMenu({
             icon={<Icon type="solution" />}
             title="Роли пользователей"
             to="/user_roles"
+          />,
+          <MenuLink
+            level={1}
+            isSelected={
+              selectedMenuItem.item === 'departments' &&
+              selectedMenuItem.parent === 'settings'
+            }
+            icon={<Icon type="switcher" />}
+            title="Подразделения"
+            to="/departments"
           />,
         ].map(item => item)}
     </div>

@@ -11,7 +11,7 @@ const deleteUser = axios => userRecord =>
     .catch(error => ({ error }));
 
 const saveUser = axios => userRecord =>
-  axios[userRecord.id === 0 ? 'post' : 'patch'](
+  axios.post(
     '/api/users',
     mapUserToRequest(userRecord),
   )
@@ -32,6 +32,7 @@ function mapUserFromResponse(user) {
     email: user.email,
     position: user.position,
     userRole: user.user_role,
+    dep_name: user.dep_name,
   };
 }
 
@@ -43,5 +44,6 @@ function mapUserToRequest(user) {
     email: user.email,
     position: user.position,
     user_role: user.userRole,
+    dep_name: user.dep_name,
   };
 }

@@ -11,7 +11,7 @@ const deleteAuthors = axios => record =>
     .catch(error => ({ error }));
 
 const saveAuthors = axios => record =>
-  axios[record.id === 0 ? 'post' : 'patch']('/api/important_authors', record)
+  axios.post('/api/important_authors', record)
     .then(({ data }) => ({ response: data }))
     .catch(error => ({ error }));
 

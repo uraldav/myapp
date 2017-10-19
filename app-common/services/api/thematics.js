@@ -11,7 +11,7 @@ const fetchModelThematics = axios => () =>
     .catch(error => ({ error }));
 
 const saveInputThematic = axios => inputThematic =>
-  axios[inputThematic.id === 0 ? 'post' : 'patch'](
+  axios.post(
     '/api/input_thematics',
     inputThematic,
   )
@@ -19,7 +19,7 @@ const saveInputThematic = axios => inputThematic =>
     .catch(error => ({ error }));
 
 const saveModelThematic = axios => inputThematic =>
-  axios[inputThematic.id === 0 ? 'post' : 'patch'](
+  axios.post(
     '/api/input_thematics',
     inputThematic,
   )
