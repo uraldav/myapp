@@ -65,7 +65,7 @@ function Departments() {
         columns={[
           {
             title: 'Код подразделения',
-            sorter: (a, b) => a.dep_code > b.dep_code,
+            sorter: (a, b) => a.dep_code - b.dep_code,
             dataIndex: 'dep_code',
           },
           {
@@ -96,7 +96,7 @@ function Departments() {
           },
           {
             title: 'ИС для маршрутизации',
-            sorter: (a, b) => a.routing > b.routing,
+            sorter: (a, b) => a.routing - b.routing,
             dataIndex: 'routing',
             render: (text, record) =>
               renderSelect(
