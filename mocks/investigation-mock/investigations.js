@@ -1,0 +1,40 @@
+module.exports = () => {
+  return [
+    {
+      id: 20023312,
+      sr_id: '1-1312312',
+      dep_name: 'ДПР',
+      status: 'Открыто',
+      open_date: new Date().toISOString(),
+      planned_completion_date: new Date().toISOString(),
+      critical: true,
+      user_login: 'dima.stepanov',
+      completed_date: new Date().toISOString(),
+      close_date: new Date().toISOString(),
+    },
+    {
+      id: 200433232,
+      sr_id: '1-13634252',
+      dep_name: 'ДАБ',
+      status: 'Переоткрыто',
+      open_date: new Date().toISOString(),
+      planned_completion_date: new Date().toISOString(),
+      critical: true,
+      user_login: 'kate.radonova',
+      completed_date: new Date().toISOString(),
+      close_date: new Date().toISOString(),
+    },
+    {
+      id: 20036622,
+      sr_id: '1-20993939',
+      dep_name: 'ДПР',
+      status: 'В работе',
+      open_date: new Date().toISOString(),
+      planned_completion_date: new Date().toISOString(),
+      critical: true,
+      user_login: 'rimma.tagirova',
+      completed_date: new Date().toISOString(),
+      close_date: new Date().toISOString(),
+    },
+  ];
+};

@@ -7,6 +7,7 @@ import importantAuthors from './importantAuthors';
 import userRoles from './userRoles';
 import mentionsWords from './mentions_words';
 import reasons from './reasons';
+import investigations from './investigations';
 
 export default axios => ({
   mentions: mentions(axios),
@@ -18,4 +19,5 @@ export default axios => ({
   priorityCoefficients: priorityCoefficients(axios),
   userRoles: userRoles(axios),
   reasons: reasons(axios),
+  investigations: investigations(axios),
 });
