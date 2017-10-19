@@ -53,8 +53,9 @@ MassMeasures.propTypes = {
   usersModalOpened: bool,
   openUsersModal: func.isRequired,
   closeUsersModal: func.isRequired,
+  openMeasuresModal: func.isRequired,
+  closeMeasuresModal: func.isRequired,
   measuresModalOpened: bool,
-  toggleMeasuresModalOpened: func.isRequired,
 };
 
 MassMeasures.defaultProps = {
