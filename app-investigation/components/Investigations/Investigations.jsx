@@ -1,8 +1,8 @@
 import React from 'react';
-import { bool, object, arrayOf, shape } from 'prop-types';
+import { bool, object, func } from 'prop-types';
 import { compose, pure } from 'recompose';
 import { Card, Input, Icon, Button, Pagination, Tabs } from 'antd';
-import './Investigation.less';
+import './Investigations.less';
 
 import InvestigationList, {
   dataPropTypes as investigationPropTypes,
@@ -20,6 +20,7 @@ Investigations.propTypes = {
   loading: bool,
   data: investigationPropTypes,
   selectedInvestigation: object,
+  onSelectInvestigation: func.isRequired,
 };
 
 Investigations.defaultProps = {
@@ -28,7 +29,12 @@ Investigations.defaultProps = {
   selectedInvestigation: null,
 };
 
-function Investigations({ loading, data, selectedInvestigation }) {
+function Investigations({
+  loading,
+  data,
+  selectedInvestigation,
+  onSelectInvestigation,
+}) {
   return (
     <Card
       title={
@@ -44,37 +50,45 @@ function Investigations({ loading, data, selectedInvestigation }) {
       }
     >
       <div styleName="body">
-        <InvestigationList data={data} />
-        <Tabs defaultActiveKey="1" styleName="tabs">
-          <Tabs.TabPane tab="Расследование" key="1">
-            <InvestigationForm />
-            <Tabs defaultActiveKey="1">
-              <Tabs.TabPane tab="Классификация" key="1">
-                <ClassificationList />
-              </Tabs.TabPane>
-              <Tabs.TabPane tab="Причины" key="2">
-                <CausesList />
-              </Tabs.TabPane>
-              <Tabs.TabPane tab="Меры" key="3">
-                <MeasureList />
-              </Tabs.TabPane>
-              <Tabs.TabPane tab="Вложения" key="4">
-                <AttachmentsList />
-              </Tabs.TabPane>
-            </Tabs>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="SR (1-200021022)" key="2">
-            <SRForm />
-            <Tabs defaultActiveKey="1">
-              <Tabs.TabPane key="1" tab="Attachments">
-                <SRAttachmentList />
-              </Tabs.TabPane>
-            </Tabs>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="История изменений" key="3">
-            <RevisionHistory />
-          </Tabs.TabPane>
-        </Tabs>
+        <InvestigationList
+          styleName="investigations-table"
+          data={data}
+          selectedInvestigation={selectedInvestigation}
+          visibleOptionalColumn={!selectedInvestigation}
+          onRowClick={record => onSelectInvestigation(record)}
+        />
+        {selectedInvestigation && (
+          <Tabs defaultActiveKey="1" styleName="tabs">
+            <Tabs.TabPane tab="Расследование" key="1">
+              <InvestigationForm />
+              <Tabs defaultActiveKey="1">
+                <Tabs.TabPane tab="Классификация" key="1">
+                  <ClassificationList />
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="Причины" key="2">
+                  <CausesList />
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="Меры" key="3">
+                  <MeasureList />
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="Вложения" key="4">
+                  <AttachmentsList />
+                </Tabs.TabPane>
+              </Tabs>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="SR (1-200021022)" key="2">
+              <SRForm />
+              <Tabs defaultActiveKey="1">
+                <Tabs.TabPane key="1" tab="Attachments">
+                  <SRAttachmentList />
+                </Tabs.TabPane>
+              </Tabs>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="История изменений" key="3">
+              <RevisionHistory />
+            </Tabs.TabPane>
+          </Tabs>
+        )}
       </div>
     </Card>
   );

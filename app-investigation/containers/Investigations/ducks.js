@@ -12,6 +12,7 @@ export const INVESTIGATIONS_REQUEST_SUCCESS = ducks.defineType(
 export const INVESTIGATIONS_REQUEST_FAILURE = ducks.defineType(
   'INVESTIGATIONS_REQUEST_FAILURE',
 );
+export const SELECT_INVESTIGATION = ducks.defineType('SELECT_INVESTIGATION');
 
 export const investigationsRequest = ducks.createAction(INVESTIGATIONS_REQUEST);
 export const investigationsRequestSuccess = ducks.createAction(
@@ -20,11 +21,13 @@ export const investigationsRequestSuccess = ducks.createAction(
 export const investigationsRequestFailure = ducks.createAction(
   INVESTIGATIONS_REQUEST_FAILURE,
 );
+export const selectInvestigation = ducks.createAction(SELECT_INVESTIGATION);
 
 const initialState = fromJS({
   loading: false,
   data: [],
   error: null,
+  selectedInvestigation: null,
 });
 
 export default ducks.createReducer(
@@ -35,6 +38,8 @@ export default ducks.createReducer(
     },
     [INVESTIGATIONS_REQUEST_FAILURE]: (state, { payload }) =>
       state.setIn(['error'], payload).setIn(['loading'], false),
+    [SELECT_INVESTIGATION]: (state, { payload }) =>
+      state.setIn(['selectedInvestigation'], payload),
   },
   initialState,
 );

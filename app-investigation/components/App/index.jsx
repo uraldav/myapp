@@ -54,7 +54,7 @@ function App({
             }
             collapsible
             collapsed={isMenuCollapsed}
-            onCollapse={isMenuCollapsed ? onMenuCollapse : onMenuExpand}
+            onCollapse={isMenuCollapsed ? onMenuExpand : onMenuCollapse}
             styleName="sider"
             width={250}
           >
