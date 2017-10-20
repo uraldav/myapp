@@ -13,6 +13,7 @@ export const mentionDataTypes = {
   content: string,
   likes: number,
   comments: number,
+  reposts: number,
   url: string,
   date: instanceOf(Date),
   tonality: oneOf(['positive', 'negative', 'neutral']),
@@ -37,6 +38,7 @@ function MentionItem({
   content,
   likes,
   comments,
+  reposts,
   date,
   tonality,
   url,
@@ -68,6 +70,11 @@ function MentionItem({
               <Icon type="heart" /> {likes}
             </span>
           </Tooltip>
+          <Tooltip title="Репосты" placement="bottomLeft">
+            <span>
+              <FaIcon name="share-square-o" /> {reposts}
+            </span>
+          </Tooltip> 
         </div>
       </div>
       {opened && (
@@ -105,7 +112,11 @@ function MentionItem({
             </Button>
             <Button shape="circle" icon="flag" size="large" />
             <Button shape="circle" icon="user" size="large" />
+            <Button shape="circle" size="large" >
+            <FaIcon name="ban" />
+              </Button>
             <Button shape="circle" icon="mail" size="large" />
+            <Button size="large">УПК/УПЛ </Button>
           </div>
           <Embed url={url} author={author} content={content} />
         </div>
