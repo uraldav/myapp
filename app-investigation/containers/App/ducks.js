@@ -52,8 +52,8 @@ const initialState = fromJS({
 
 export default ducks.createReducer(
   {
-    [MENU_COLLAPSE]: state => state.set('isMenuCollapsed', false),
-    [MENU_EXPAND]: state => state.set('isMenuCollapsed', true),
+    [MENU_COLLAPSE]: state => state.set('isMenuCollapsed', true),
+    [MENU_EXPAND]: state => state.set('isMenuCollapsed', false),
 
     [CHANGE_EXPANDED_MENU_ITEMS]: (state, { payload }) =>
       state.set('expandedMenuItems', fromJS(payload)),

@@ -84,18 +84,18 @@ function InvestigationForm({ data, form: { getFieldDecorator } }) {
               </div>,
             )}
           </Form.Item>
-          <Form.Item {...formItemLayout} label="СПО">
-            {getFieldDecorator('dep_name')(<Input />)}
-          </Form.Item>
-          <Form.Item {...formItemLayout} label="СПО (инициатор)">
-            {getFieldDecorator('spo_employee')(<Input />)}
-          </Form.Item>
           <Form.Item {...formItemLayout} label="Дата закрытия">
             {getFieldDecorator('close_date')(
               <div styleName="date-time-wrapper">
                 <DatePicker />
               </div>,
             )}
+          </Form.Item>
+          <Form.Item {...formItemLayout} label="СПО">
+            {getFieldDecorator('dep_name')(<Input />)}
+          </Form.Item>
+          <Form.Item {...formItemLayout} label="СПО (инициатор)">
+            {getFieldDecorator('spo_employee')(<Input />)}
           </Form.Item>
         </Col>
         <Col span={8}>
