@@ -20,6 +20,7 @@ function Header() {
         <Route path="/user_roles" render={() => <h1>Роли пользователей</h1>} />
         <Route path="/departments" render={() => <h1>Подразделения</h1>} />
         <Route path="/reasons" render={() => <h1>Причины</h1>} />
+        <Route path="/measures" render={() => <h1>Меры</h1>} />
       </div>
     </Layout.Header>
   );

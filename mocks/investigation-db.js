@@ -6,6 +6,7 @@ module.exports = () => {
     user_roles: require('./investigation-mock/user_roles')(),
     permissions: require('./investigation-mock/permissions')(),
     reasons: require('./investigation-mock/reasons')(),
+    measures: require('./investigation-mock/measures')(),
     investigations: require('./investigation-mock/investigations')(),
   };
 };
