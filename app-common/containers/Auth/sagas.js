@@ -28,19 +28,16 @@ export function* requestSaga() {
   const { response, error } = yield call(api.auth.authorize, login, password);
 
   if (response) {
-    if (process.env.NODE_ENV === 'production') {
-      cookie.set('Authorization', response.token);
-      yield put(success(response.userData));
-    } else {
-      const { response: devres, error: dever } = yield call(
-        api.auth.fetchUserData,
-        'sqsq',
-      );
-      cookie.set('Authorization', 'sqsq');
-      yield put(success(devres.userData));
-    }
+    cookie.set('Authorization', response.token);
+    yield put(success(response.userData));
     yield put(push('/'));
   } else {
-    yield put(failure(error));
+    switch (error.response.status) {
+      case 401:
+        yield put(failure('Неверный логин или пароль'));
+        break;
+      default:
+        yield put(failure(error));
+    }
   }
 }

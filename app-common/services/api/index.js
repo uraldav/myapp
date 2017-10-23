@@ -9,6 +9,7 @@ import mentionsWords from './mentions_words';
 import reasons from './reasons';
 import measures from './measures';
 import investigations from './investigations';
+import investigationsThematics from './investigationsThematics';
 
 export default axios => ({
   mentions: mentions(axios),
@@ -22,4 +23,5 @@ export default axios => ({
   reasons: reasons(axios),
   measures: measures(axios),
   investigations: investigations(axios),
+  investigationsThematics: investigationsThematics(axios),
 });

@@ -2,7 +2,6 @@ import { compose, pure, getContext } from 'recompose';
 import { object } from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { bindActionCreators } from 'redux';
 import withAsyncDependencies from 'app-common/utils/withAsyncDependencies';
 import injectReducer from 'app-common/utils/injectReducer';
 import injectSaga from 'app-common/utils/injectSaga';
@@ -20,7 +19,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  pure,
   getContext({
     store: object,
   }),
@@ -34,4 +32,5 @@ export default compose(
     }),
   ),
   connect(mapStateToProps, mapDispatchToProps),
+  pure,
 )(Investigations);

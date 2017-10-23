@@ -8,5 +8,6 @@ module.exports = () => {
     reasons: require('./investigation-mock/reasons')(),
     measures: require('./investigation-mock/measures')(),
     investigations: require('./investigation-mock/investigations')(),
+    investigations_thematics: require('./investigation-mock/thematics')(),
   };
 };

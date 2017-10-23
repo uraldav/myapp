@@ -1,4 +1,4 @@
-import { map } from 'ramda';
+import { map, find, propEq } from 'ramda';
 
 const fetchMentionsWords = axios => () =>
   axios
@@ -13,8 +13,14 @@ export default axios => ({
 function mapFromResponse(response) {
   const mapper = x => ({ word: x.word, mentionCount: x.mention_count });
   return {
-    twitter: map(mapper, response.twitter),
-    instagram: map(mapper, response.instagram),
-    facebook: map(mapper, response.facebook),
+    twitter: map(mapper, find(propEq('socialName', 'twitter'))(response).words),
+    instagram: map(
+      mapper,
+      find(propEq('socialName', 'instagram'))(response).words,
+    ),
+    facebook: map(
+      mapper,
+      find(propEq('socialName', 'facebook'))(response).words,
+    ),
   };
 }
