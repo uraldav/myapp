@@ -42,22 +42,20 @@ export default axios => ({
 
 function mapMentions({ data }) {
   return data.map(
-    (
-      [
-        nick,
-        date,
-        tone,
-        rootId,
-        socialId,
-        authorId,
-        body,
-        url,
-        likes,
-        reposts,
-        comments,
-        weight,
-      ],
-    ) => ({
+    ({
+      nick,
+      date,
+      tone,
+      rootId,
+      socialId,
+      authorId,
+      body,
+      url,
+      likes,
+      reposts,
+      comments,
+      weight,
+    }) => ({
       author: nick,
       date: moment.unix(date).toDate(),
       content: body,

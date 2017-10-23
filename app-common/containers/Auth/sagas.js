@@ -41,6 +41,12 @@ export function* requestSaga() {
     }
     yield put(push('/'));
   } else {
-    yield put(failure(error));
+    switch (error.response.status) {
+      case 401:
+        yield put(failure('Неверный логин или пароль'));
+        break;
+      default:
+        yield put(failure(error));
+    }
   }
 }
