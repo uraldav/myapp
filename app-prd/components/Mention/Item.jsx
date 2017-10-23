@@ -51,7 +51,7 @@ function MentionItem({
       styleName="mention-item"
       title={<span>{author}</span>}
       extra={<span>{moment(date).format('HH:mm:ss, D MMMM')}</span>}
-      onDoubleClick={() => toggleOpened()}
+      onClick={() => toggleOpened()}
     >
       <div styleName="content">
         {opened ? <span>{content}</span> : <TextTruncate text={content} />}
