@@ -35,13 +35,13 @@ function SideMenu({
       <MenuLink
         title="Расследования"
         icon={<FaIcon name="inbox" />}
-        isSelected={false}
+        isSelected={selectedMenuItem.item === 'investigations'}
         to="/investigations"
       />
       <MenuLink
         title="Массовые меры"
         icon={<FaIcon name="check-square" />}
-        isSelected={false}
+        isSelected={selectedMenuItem.item === 'mass_measures'}
         to="/mass_measures"
       />
       <MenuLink
@@ -58,6 +58,16 @@ function SideMenu({
       />
       {expandedMenuItems.includes('settings') &&
         [
+          <MenuLink
+            level={1}
+            isSelected={
+              selectedMenuItem.item === 'thematics' &&
+              selectedMenuItem.parent === 'settings'
+            }
+            icon={<Icon type="book" />}
+            title="Тематики"
+            to="/thematics"
+          />,
           <MenuLink
             level={1}
             isSelected={
