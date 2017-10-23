@@ -21,7 +21,10 @@ function Header() {
         <Route path="/departments" render={() => <h1>Подразделения</h1>} />
         <Route path="/reasons" render={() => <h1>Причины</h1>} />
         <Route path="/measures" render={() => <h1>Меры</h1>} />
-        <Route path="/thematics" render={() => <h1>Тематики</h1>} />
+        <Route
+          path="/thematics"
+          render={() => <h1>Классификатор расследований</h1>}
+        />
       </div>
     </Layout.Header>
   );

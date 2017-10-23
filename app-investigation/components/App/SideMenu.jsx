@@ -65,7 +65,7 @@ function SideMenu({
               selectedMenuItem.parent === 'settings'
             }
             icon={<Icon type="book" />}
-            title="Тематики"
+            title="Классификатор расследований"
             to="/thematics"
           />,
           <MenuLink
