@@ -32,6 +32,7 @@ function MentionList({ data, loading }) {
               date={item.date}
               tonality={item.tonality}
               url={item.url}
+              reposts={item.reposts}
             />
           ))}
         </QueueAnim>
