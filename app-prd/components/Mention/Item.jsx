@@ -43,17 +43,17 @@ function MentionItem({
   tonality,
   url,
   opened,
-  toggleOpened,
   tagEditing,
   toggleTag,
+  ...otherProps
 }) {
   return (
     <Card
+      {...otherProps}
       className={tonality}
       styleName="mention-item"
       title={<span>{author}</span>}
       extra={<span>{moment(date).format('HH:mm:ss, D MMMM')}</span>}
-      onClick={() => toggleOpened()}
     >
       <div styleName="content">
         {opened ? <span>{content}</span> : <TextTruncate text={content} />}
@@ -74,7 +74,7 @@ function MentionItem({
             <span>
               <FaIcon name="share-square-o" /> {reposts}
             </span>
-          </Tooltip> 
+          </Tooltip>
         </div>
       </div>
       {opened && (
@@ -112,11 +112,11 @@ function MentionItem({
             </Button>
             <Button shape="circle" icon="flag" size="large" />
             <Button shape="circle" icon="user" size="large" />
-            <Button shape="circle" size="large" >
-            <FaIcon name="ban" />
-              </Button>
+            <Button shape="circle" size="large">
+              <FaIcon name="ban" />
+            </Button>
             <Button shape="circle" icon="mail" size="large" />
-            <Button size="large">УПК/УПЛ </Button>
+            <Button size="large">УПК/УПЛ</Button>
           </div>
           <Embed url={url} author={author} content={content} />
         </div>
@@ -126,12 +126,6 @@ function MentionItem({
 }
 
 export default compose(
-  withState('opened', 'setOpened', false),
-  withHandlers({
-    toggleOpened: ({ opened, setOpened }) => () => {
-      setOpened(!opened);
-    },
-  }),
   withState('tagEditing', 'setTagEditing', false),
   withHandlers({
     toggleTag: ({ tagEditing, setTagEditing }) => () => {

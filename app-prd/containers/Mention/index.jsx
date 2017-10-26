@@ -3,6 +3,7 @@ import { func, bool } from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Layout, Tooltip, Icon } from 'antd';
 import { compose, pure, withHandlers, withState } from 'recompose';
+import ScrollArea from 'react-scrollbar';
 import MentionList from './List';
 import MentionFilter from './Filter';
 import './index.less';
@@ -16,15 +17,17 @@ Mention.propTypes = {
 
 function Mention({ sidebarCollapsed, toggleSidebarCollapsed }) {
   return (
-    <Layout>
+    <Layout styleName="layout">
       <Helmet>
         <script
           src="//connect.facebook.net/ru_RU/sdk.js#xfbml=1&amp;version=v2.5"
           async
         />
       </Helmet>
-      <Content>
-        <MentionList />
+      <Content styleName="content">
+        <ScrollArea smoothScrolling>
+          <MentionList />
+        </ScrollArea>
       </Content>
       <Sider
         trigger={
@@ -52,7 +55,9 @@ function Mention({ sidebarCollapsed, toggleSidebarCollapsed }) {
             <div styleName="vertical">ы</div>
           </div>
         ) : (
-          <MentionFilter />
+          <ScrollArea smoothScrolling>
+            <MentionFilter />
+          </ScrollArea>
         )}
       </Sider>
     </Layout>

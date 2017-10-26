@@ -1,6 +1,6 @@
 import React from 'react';
 import { func, bool, node, object, shape, array, string } from 'prop-types';
-import { compose, pure, withHandlers, withState } from 'recompose';
+import { compose, pure } from 'recompose';
 import { Layout, Icon, Tooltip } from 'antd';
 import ScrollArea from 'react-scrollbar';
 import SideMenu from './SideMenu';
@@ -80,9 +80,7 @@ function App({
               />
             </ScrollArea>
           </Sider>
-          <Content styleName="content">
-            <ScrollArea smoothScrolling>{children}</ScrollArea>
-          </Content>
+          <Content>{children}</Content>
         </Layout>
       </Layout>
     )

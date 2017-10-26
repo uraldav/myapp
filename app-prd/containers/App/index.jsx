@@ -16,13 +16,15 @@ import {
 } from './selectors';
 import { changeExpandedMenuItems, menuCollapse, menuExpand } from './ducks';
 
+import './index.less';
+
 NestedRoutes.propTypes = {
   store: object.isRequired,
 };
 
 function NestedRoutes({ store }) {
   return (
-    <div>
+    <div styleName="content">
       <AsyncRoute
         exact
         path="/"

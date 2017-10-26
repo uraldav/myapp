@@ -1,5 +1,5 @@
 import React from 'react';
-import { shape, arrayOf, bool } from 'prop-types';
+import { object, shape, arrayOf, bool, func } from 'prop-types';
 import { compose, pure, shouldUpdate } from 'recompose';
 import { equals } from 'ramda';
 import QueueAnim from 'rc-queue-anim';
@@ -9,14 +9,17 @@ import './List.less';
 MentionList.propTypes = {
   data: arrayOf(shape(mentionDataTypes)),
   loading: bool,
+  selectedRecord: object,
+  onSelectMention: func.isRequired,
 };
 
 MentionList.defaultProps = {
   data: [],
   loading: false,
+  selectedRecord: null,
 };
 
-function MentionList({ data, loading }) {
+function MentionList({ data, loading, selectedRecord, onSelectMention }) {
   // чтобы получить в QueueAnim анимированность, надо глянуть в сторону привязки id к строке.
   return (
     <div styleName="mention-list">
@@ -33,6 +36,8 @@ function MentionList({ data, loading }) {
               tonality={item.tonality}
               url={item.url}
               reposts={item.reposts}
+              opened={selectedRecord && item.content === selectedRecord.content}
+              onClick={() => onSelectMention(item)}
             />
           ))}
         </QueueAnim>
