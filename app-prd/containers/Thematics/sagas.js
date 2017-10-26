@@ -6,6 +6,7 @@ import {
   take,
   takeLatest,
   select,
+  fork,
 } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
@@ -88,6 +89,9 @@ export default function* () {
     SAVE_TAG_MODEL_REQUEST,
     saveTagModelRequestSaga,
   );
+
+  yield fork(requestInputThematicsSaga);
+  yield fork(requestModelThematicsSaga);
 
   yield take(LOCATION_CHANGE);
   yield cancel(

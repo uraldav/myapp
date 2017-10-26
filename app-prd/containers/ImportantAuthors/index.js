@@ -1,11 +1,7 @@
-import { object } from 'prop-types';
-import { compose, pure, getContext } from 'recompose';
+import { compose, pure } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import withAsyncDependencies from 'app-common/utils/withAsyncDependencies';
 import withPermissions from 'app-common/utils/withPermissions';
-import injectReducer from 'app-common/utils/injectReducer';
-import injectSaga from 'app-common/utils/injectSaga';
 import { dataSelector, editableRecordSelector } from './selectors';
 import ImportantAuthors from '../../components/ImportantAuthors';
 
@@ -31,18 +27,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  getContext({
-    store: object,
-  }),
-  withAsyncDependencies(({ store }) =>
-    Promise.all([
-      import('./ducks'),
-      import('./sagas'),
-    ]).then(([reducer, saga]) => {
-      injectReducer(store, 'importantAuthors', reducer);
-      injectSaga(store, saga);
-    }),
-  ),
   connect(mapStateToProps, mapDispatchToProps),
   withPermissions(['importantAuthorsView', 'importantAuthorsEdit']),
   pure,

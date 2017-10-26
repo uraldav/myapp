@@ -1,14 +1,12 @@
 import React from 'react';
 import { object } from 'prop-types';
-import { compose, pure, withProps, getContext, lifecycle } from 'recompose';
+import { compose, pure, withProps, lifecycle, getContext } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
 import AsyncRoute from 'app-common/routing/AsyncRoute.jsx';
-import withAsyncDependencies from 'app-common/utils/withAsyncDependencies';
+import cookie from 'app-common/services/cookie';
 import injectReducer from 'app-common/utils/injectReducer';
 import injectSaga from 'app-common/utils/injectSaga';
-import cookie from 'app-common/services/cookie';
 import App from '../../components/App';
 import {
   menuItemsSelector,
@@ -18,57 +16,98 @@ import {
 } from './selectors';
 import { changeExpandedMenuItems, menuCollapse, menuExpand } from './ducks';
 
-function NestedRoutes() {
+NestedRoutes.propTypes = {
+  store: object.isRequired,
+};
+
+function NestedRoutes({ store }) {
   return (
-    <Switch>
+    <div>
       <AsyncRoute
         exact
         path="/"
-        requireComponent={() => {
-          return import('../Mention');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../Mention'),
+            import('../Mention/ducks'),
+            import('../Mention/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'mentions', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/users"
-        requireComponent={() => {
-          return import('../Users');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../Users'),
+            import('../Users/ducks'),
+            import('../Users/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'users', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
+        exact
         path="/thematics"
-        requireComponent={() => {
-          return import('../Thematics');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../Thematics'),
+            import('../Thematics/ducks'),
+            import('../Thematics/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'thematics', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/user_roles"
-        requireComponent={() => {
-          return import('app-common/containers/UserRoles');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('app-common/containers/UserRoles'),
+            import('app-common/containers/UserRoles/ducks'),
+            import('app-common/containers/UserRoles/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'userRoles', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/priority_coefficients"
-        requireComponent={() => {
-          return import('../PriorityCoefficients');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../PriorityCoefficients'),
+            import('../PriorityCoefficients/ducks'),
+            import('../PriorityCoefficients/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'priorityCoefficients', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/important_authors"
-        requireComponent={() => import('../ImportantAuthors')}
+        requireComponent={() =>
+          Promise.all([
+            import('../ImportantAuthors'),
+            import('../ImportantAuthors/ducks'),
+            import('../ImportantAuthors/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'importantAuthors', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
-      <Route
-        component={() => (
-          <span>
-            404: Страница не найдена. Нам очень жаль. Выберите другой пункт в
-            меню.
-          </span>
-        )}
-      />
-    </Switch>
+    </div>
   );
 }
 
@@ -86,23 +125,13 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  getContext({
+    store: object,
+  }),
   withProps(props => ({
     children: NestedRoutes(props),
     isAuthorized: !!cookie.get('Authorization'),
   })),
-  getContext({
-    store: object,
-  }),
-  withAsyncDependencies(({ store }) =>
-    Promise.all([
-      import('./ducks'),
-      import('./sagas'),
-    ]).then(([reducer, saga]) => {
-      injectReducer(store, 'app', reducer);
-      injectSaga(store, saga);
-      store.dispatch(reducer.menuItemsRequest());
-    }),
-  ),
   lifecycle({
     componentWillMount() {
       if (!cookie.get('Authorization')) {

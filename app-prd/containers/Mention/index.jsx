@@ -1,11 +1,8 @@
 import React from 'react';
-import { object, func, bool } from 'prop-types';
+import { func, bool } from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Layout, Tooltip, Icon } from 'antd';
-import { compose, pure, getContext, withHandlers, withState } from 'recompose';
-import withAsyncDependencies from 'app-common/utils/withAsyncDependencies';
-import injectReducer from 'app-common/utils/injectReducer';
-import injectSaga from 'app-common/utils/injectSaga';
+import { compose, pure, withHandlers, withState } from 'recompose';
 import MentionList from './List';
 import MentionFilter from './Filter';
 import './index.less';
@@ -64,18 +61,6 @@ function Mention({ sidebarCollapsed, toggleSidebarCollapsed }) {
 
 export default compose(
   withState('sidebarCollapsed', 'setSidebarCollapsed', false),
-  getContext({
-    store: object,
-  }),
-  withAsyncDependencies(({ store }) =>
-    Promise.all([
-      import('./ducks'),
-      import('./sagas'),
-    ]).then(([reducer, saga]) => {
-      injectReducer(store, 'mentions', reducer);
-      injectSaga(store, saga);
-    }),
-  ),
   withHandlers({
     toggleSidebarCollapsed: ({
       sidebarCollapsed,

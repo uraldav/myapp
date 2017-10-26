@@ -36,7 +36,7 @@ function SideMenu({
         title="Расследования"
         icon={<FaIcon name="inbox" />}
         isSelected={selectedMenuItem.item === 'investigations'}
-        to="/investigations"
+        to="/"
       />
       <MenuLink
         title="Массовые меры"

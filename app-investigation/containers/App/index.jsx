@@ -3,9 +3,7 @@ import { object } from 'prop-types';
 import { compose, pure, withProps, getContext, lifecycle } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
 import AsyncRoute from 'app-common/routing/AsyncRoute.jsx';
-import withAsyncDependencies from 'app-common/utils/withAsyncDependencies';
 import injectReducer from 'app-common/utils/injectReducer';
 import injectSaga from 'app-common/utils/injectSaga';
 import cookie from 'app-common/services/cookie';
@@ -17,73 +15,126 @@ import {
 } from './selectors';
 import { changeExpandedMenuItems, menuCollapse, menuExpand } from './ducks';
 
-function NestedRoutes() {
+NestedRoutes.propTypes = {
+  store: object.isRequired,
+};
+
+function NestedRoutes({ store }) {
   return (
-    <Switch>
+    <div>
       <AsyncRoute
         exact
-        path="/investigations"
-        requireComponent={() => {
-          return import('../Investigations/InvestigationConnected');
-        }}
+        path="/"
+        requireComponent={() =>
+          Promise.all([
+            import('../Investigations/InvestigationConnected'),
+            import('../Investigations/ducks'),
+            import('../Investigations/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'investigations', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
+        exact
         path="/user_roles"
-        requireComponent={() => {
-          return import('app-common/containers/UserRoles');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('app-common/containers/UserRoles'),
+            import('app-common/containers/UserRoles/ducks'),
+            import('app-common/containers/UserRoles/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'userRoles', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/users"
-        requireComponent={() => {
-          return import('../Users');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../Users'),
+            import('../Users/ducks'),
+            import('../Users/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'users', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/mass_measures"
-        requireComponent={() => {
-          return import('../MassMeasures');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../MassMeasures'),
+            import('../MassMeasures/ducks'),
+            import('../MassMeasures/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'massMeasures', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/departments"
-        requireComponent={() => {
-          return import('../Departments');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../Departments'),
+            import('../Departments/ducks'),
+            import('../Departments/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'departments', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/reasons"
-        requireComponent={() => {
-          return import('../Reasons');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../Reasons'),
+            import('../Reasons/ducks'),
+            import('../Reasons/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'reasons', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/measures"
-        requireComponent={() => {
-          return import('../Measures');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../Measures'),
+            import('../Measures/ducks'),
+            import('../Measures/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'measures', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
       <AsyncRoute
         exact
         path="/thematics"
-        requireComponent={() => {
-          return import('../Thematics/ThematicsConnected');
-        }}
+        requireComponent={() =>
+          Promise.all([
+            import('../Thematics/ThematicsConnected'),
+            import('../Thematics/ducks'),
+            import('../Thematics/sagas'),
+          ]).then(([component, reducer, saga]) => {
+            injectReducer(store, 'thematics', reducer);
+            injectSaga(store, saga);
+            return component;
+          })}
       />
-      <Route
-        component={() => (
-          <span>
-            404: Страница не найдена. Нам очень жаль. Выберите другой пункт в
-            меню.
-          </span>
-        )}
-      />
-    </Switch>
+    </div>
   );
 }
 
@@ -100,22 +151,11 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  getContext({ store: object }),
   withProps(props => ({
     children: NestedRoutes(props),
     isAuthorized: !!cookie.get('Authorization'),
   })),
-  getContext({
-    store: object,
-  }),
-  withAsyncDependencies(({ store }) =>
-    Promise.all([
-      import('./ducks'),
-      import('./sagas'),
-    ]).then(([reducer, saga]) => {
-      injectReducer(store, 'app', reducer);
-      injectSaga(store, saga);
-    }),
-  ),
   lifecycle({
     componentWillMount() {
       if (!cookie.get('Authorization')) {

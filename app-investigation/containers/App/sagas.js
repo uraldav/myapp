@@ -28,30 +28,41 @@ export default function* () {
     yield fork(requestUserData);
   }
 
-  yield takeLatest(action => /_FAILURE/.test(action.type), failure);
+  const watchGlobalFailure = yield takeLatest(
+    action => /_FAILURE/.test(action.type),
+    failure,
+  );
 
+  const watchChangeLocation = yield takeLatest(
+    LOCATION_CHANGE,
+    changeLocationSaga,
+  );
+
+  yield fork(changeLocationSaga);
+
+  yield take(
+    action =>
+      action.type === LOCATION_CHANGE && action.payload.pathname === '/auth',
+  );
+  yield cancel(watchGlobalFailure, watchChangeLocation);
+}
+
+export function* changeLocationSaga() {
   const location = yield select(locationSelector);
   const expandedMenuItems = yield select(expandedMenuItemsSelector);
 
-  const queryParams = queryString.parse(location.search);
-
   if (location.pathname === '/') {
-    if (queryParams.socialId) {
-      yield put(
-        changeExpandedMenuItems(
-          uniq(append(queryParams.socialId, expandedMenuItems)),
-        ),
-      );
-      yield put(changeSelectedMenuItem({ item: queryParams.socialId }));
-      if (queryParams.socialWord) {
-        yield put(
-          changeSelectedMenuItem({
-            item: queryParams.socialWord,
-            parent: queryParams.socialId,
-          }),
-        );
-      }
-    }
+    yield put(
+      changeSelectedMenuItem({
+        item: 'investigations',
+      }),
+    );
+  } else if (location.pathname === '/mass_measures') {
+    yield put(
+      changeSelectedMenuItem({
+        item: 'mass_measures',
+      }),
+    );
   } else {
     yield put(
       changeExpandedMenuItems(uniq(append('settings', expandedMenuItems))),
@@ -66,7 +77,7 @@ export default function* () {
 }
 
 export function* failure({ payload }) {
-  notification.error({
+  yield call(notification.error, {
     message: payload.message,
     duration: 0,
     description: process.env.NODE_ENV === 'production' ? '' : payload.stack,

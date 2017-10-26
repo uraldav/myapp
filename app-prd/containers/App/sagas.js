@@ -41,6 +41,19 @@ export default function* () {
     failure,
   );
 
+  const watchLocationChange = yield takeLatest(
+    LOCATION_CHANGE,
+    changeLocationSaga,
+  );
+
+  yield take(
+    action =>
+      action.type === LOCATION_CHANGE && action.payload.pathname === '/auth',
+  );
+  yield cancel(watchMenuItemsRequest, watchGlobalFailure, watchLocationChange);
+}
+
+export function* changeLocationSaga() {
   const location = yield select(locationSelector);
   const expandedMenuItems = yield select(expandedMenuItemsSelector);
 
@@ -74,9 +87,6 @@ export default function* () {
       }),
     );
   }
-
-  yield take(LOCATION_CHANGE);
-  yield cancel(watchMenuItemsRequest, watchGlobalFailure);
 }
 
 export function* menuItemsRequestSaga() {
