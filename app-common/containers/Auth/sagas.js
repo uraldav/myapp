@@ -30,7 +30,7 @@ export function* requestSaga() {
   if (response) {
     cookie.set('Authorization', response.token);
     yield put(success(response.userData));
-    yield put(push('/'));
+    window.location = '/';
   } else {
     switch (error.response.status) {
       case 401:
