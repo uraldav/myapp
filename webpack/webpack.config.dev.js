@@ -6,8 +6,8 @@ const rootPath = resolve(__dirname, '..');
 
 const cssScopedNamePattern = '[path][name]-[local]___[hash:base64:8]';
 
-const config = (env) => {
-  const context = resolve(rootPath, `app-${env.app}`);
+const config = () => {
+  const context = resolve(rootPath, 'app');
 
   return {
     target: 'web',
@@ -18,13 +18,18 @@ const config = (env) => {
       mainFields: ['browser', 'jsnext:main', 'main'],
       alias: {
         moment: 'moment/moment.js',
-        'app-common': resolve(rootPath, 'app-common'),
+        base: resolve(rootPath, 'base'),
       },
     },
-    entry: ['react-hot-loader/patch', 'babel-polyfill', './index.jsx'],
+    entry: [
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      'bootstrap/dist/css/bootstrap.css',
+      './index.jsx',
+    ],
     output: {
       filename: 'bundle.js',
-      path: resolve(rootPath, 'build', env.app, 'assets'),
+      path: resolve(rootPath, 'build', 'assets'),
       publicPath: '/assets/',
     },
     devServer: {
@@ -34,11 +39,11 @@ const config = (env) => {
       quiet: false,
       noInfo: false,
       publicPath: '/assets/',
-      contentBase: resolve(rootPath, 'build', env.app),
+      contentBase: resolve(rootPath, 'build'),
       historyApiFallback: true,
       proxy: {
         '/api': {
-          target: env['proxy-target'] || 'http://localhost:9000',
+          target: 'http://localhost:9000',
         },
       },
     },
@@ -60,35 +65,14 @@ const config = (env) => {
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          use: [
-            'react-hot-loader/webpack',
-            {
-              loader: 'babel-loader',
-              options: {
-                plugins: [
-                  [
-                    'react-css-modules',
-                    {
-                      context,
-                      generateScopedName: cssScopedNamePattern,
-                      filetypes: {
-                        '.less': {
-                          syntax: 'postcss-less',
-                        },
-                      },
-                    },
-                  ],
-                ],
-              },
-            },
-          ],
+          use: ['react-hot-loader/webpack', 'babel-loader'],
         },
         {
           test: /\.css$/,
           use: ['style-loader', 'css-loader'],
         },
         {
-          test: /\.less/,
+          test: /\.scss/,
           use: [
             { loader: 'style-loader', options: { sourceMap: true } },
             {
@@ -108,7 +92,7 @@ const config = (env) => {
               },
             },
             {
-              loader: 'less-loader',
+              loader: 'sass-loader',
               options: {
                 sourceMap: true,
                 paths: [resolve(rootPath, 'node_modules')],
@@ -134,7 +118,7 @@ const config = (env) => {
     },
     plugins: [
       new StylelintPlugin({
-        files: ['**/*.less'],
+        files: ['**/*.scss'],
       }),
       new webpack.LoaderOptionsPlugin({
         test: /\.jsx?$/,

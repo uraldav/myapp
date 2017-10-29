@@ -1,9 +1,0 @@
-image: node:8.4.0
-
-pipelines:
-  default:
-    - step:
-        script:
-          - npm i -g yarn
-          - yarn
-          - yarn test
