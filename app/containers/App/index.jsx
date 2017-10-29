@@ -6,18 +6,7 @@ import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import App from '../../components/App';
 import Main from '../Main/MainConnected';
-
-NestedRoutes.propTypes = {
-  store: object.isRequired,
-};
-
-function NestedRoutes({ store }) {
-  return (
-    <div>
-      <Route exact path="/" component={Main} />
-    </div>
-  );
-}
+import About from '../About/AboutConnected';
 
 const mapStateToProps = createStructuredSelector({});
 
@@ -27,8 +16,15 @@ export default compose(
   getContext({
     store: object,
   }),
-  withProps(props => ({
-    children: NestedRoutes(props),
+  withProps(({ store }) => ({
+    children: getChildren(store),
   })),
   pure,
 )(App);
+
+function getChildren(store) {
+  return [
+    <Route exact path="/" component={Main} key="home" />,
+    <Route exact path="/about" component={About} key="about" />,
+  ];
+}

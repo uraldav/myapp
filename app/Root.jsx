@@ -15,7 +15,7 @@ Root.propTypes = {
 function Root({ store, history }) {
   return (
     <AppContainer>
-      <Provider>
+      <Provider store={store}>
         <Router history={history}>
           <Switch>
             <Route component={App} />

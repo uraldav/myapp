@@ -7,7 +7,9 @@ import getReactContainer from 'base/utils/getReactContainer';
 import Root from './Root';
 
 const rootEl = getReactContainer('react-root');
-const history = createHistory();
+const history = createHistory({
+  forceRefresh: false,
+});
 const store = configureStore(Map(), history);
 
 const renderApp = () => {

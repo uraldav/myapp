@@ -1,7 +1,7 @@
 {
-  "name": "cip-front",
+  "name": "myapp",
   "version": "0.0.1",
-  "author": "Innodata",
+  "author": "myappdev",
   "license": "UNLICENSED",
   "scripts": {
     "start":

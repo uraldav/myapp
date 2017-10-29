@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose, pure } from 'recompose';
 import { Jumbotron, Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 Main.propTypes = {};
 
@@ -21,6 +22,9 @@ function Main() {
       </p>
       <p className="lead">
         <Button color="primary">Learn More</Button>
+        <Link to="/about" className="btn btn-link">
+          About
+        </Link>
       </p>
     </Jumbotron>
   );
