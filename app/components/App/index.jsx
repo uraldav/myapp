@@ -14,9 +14,11 @@ App.defaultProps = {};
 function App({ location, children }) {
   return (
     <div className="app">
-      <Container>
-        <Header />
-      </Container>
+      <div className="bg-primary">
+        <Container>
+          <Header />
+        </Container>
+      </div>
       <Container>{children}</Container>
     </div>
   );

@@ -4,20 +4,20 @@
   "author": "myappdev",
   "license": "UNLICENSED",
   "scripts": {
-    "start":
-      "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js",
+    "start": "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js",
     "test": "yarn && yarn lint && yarn test:jest",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "eslint --ext .jsx --ext .js */**",
     "lint:css": "stylelint ./app/**/*.scss --syntax scss",
-    "mock:prd":
-      "json-server ./mocks/prd-db.js --watch --port 9000 --routes ./mocks/routes.json",
+    "mock:prd": "json-server ./mocks/prd-db.js --watch --port 9000 --routes ./mocks/routes.json",
     "test:jest": "jest --config jest.config.json --no-cache",
     "build:inv": "webpack --config ./webpack/webpack.config.prod.js"
   },
   "jest": {
     "verbose": true,
-    "moduleDirectories": ["node_modules"],
+    "moduleDirectories": [
+      "node_modules"
+    ],
     "moduleNameMapper": {
       "^.+\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "^.+\\.(gif|ttf|eot|svg|png)$": "<rootDir>/__mocks__/fileMock.js"
@@ -40,6 +40,7 @@
     "invariant": "^2.2.2",
     "js-cookie": "^2.1.4",
     "moment": "^2.18.1",
+    "node-sass": "^4.5.3",
     "piping": "^1.0.0-rc.4",
     "pretty-error": "^2.1.1",
     "prop-types": "^15.5.10",
@@ -64,6 +65,7 @@
     "redux-immutable": "^4.0.0",
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
+    "sass-loader": "^6.0.6",
     "serialize-javascript": "^1.4.0",
     "uglifyjs-webpack-plugin": "^1.0.1",
     "webpack-isomorphic-tools": "^3.0.3"
