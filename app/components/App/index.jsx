@@ -2,7 +2,7 @@ import React from 'react';
 import { func, bool, node, object, shape, array, string } from 'prop-types';
 import { compose, pure } from 'recompose';
 import { Container } from 'reactstrap';
-import Header from '../Header/Header';
+import Navigation from '../Navigation/Navigation';
 
 App.propTypes = {
   location: object.isRequired,
@@ -16,7 +16,7 @@ function App({ location, children }) {
     <div className="app">
       <div className="bg-primary">
         <Container>
-          <Header />
+          <Navigation />
         </Container>
       </div>
       <Container>{children}</Container>

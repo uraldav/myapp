@@ -10,20 +10,19 @@ import {
   NavItem,
 } from 'reactstrap';
 
-import classnames from 'classnames';
-import './Header.scss';
+import './Navigation.scss';
 
 Header.propTypes = {};
 Header.defaultProps = {};
 
 function Header() {
   return (
-    <Navbar dark expand="lg">
-      <Link to="/" className={classnames('navbar-brand', 'navbar-brand-small')}>
+    <Navbar dark expand="lg" className="pl-0 pr-0">
+      <Link to="/" className="navbar-brand brand-small">
         hidev.io
       </Link>
       <Collapse isOpen navbar>
-        <Nav className="mr-auto">
+        <Nav className="mr-auto" navbar>
           <NavItem className="active">
             <Link to="/" className="nav-link">
               Main
@@ -35,7 +34,7 @@ function Header() {
             </Link>
           </NavItem>
           <NavItem>
-            <Link to="/about" className="nav-link">
+            <Link to="/about2" className="nav-link">
               One more
             </Link>
           </NavItem>

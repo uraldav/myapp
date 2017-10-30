@@ -4,7 +4,7 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const rootPath = resolve(__dirname, '..');
 
-const cssScopedNamePattern = '[path][name]-[local]___[hash:base64:8]';
+const cssScopedNamePattern = '[local]';
 
 const config = () => {
   const context = resolve(rootPath, 'app');
