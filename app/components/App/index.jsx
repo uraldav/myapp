@@ -2,6 +2,7 @@ import React from 'react';
 import { func, bool, node, object, shape, array, string } from 'prop-types';
 import { compose, pure } from 'recompose';
 import Navigation from '../Navigation/Navigation';
+import { Container } from 'semantic-ui-react';
 
 App.propTypes = {
   location: object.isRequired,
@@ -13,10 +14,10 @@ App.defaultProps = {};
 function App({ location, children }) {
   return (
     <div className="app">
-      <div>
+      <Container>
         <Navigation />
-      </div>
-      <div>{children}</div>
+      </Container>
+      <Container>{children}</Container>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom';
 import App from '../../components/App';
 import Main from '../Main/MainConnected';
 import About from '../About/AboutConnected';
+import SignIn from '../SignIn/SignInConnected';
 
 const mapStateToProps = createStructuredSelector({});
 
@@ -26,5 +27,7 @@ function getChildren(store) {
   return [
     <Route exact path="/" component={Main} key="home" />,
     <Route exact path="/about" component={About} key="about" />,
+
+    <Route exact path="/404" component={SignIn} key="sign_in" />,
   ];
 }
