@@ -6,6 +6,8 @@ import configureStore from 'base/store/configureStore';
 import getReactContainer from 'base/utils/getReactContainer';
 import Root from './Root';
 
+import 'semantic-ui-css/semantic.min.css';
+
 const rootEl = getReactContainer('react-root');
 const history = createHistory({
   forceRefresh: false,

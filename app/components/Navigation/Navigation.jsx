@@ -8,17 +8,19 @@ Header.defaultProps = {};
 function Header() {
   return (
     <table>
-      <tr>
-        <td>
-          <Link to="/">Main </Link>
-        </td>
-        <td>
-          <Link to="/about">About </Link>
-        </td>
-        <td>
-          <Link to="/404">404 </Link>
-        </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td>
+            <Link to="/">Main </Link>
+          </td>
+          <td>
+            <Link to="/about">About </Link>
+          </td>
+          <td>
+            <Link to="/404">404 </Link>
+          </td>
+        </tr>
+      </tbody>
     </table>
   );
 }
