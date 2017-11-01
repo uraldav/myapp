@@ -21,12 +21,7 @@ const config = () => {
         base: resolve(rootPath, 'base'),
       },
     },
-    entry: [
-      'babel-polyfill',
-      'react-hot-loader/patch',
-      'bootstrap/dist/css/bootstrap.css',
-      './index.jsx',
-    ],
+    entry: ['babel-polyfill', 'react-hot-loader/patch', './index.jsx'],
     output: {
       filename: 'bundle.js',
       path: resolve(rootPath, 'build', 'assets'),
