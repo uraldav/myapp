@@ -12,14 +12,7 @@ App.propTypes = {
 App.defaultProps = {};
 
 function App({ location, children }) {
-  return (
-    <div className="app">
-      <Container>
-        <Navigation />
-      </Container>
-      <Container>{children}</Container>
-    </div>
-  );
+  return <div className="app">{children}</div>;
 }
 
 export default compose(pure)(App);

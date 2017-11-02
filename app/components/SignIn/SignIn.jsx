@@ -10,14 +10,16 @@ import {
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
+import './SignIn.scss';
+
 function SignIn() {
   return (
-    <Grid textAlign="left">
-      <Grid.Column>
+    <Grid textAlign="center" className="signin">
+      <Grid.Column className="signin__column">
         <Header as="h2" textAlign="center">
           Please, Sign In
         </Header>
-        <Form>
+        <Form className="signin__form">
           <Segment>
             <Form.Input label="E-mail" placeholder="john@site.com" />
             <Form.Input
@@ -30,7 +32,7 @@ function SignIn() {
             </Button>
           </Segment>
         </Form>
-        <Message textAlign="center">
+        <Message className="signin__message">
           Don't have account?&nbsp;<Link to="/signup">Sing Up</Link>
         </Message>
       </Grid.Column>

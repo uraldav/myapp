@@ -17,9 +17,7 @@ function Root({ store, history }) {
     <AppContainer>
       <Provider store={store}>
         <Router history={history}>
-          <Switch>
-            <Route component={App} />
-          </Switch>
+          <Route component={App} />
         </Router>
       </Provider>
     </AppContainer>
