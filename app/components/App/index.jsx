@@ -1,8 +1,8 @@
 import React from 'react';
 import { func, bool, node, object, shape, array, string } from 'prop-types';
 import { compose, pure } from 'recompose';
-import Navigation from '../Navigation/Navigation';
 import { Container } from 'semantic-ui-react';
+import Navigation from '../Navigation/Navigation';
 
 App.propTypes = {
   location: object.isRequired,
