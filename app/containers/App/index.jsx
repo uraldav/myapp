@@ -28,10 +28,10 @@ function getChildren(store) {
   return (
     <Switch>
       <Route exact path="/signin" component={SignIn} />
-      <Route path="/" component={Layout}>
+      <Route component={Layout}>
         <Switch>
-          <Route exact path="" component={Main} />
-          <Route exact path="about" component={About} />
+          <Route exact path="/" component={Main} />
+          <Route exact path="/about" component={About} />
         </Switch>
       </Route>
     </Switch>

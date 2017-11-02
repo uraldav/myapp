@@ -18,7 +18,6 @@ function Layout({ children }) {
         <Navigation />
       </Container>
       <Container>{children}</Container>
-      <Container>children</Container>
     </div>
   );
 }
