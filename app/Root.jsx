@@ -2,7 +2,7 @@ import React from 'react';
 import { object } from 'prop-types';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import { Switch, Route, Router } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { compose, pure } from 'recompose';
 import { AppContainer } from 'react-hot-loader';
 import App from './containers/App';
@@ -16,9 +16,9 @@ function Root({ store, history }) {
   return (
     <AppContainer>
       <Provider store={store}>
-        <Router history={history}>
+        <BrowserRouter>
           <Route component={App} />
-        </Router>
+        </BrowserRouter>
       </Provider>
     </AppContainer>
   );

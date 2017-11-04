@@ -3,7 +3,7 @@ import { object } from 'prop-types';
 import { compose, pure, withProps, getContext } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import App from '../../components/App';
 import Main from '../Main/MainConnected';
 import About from '../About/AboutConnected';
@@ -28,12 +28,13 @@ function getChildren(store) {
   return (
     <Switch>
       <Route exact path="/signin" component={SignIn} />
-      <Route component={Layout}>
+      <Redirect from="/404" to="/signin" />
+      <Layout>
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/about" component={About} />
         </Switch>
-      </Route>
+      </Layout>
     </Switch>
   );
 }

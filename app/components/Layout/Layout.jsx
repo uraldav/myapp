@@ -4,6 +4,8 @@ import { compose, pure } from 'recompose';
 import { Container } from 'semantic-ui-react';
 import Navigation from '../Navigation/Navigation';
 
+import './Layout.scss';
+
 Layout.propTypes = {
   children: node.isRequired,
 };
@@ -12,13 +14,12 @@ Layout.defaultProps = {};
 
 function Layout({ children }) {
   return (
-    <div className="layout">
+    <Container className="layout">
       <Container>
-        <h1>Navigation</h1>
         <Navigation />
       </Container>
       <Container>{children}</Container>
-    </div>
+    </Container>
   );
 }
 
