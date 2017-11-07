@@ -4,9 +4,8 @@ import createHistory from 'history/createBrowserHistory';
 import { Map } from 'immutable';
 import configureStore from 'base/store/configureStore';
 import getReactContainer from 'base/utils/getReactContainer';
-import Root from './Root';
-
 import 'semantic-ui-css/semantic.min.css';
+import Root from './Root';
 
 const rootEl = getReactContainer('react-root');
 const history = createHistory({

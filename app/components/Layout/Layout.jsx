@@ -14,12 +14,12 @@ Layout.defaultProps = {};
 
 function Layout({ children }) {
   return (
-    <Container className="layout">
-      <Container>
+    <div className="layout">
+      <Container className="container-narrow">
         <Navigation />
       </Container>
-      <Container>{children}</Container>
-    </Container>
+      <Container className="container-narrow">{children}</Container>
+    </div>
   );
 }
 

@@ -29,12 +29,14 @@ function getChildren(store) {
     <Switch>
       <Route exact path="/signin" component={SignIn} />
       <Redirect from="/404" to="/signin" />
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={Main} />
-          <Route exact path="/about" component={About} />
-        </Switch>
-      </Layout>
+      <Route>
+        <Layout>
+          <Switch>
+            <Route exact path="/" component={Main} />
+            <Route exact path="/about" component={About} />
+          </Switch>
+        </Layout>
+      </Route>
     </Switch>
   );
 }
