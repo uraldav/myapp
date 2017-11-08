@@ -8,6 +8,7 @@ import App from '../../components/App';
 import Main from '../Main/MainConnected';
 import About from '../About/AboutConnected';
 import SignIn from '../SignIn/SignInConnected';
+import SignUp from '../SignUp/SignUpConnected';
 import Layout from '../Layout/LayoutConnected';
 
 const mapStateToProps = createStructuredSelector({});
@@ -28,12 +29,14 @@ function getChildren(store) {
   return (
     <Switch>
       <Route exact path="/signin" component={SignIn} />
+
       <Redirect from="/404" to="/signin" />
       <Route>
         <Layout>
           <Switch>
             <Route exact path="/" component={Main} />
             <Route exact path="/about" component={About} />
+            <Route exact path="/signup" component={SignUp} />
           </Switch>
         </Layout>
       </Route>

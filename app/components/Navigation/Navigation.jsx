@@ -19,6 +19,9 @@ function Header() {
           <td>
             <Link to="/404">404 </Link>
           </td>
+          <td>
+            <Link to="/signup">Sign up</Link>
+          </td>
         </tr>
       </tbody>
     </table>

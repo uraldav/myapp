@@ -19,7 +19,7 @@ function SignIn() {
         <Header as="h2" textAlign="center">
           Please, Sign In
         </Header>
-        <Form className="signin__form">
+        <Form size="large" className="signin__form">
           <Segment>
             <Form.Input label="E-mail" placeholder="john@site.com" />
             <Form.Input
