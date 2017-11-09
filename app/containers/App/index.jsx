@@ -10,6 +10,7 @@ import About from '../About/AboutConnected';
 import SignIn from '../SignIn/SignInConnected';
 import SignUp from '../SignUp/SignUpConnected';
 import Layout from '../Layout/LayoutConnected';
+import Profile from '../Profile/ProfileConnected';
 
 const mapStateToProps = createStructuredSelector({});
 
@@ -37,6 +38,7 @@ function getChildren(store) {
             <Route exact path="/" component={Main} />
             <Route exact path="/about" component={About} />
             <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/profile" component={Profile} />
           </Switch>
         </Layout>
       </Route>

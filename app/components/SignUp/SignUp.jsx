@@ -16,7 +16,7 @@ function SignUp() {
   return (
     <Grid>
       <Grid.Column width="16">
-        <Header as="h2" textAlign="center">
+        <Header as="h1" textAlign="center">
           <Header.Content>Join Hidev.io</Header.Content>
           <Header.Subheader>
             The way to get in front of top tech talent

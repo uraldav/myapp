@@ -22,6 +22,9 @@ function Header() {
           <td>
             <Link to="/signup">Sign up</Link>
           </td>
+          <td>
+            <Link to="/profile">Profile</Link>
+          </td>
         </tr>
       </tbody>
     </table>
