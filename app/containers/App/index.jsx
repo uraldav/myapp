@@ -38,7 +38,7 @@ function getChildren(store) {
             <Route exact path="/" component={Main} />
             <Route exact path="/about" component={About} />
             <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/profile" component={Profile} />
+            <Route path="/profile" component={Profile} />
           </Switch>
         </Layout>
       </Route>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { compose, pure } from 'recompose';
-import { Grid, Header, Menu } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { Grid, Header, Menu, Table, Icon } from 'semantic-ui-react';
+import { NavLink, Link, Route, Switch } from 'react-router-dom';
 
-function Profile() {
+function Profile({ match }) {
   return (
     <Grid>
       <Grid.Column width="16">
@@ -13,13 +13,52 @@ function Profile() {
             <Header.Subheader>Manage your job listing</Header.Subheader>
           </Header>
           <Menu tabular size="large">
-            <NavLink className="item active" to="/profile">
+            <NavLink exact className="item" to={`${match.url}`}>
               Active
             </NavLink>
-            <NavLink className="item" to="/profile/archive">
+            <NavLink exact className="item" to={`${match.url}/archive`}>
               Archive
             </NavLink>
+            <Menu.Menu position="right">
+              <NavLink className="item" to={`${match.url}/add`}>
+                <Icon color="teal" name="add" />
+                Add job
+              </NavLink>
+            </Menu.Menu>
           </Menu>
+          <Switch>
+            <Route exact path={`${match.url}`}>
+              <Table basic="very" striped>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Link to={`${match.url}/edit`}>PHP developer</Link>
+                    </Table.Cell>
+                    <Table.Cell>5 day ago</Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Link to={`${match.url}/edit`}>
+                        Senior Frontend developer
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>A week ago</Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>
+                      <Link to={`${match.url}/edit`}>Software Engineer</Link>
+                    </Table.Cell>
+                    <Table.Cell>Today</Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table>
+            </Route>
+            <Route exact path={`${match.url}/archive`}>
+              <Header as="h3" textAlign="center">
+                Archive jobs
+              </Header>
+            </Route>
+          </Switch>
         </Grid.Row>
         <Grid.Row />
       </Grid.Column>
