@@ -2,6 +2,7 @@ import React from 'react';
 import { compose, pure } from 'recompose';
 import { Grid, Header, Menu, Table, Icon } from 'semantic-ui-react';
 import { NavLink, Link, Route, Switch } from 'react-router-dom';
+import JobForm from '../JobForm/JobForm';
 
 function Profile({ match }) {
   return (
@@ -12,7 +13,7 @@ function Profile({ match }) {
             <Header.Content>Company name</Header.Content>
             <Header.Subheader>Manage your job listing</Header.Subheader>
           </Header>
-          <Menu tabular size="large">
+          <Menu pointing secondary size="large">
             <NavLink exact className="item" to={`${match.url}`}>
               Active
             </NavLink>
@@ -58,6 +59,7 @@ function Profile({ match }) {
                 Archive jobs
               </Header>
             </Route>
+            <Route exact path={`${match.url}/add`} component={JobForm} />
           </Switch>
         </Grid.Row>
         <Grid.Row />
