@@ -21,8 +21,8 @@ function Profile({ match }) {
               Archive
             </NavLink>
             <Menu.Menu position="right">
-              <NavLink className="item" to={`${match.url}/add`}>
-                <Icon color="teal" name="add" />
+              <NavLink className="item" to="/addjob">
+                <Icon name="add" />
                 Add job
               </NavLink>
             </Menu.Menu>
@@ -59,7 +59,6 @@ function Profile({ match }) {
                 Archive jobs
               </Header>
             </Route>
-            <Route exact path={`${match.url}/add`} component={JobForm} />
           </Switch>
         </Grid.Row>
         <Grid.Row />
