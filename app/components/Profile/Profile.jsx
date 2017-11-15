@@ -1,8 +1,13 @@
 import React from 'react';
 import { compose, pure } from 'recompose';
+import { object } from 'prop-types';
 import { Grid, Header, Menu, Table, Icon } from 'semantic-ui-react';
 import { NavLink, Link, Route, Switch } from 'react-router-dom';
 import JobForm from '../JobForm/JobForm';
+
+Profile.propTypes = {
+  match: object.isRequired,
+};
 
 function Profile({ match }) {
   return (

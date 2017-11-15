@@ -12,6 +12,7 @@ import SignUp from '../SignUp/SignUpConnected';
 import Layout from '../Layout/LayoutConnected';
 import Profile from '../Profile/ProfileConnected';
 import JobForm from '../JobForm/JobFormConnected';
+import JobViewConnected from '../JobView/JobViewConnected';
 
 const mapStateToProps = createStructuredSelector({});
 
@@ -41,6 +42,7 @@ function getChildren(store) {
             <Route exact path="/signup" component={SignUp} />
             <Route strict path="/profile" component={Profile} />
             <Route strict path="/addjob" component={JobForm} />
+            <Route strict path="/job" component={JobViewConnected} />
           </Switch>
         </Layout>
       </Route>

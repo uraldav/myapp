@@ -17,16 +17,22 @@ function Main() {
       </Header>
       <Grid textAlign="left">
         <Grid.Column>
-          <JobCard
-            title="Middle Scala Developer"
-            company="Amazon Corp."
-            location="Innopolis, Tatarstan"
-          />
-          <JobCard
-            title="Senior PHP developer"
-            company="Awesome Dev Inc"
-            location="Innopolis, Tatarstan"
-          />
+          <Link to="/job">
+            <JobCard
+              link
+              title="Middle Scala Developer"
+              company="Amazon Corp."
+              location="Innopolis, Tatarstan"
+            />
+          </Link>
+          <Link to="/job">
+            <JobCard
+              link
+              title="Senior PHP developer"
+              company="Awesome Dev Inc"
+              location="Innopolis, Tatarstan"
+            />
+          </Link>
         </Grid.Column>
       </Grid>
     </Container>
