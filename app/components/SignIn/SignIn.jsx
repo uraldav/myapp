@@ -7,6 +7,7 @@ import {
   Button,
   Message,
   Header,
+  Icon,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
@@ -16,8 +17,9 @@ function SignIn() {
   return (
     <Grid textAlign="center" className="signin">
       <Grid.Column className="signin__column">
-        <Header as="h2" textAlign="center">
-          Please, Sign In
+        <Header as="h2" textAlign="center" icon>
+          <Icon name="space shuttle" rotated="counterclockwise" />
+          <Header.Content>Please, Sign In</Header.Content>
         </Header>
         <Form size="large" className="signin__form">
           <Segment>

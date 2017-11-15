@@ -9,6 +9,7 @@ import {
   Header,
   Input,
   Divider,
+  Icon,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
@@ -16,14 +17,15 @@ function SignUp() {
   return (
     <Grid>
       <Grid.Column width="16">
-        <Header as="h1" textAlign="center">
+        <Header as="h1" textAlign="center" icon>
+          <Icon name="space shuttle" rotated="counterclockwise" />
           <Header.Content>Join Hidev.io</Header.Content>
           <Header.Subheader>
             The way to get in front of top tech talent
           </Header.Subheader>
         </Header>
         <Segment>
-          <Form size="large">
+          <Form>
             <Form.Field
               control={Input}
               label="Company name"
