@@ -11,34 +11,11 @@ import {
   Divider,
 } from 'semantic-ui-react';
 import JobCard from '../JobCard/JobCard';
-import { JobList } from '../JobList';
+import JobList from '../../containers/JobList/JobListConnected';
 
 Main.propTypes = {};
 
 Main.defaultProps = {};
-
-const jobs = [
-  {
-    id: 1,
-    title: 'Php developer',
-    company: 'Awesome dev',
-  },
-  {
-    id: 2,
-    title: 'JS developer',
-    company: 'Awesome dev',
-  },
-  {
-    id: 4,
-    title: 'React developer',
-    company: 'Awesome dev',
-  },
-  {
-    id: 4,
-    title: 'Postgres developer',
-    company: 'Awesome dev',
-  },
-];
 
 function Main() {
   return (
@@ -59,7 +36,7 @@ function Main() {
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
-        <JobList jobs={jobs} />
+        <JobList />
       </Grid.Row>
     </Grid>
   );

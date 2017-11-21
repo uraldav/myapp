@@ -1,1 +1,1 @@
-export JobList from './JobList';
+export default from './JobList';
