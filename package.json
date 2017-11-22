@@ -11,7 +11,7 @@
     "lint:js": "eslint --ext .jsx --ext .js */**",
     "lint:css": "stylelint ./app/**/*.scss --syntax scss",
     "mock":
-      "json-server ./mocks/db.js --watch --port 9000 --routes ./mocks/routes.json",
+      "json-server ./mocks/db.js --port 9009 --routes ./mocks/routes.json",
     "test:jest": "jest --config jest.config.json --no-cache",
     "build:inv": "webpack --config ./webpack/webpack.config.prod.js"
   },
