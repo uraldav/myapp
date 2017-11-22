@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
 
-export const jobListSelector = state => state.getIn(['jobList']);
+export const jobListSelector = gstate => gstate.get('jobList');
 
-export const jobsListItemsSelector = createSelector(jobListSelector, app =>
-  app.get('jobs').toJS());
+export const jobsSelector = createSelector(jobListSelector, x =>
+  x.get('jobs').toJS());
 
-export const jobListLoadingSelector = createSelector(jobListSelector, app =>
-  app.get('loadingJobs').toJS());
+export const loadingJobsSelector = createSelector(jobListSelector, x =>
+  x.get('loadingJobs'));

@@ -4,20 +4,20 @@
   "author": "myappdev",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js",
+    "start":
+      "yarn && webpack-dev-server --config ./webpack/webpack.config.dev.js",
     "test": "yarn && yarn lint && yarn test:jest",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "eslint --ext .jsx --ext .js */**",
     "lint:css": "stylelint ./app/**/*.scss --syntax scss",
-    "mock:prd": "json-server ./mocks/prd-db.js --watch --port 9000 --routes ./mocks/routes.json",
+    "mock":
+      "json-server ./mocks/db.js --watch --port 9000 --routes ./mocks/routes.json",
     "test:jest": "jest --config jest.config.json --no-cache",
     "build:inv": "webpack --config ./webpack/webpack.config.prod.js"
   },
   "jest": {
     "verbose": true,
-    "moduleDirectories": [
-      "node_modules"
-    ],
+    "moduleDirectories": ["node_modules"],
     "moduleNameMapper": {
       "^.+\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "^.+\\.(gif|ttf|eot|svg|png)$": "<rootDir>/__mocks__/fileMock.js"

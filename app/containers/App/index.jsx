@@ -2,8 +2,10 @@ import React from 'react';
 import { object } from 'prop-types';
 import { compose, pure, withProps, getContext } from 'recompose';
 import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import AsyncRoute from '../../../base/routing/AsyncRoute';
+import injectReducer from '../../../base/utils/injectReducer';
+import injectSaga from '../../../base/utils/injectSaga';
 import App from '../../components/App';
 import Main from '../Main/MainConnected';
 import About from '../About/AboutConnected';
@@ -12,7 +14,6 @@ import SignUp from '../SignUp/SignUpConnected';
 import Layout from '../Layout/LayoutConnected';
 import Profile from '../Profile/ProfileConnected';
 import JobForm from '../JobForm/JobFormConnected';
-import JobViewConnected from '../JobView/JobViewConnected';
 
 const mapStateToProps = createStructuredSelector({});
 
@@ -37,12 +38,19 @@ function getChildren(store) {
       <Route>
         <Layout>
           <Switch>
-            <Route exact path="/" component={Main} />
+            <AsyncRoute
+              exact
+              path="/"
+              requireComponent={() =>
+                Promise.all([import('../Main/MainConnected')]).then(([component]) => {
+                    return component;
+                  })
+              }
+            />
             <Route exact path="/about" component={About} />
             <Route exact path="/signup" component={SignUp} />
             <Route strict path="/profile" component={Profile} />
             <Route strict path="/addjob" component={JobForm} />
-            <Route strict path="/job" component={JobViewConnected} />
           </Switch>
         </Layout>
       </Route>

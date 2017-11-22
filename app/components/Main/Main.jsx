@@ -1,4 +1,5 @@
 import React from 'react';
+import { arrayOf, node } from 'prop-types';
 import { compose, pure } from 'recompose';
 import { Link } from 'react-router-dom';
 import {
@@ -13,11 +14,15 @@ import {
 import JobCard from '../JobCard/JobCard';
 import JobList from '../../containers/JobList/JobListConnected';
 
-Main.propTypes = {};
+Main.propTypes = {
+  children: arrayOf(node),
+};
 
-Main.defaultProps = {};
+Main.defaultProps = {
+  children: [],
+};
 
-function Main() {
+function Main({ children }) {
   return (
     <Grid>
       <Grid.Row>
@@ -35,9 +40,7 @@ function Main() {
           </Button>
         </Grid.Column>
       </Grid.Row>
-      <Grid.Row>
-        <JobList />
-      </Grid.Row>
+      {children.map(child => <Grid.Row>{child}</Grid.Row>)}
     </Grid>
   );
 }

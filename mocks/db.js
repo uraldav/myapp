@@ -4,7 +4,7 @@ module.exports = () => {
     mentions_words: require('./prd-mock/mentions_words')(),
     auth: require('./auth')(),
     user_data: require('./auth')().user_data,
-    users: require('./prd-mock/users')(),
+    job_list: require('./prd-mock/job_list')(),
     input_thematics: require('./prd-mock/input_thematics')(),
     model_thematics: require('./prd-mock/model_thematics')(),
     user_roles: require('./prd-mock/user_roles')(),

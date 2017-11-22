@@ -1,14 +1,13 @@
 import { compose, pure } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { jobsListItemsSelector, jobListLoadingSelector } from './selectors';
 import JobList from '../../components/JobList';
-
-import { jobRequest, jobRequestSuccess, jobRequestFailure } from './ducks';
+import { jobsSelector, loadingJobsSelector } from './selectors';
+// import {} from './ducks';
 
 const mapStateToProps = createStructuredSelector({
-  jobs: jobsListItemsSelector,
-  loading: jobListLoadingSelector,
+  jobs: jobsSelector,
+  loading: loadingJobsSelector,
 });
 
 const mapDispatchToProps = {};
